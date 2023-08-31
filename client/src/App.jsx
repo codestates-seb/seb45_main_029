@@ -1,9 +1,9 @@
-import Test from "./test/Test";
+import WebEditor from "./webEditor/WebEditor";
 
 function App() {
   return (
     <>
-      <Test></Test>
+      <WebEditor></WebEditor>
     </>
   );
 }

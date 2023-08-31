@@ -8,7 +8,7 @@ const MyDiv = styled.div`
   justify-content: center;
 `;
 
-function Test() {
+function WebEditor() {
   return (
     <MyDiv>
       <CKEditor
@@ -23,4 +23,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default WebEditor;
