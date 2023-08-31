@@ -1,59 +1,16 @@
-import styled from "styled-components";
+import {
+  NavContainer,
+  UserInfoOuterContainer,
+  InfoContainer,
+  UserImg,
+  UserInfoPContainer,
+  UserInfoP,
+  UserHealthContainer,
+  Line,
+  VideoTitle,
+  VideoContainer,
+} from "../style/MyPage";
 import MyPageNav from "../components/MyPageNav";
-
-const NavContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
-  border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-  position: absolute;
-  left: 8rem;
-  top: 6rem;
-`;
-
-const InfoContainer = styled.div`
-  margin-left: 22rem;
-  margin-top: 5rem;
-  display: flex;
-`;
-
-const UserImg = styled.img`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 100%;
-`;
-
-const UserInfoPContainer = styled.div`
-  margin-left: 1rem;
-  margin-top: 2rem;
-`;
-
-const UserInfoP = styled.p``;
-
-const UserInfoOuterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const UserHealthContainer = styled.div`
-  margin-top: 7rem;
-  margin-right: 6rem;
-`;
-
-const Line = styled.hr`
-  width: 25rem;
-`;
-
-const VideoTitle = styled.div`
-  margin-left: 22rem;
-`;
-
-const VideoContainer = styled.div`
-  margin-left: 22rem;
-`;
 
 export default function MyPage() {
   return (

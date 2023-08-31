@@ -1,5 +1,11 @@
+import MyPageDelete from "./pages/MyPageDelete";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <MyPageDelete />
+    </>
+  );
 }
 
 export default App;
