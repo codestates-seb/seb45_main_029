@@ -10,6 +10,9 @@ import {
   Line,
   VideoTitle,
   VideoContainer,
+  BoardCotainer,
+  QuestionBoardContainer,
+  BoardTitle,
 } from "../style/MyPage";
 import MyPageNav from "../components/MyPageNav";
 
@@ -42,7 +45,6 @@ export default function MyPage() {
             <span>아파요</span>
           </UserHealthContainer>
         </UserInfoOuterContainer>
-
         <VideoTitle>
           <p>나의 영상</p>
           <p>전체</p>
@@ -86,6 +88,11 @@ export default function MyPage() {
             allowFullScreen
           ></iframe>
         </VideoContainer>
+        <BoardTitle>질문 답변</BoardTitle>
+        <BoardCotainer>
+          <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
+          <div>내가 한 답변</div>
+        </BoardCotainer>
       </div>
     </NavAndContent>
   );

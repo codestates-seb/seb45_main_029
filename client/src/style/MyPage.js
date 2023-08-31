@@ -54,3 +54,16 @@ export const VideoTitle = styled.div`
 export const VideoContainer = styled.div`
   /* margin-left: 22rem; */
 `;
+
+export const BoardCotainer = styled.div`
+  display: flex;
+`;
+
+export const QuestionBoardContainer = styled.div`
+  margin-right: 30rem;
+`;
+
+export const BoardTitle = styled.p`
+  margin-bottom: 2rem;
+  font-weight: bold;
+`;
