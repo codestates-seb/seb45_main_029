@@ -1,11 +1,5 @@
-import WebEditor from "./webEditor/WebEditor";
-
 function App() {
-  return (
-    <>
-      <WebEditor></WebEditor>
-    </>
-  );
+  return <></>;
 }
 
 export default App;
