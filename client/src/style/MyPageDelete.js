@@ -1,20 +1,21 @@
 import styled from "styled-components";
 
+export const NavAndContent = styled.div`
+  display: flex;
+`;
+
 export const NavContainer = styled.div`
   width: 8rem;
   height: 8rem;
   border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 1rem;
-  position: absolute;
-  left: 8rem;
-  top: 6rem;
+  margin-left: 5rem;
+  margin-top: 5rem;
+  margin-right: 15rem;
 `;
 
 export const DeleteContainer = styled.div`
-  margin-left: 22rem;
+  margin-top: 5rem;
 `;
 
 export const Title = styled.div`

@@ -1,9 +1,9 @@
-import MyPageDelete from "./pages/MyPageDelete";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
     <>
-      <MyPageDelete />
+      <MyPage />
     </>
   );
 }

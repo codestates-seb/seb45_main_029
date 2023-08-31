@@ -1,5 +1,6 @@
 import MyPageNav from "../components/MyPageNav";
 import {
+  NavAndContent,
   NavContainer,
   DeleteContainer,
   Title,
@@ -12,7 +13,7 @@ import {
 
 export default function MyPageDelete() {
   return (
-    <>
+    <NavAndContent>
       <NavContainer>
         <MyPageNav />
       </NavContainer>
@@ -67,6 +68,6 @@ export default function MyPageDelete() {
           <button>탈퇴하기</button>
         </InputAndButtonContainer>
       </DeleteContainer>
-    </>
+    </NavAndContent>
   );
 }
