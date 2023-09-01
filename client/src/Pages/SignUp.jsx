@@ -14,7 +14,7 @@ function SignUp() {
     const [password2, setPassword2] = useState('');
     const [password2Valid, setPassword2Valid] = useState(false);
     const [name, setName] = useState('');
-    const [nameValid, setNameValid] = useState(false);
+    const [nameIsValid, setNameIsValid] = useState(false);
 
     const navigate = useNavigate();
 
@@ -38,23 +38,39 @@ function SignUp() {
           setIdIsValid(false);
         }
     };
-    const onChangeHandlerPassword = (e) => {
-        setPassword(e.target.value);
-        if (e.target.value < 10) {
-            setPasswordValid(false);
-        } else {
-            setPasswordValid(true);
-        }
-            
+  const onChangeHandlerPassword = (e) => {
+    setPassword(e.target.value);
+    if (
+      e.target.value.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{10,}$/)
+    ) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
     }
+            
+  };
+  
+  const onChangeHandlerPassword2 = (e) => {
+    setPassword2(e.target.value);
+    if (e.target.value !== password) {
+      setPassword2Valid(false);
+    } else {
+      setPassword2Valid(true);
+    }
+  };
+
+
     
     const signUp = () => {
         navigate('/signup');
     }
 
+  const 
     
    
-    return()
+  return (
+
+  );
 
 }
 export default SignUp;
