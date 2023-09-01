@@ -9,9 +9,19 @@ import {
   WarningPLeft,
   WarningPRight,
   InputAndButtonContainer,
+  InputButton,
+  Input,
 } from "../style/MyPageDelete";
 
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+
 export default function MyPageDelete() {
+  // const navigate = useNavigate();
+  const onClickDelete = async () => {
+    // const data = await axios.delete("URI");
+    // navigate("/");
+  };
   return (
     <NavAndContent>
       <NavContainer>
@@ -64,8 +74,8 @@ export default function MyPageDelete() {
           적어주세요
         </p>
         <InputAndButtonContainer>
-          <input type="text" placeholder="탈퇴하기" />
-          <button>탈퇴하기</button>
+          <Input type="text" placeholder="탈퇴하기" />
+          <InputButton onClick={onClickDelete}>탈퇴하기</InputButton>
         </InputAndButtonContainer>
       </DeleteContainer>
     </NavAndContent>

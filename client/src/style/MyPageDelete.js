@@ -55,3 +55,15 @@ export const InputAndButtonContainer = styled.div`
   justify-content: space-between;
   width: 25rem;
 `;
+
+export const InputButton = styled.button`
+  cursor: pointer;
+  width: 12.5rem;
+  height: 3rem;
+`;
+
+export const Input = styled.input`
+  cursor: pointer;
+  width: 20rem;
+  height: 3rem;
+`;

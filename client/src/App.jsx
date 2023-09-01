@@ -1,9 +1,9 @@
-import MyPageInfo from "./pages/MyPageInfo";
+import MyPageDelete from "./pages/MyPageDelete";
 
 function App() {
   return (
     <>
-      <MyPageInfo />
+      <MyPageDelete />
     </>
   );
 }
