@@ -89,10 +89,19 @@ export const ImgContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const InputButton = styled.input`
+  display: none;
+`;
+
+export const LabelForInput = styled.label`
+  cursor: pointer;
 `;
