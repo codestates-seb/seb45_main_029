@@ -18,10 +18,15 @@ import {
 
 export default function MyPageDelete() {
   // const navigate = useNavigate();
-  const onClickDelete = async () => {
-    // const data = await axios.delete("URI");
-    // navigate("/");
+  const onSubmitDelete = async (e) => {
+    e.preventDefault();
+    if (e.target[0].value === "탈퇴하기") {
+      console.log("hey");
+      // const data = await axios.delete("URI");
+      // navigate("/");
+    }
   };
+
   return (
     <NavAndContent>
       <NavContainer>
@@ -73,9 +78,9 @@ export default function MyPageDelete() {
           정말로 탈퇴하시겠습니까? 탈퇴를 희망하시면 공란에 탈퇴하기를
           적어주세요
         </p>
-        <InputAndButtonContainer>
+        <InputAndButtonContainer onSubmit={onSubmitDelete}>
           <Input type="text" placeholder="탈퇴하기" />
-          <InputButton onClick={onClickDelete}>탈퇴하기</InputButton>
+          <InputButton type="submit">탈퇴하기</InputButton>
         </InputAndButtonContainer>
       </DeleteContainer>
     </NavAndContent>

@@ -50,7 +50,7 @@ export const WarningOuterContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export const InputAndButtonContainer = styled.div`
+export const InputAndButtonContainer = styled.form`
   display: flex;
   justify-content: space-between;
   width: 25rem;
