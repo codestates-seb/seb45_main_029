@@ -30,7 +30,7 @@ export default function MyPageDelete() {
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav />
+        <MyPageNav color="third" />
       </NavContainer>
       <DeleteContainer>
         <Title>탈퇴안내</Title>

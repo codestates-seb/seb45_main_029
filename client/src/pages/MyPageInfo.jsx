@@ -38,7 +38,7 @@ export default function MyPageInfo() {
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav></MyPageNav>
+        <MyPageNav color="second" />
       </NavContainer>
       <OuterContainer>
         <div>
