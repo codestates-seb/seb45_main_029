@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serverUrl = 'https://github.com/codestates-seb/seb45_main_009/tree/main/server';
+const serverUrl = 'http://localhost:8080/';
 
 export const api = (uri, method, data) => {
     const config = {
