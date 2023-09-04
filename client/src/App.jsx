@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
-// import BoardPage from './pages/BoardPage';
+import BoardPage from './pages/BoardPage';
 import SignUp from './pages/SignUp';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -20,7 +20,8 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Main />} />
           <Route path='/mypage' element={<MyPage />} />
-          {/* <Route path='/boardpage' element={<BoardPage />} /> */}
+          <Route path='/mypageinfo' element={<MyPageInfo />} />
+          <Route path='/boardpage' element={<BoardPage />} />
           <Route path='/signup' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
