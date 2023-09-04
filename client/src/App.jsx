@@ -9,6 +9,8 @@ import SignUp from "./pages/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyles from "styled-components";
 import Footer from "./components/Footer";
+import MyPageDelete from "./pages/MyPageDelete";
+import MyPageInfo from "./pages/MyPageInfo";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Main />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypageDelete" element={<MyPageDelete />}></Route>
+          <Route path="/mypageInfo" element={<MyPageInfo />}></Route>
           {/* <Route path='/boardpage' element={<BoardPage />} /> */}
           <Route path="/signup" element={<SignUp />} />
         </Routes>

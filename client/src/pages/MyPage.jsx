@@ -20,7 +20,7 @@ export default function MyPage() {
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav />
+        <MyPageNav color="first" />
       </NavContainer>
       <div>
         <UserInfoOuterContainer>

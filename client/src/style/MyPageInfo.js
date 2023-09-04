@@ -65,7 +65,7 @@ export const EditButtonContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export const NavAndContent = styled.div`
+export const NavAndContent = styled.article`
   display: flex;
 `;
 
