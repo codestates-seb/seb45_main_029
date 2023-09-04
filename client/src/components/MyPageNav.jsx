@@ -13,6 +13,7 @@ const DefaultP = styled(Link)`
   margin-top: 0.4rem;
   cursor: pointer;
   text-decoration: none;
+  color: black;
 `;
 
 const ColorLink = styled(DefaultP)`
@@ -33,7 +34,7 @@ export default function MyPageNav({ color }) {
         내 정보
       </ColorLink>
       <LineHR></LineHR>
-      <ColorLink2 color={color} to="/myPageInfo">
+      <ColorLink2 color={color} to="/mypageInfo">
         정보 수정
       </ColorLink2>
       <LineHR></LineHR>
