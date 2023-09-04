@@ -13,14 +13,56 @@ import {
   BoardCotainer,
   QuestionBoardContainer,
   BoardTitle,
+  Button,
+  VideoAndButtonContainer,
+  ButtonContainer,
+  ButtonContainerOuter,
 } from "../style/MyPage";
 import MyPageNav from "../components/MyPageNav";
+import Slide from "../components/Slide";
+import { useEffect, useRef, useState } from "react";
 
+const VideoLinks = [
+  "https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD",
+  "https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD",
+  "https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD",
+  "https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8",
+  "https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8",
+];
+const TOTAL_SLIDES = 4;
 export default function MyPage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideRef = useRef(null);
+
+  // Next 버튼 클릭 시
+  const NextSlide = () => {
+    if (currentSlide >= TOTAL_SLIDES) {
+      // 더 이상 넘어갈 슬라이드가 없으면
+      setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+  // Prev 버튼 클릭 시
+  const PrevSlide = () => {
+    if (currentSlide === 0) {
+      setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
+
+  useEffect(() => {
+    slideRef.current.style.transition = "all 0.5s ease-in-out";
+    slideRef.current.style.transform = `translateX(${-5 * currentSlide}0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  }, [currentSlide]);
+
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav />
+        <MyPageNav color="first" />
       </NavContainer>
       <div>
         <UserInfoOuterContainer>
@@ -50,16 +92,21 @@ export default function MyPage() {
           <p>전체</p>
           <hr></hr>
         </VideoTitle>
-        <VideoContainer>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/sYe-RMXn3KI?si=iAK8brD2HjQGwZ0N"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </VideoContainer>
+        <ButtonContainerOuter>
+          <ButtonContainer>
+            <Button onClick={PrevSlide}>&larr;</Button>
+          </ButtonContainer>
+          <VideoAndButtonContainer>
+            <VideoContainer ref={slideRef}>
+              {VideoLinks.map((elem, index) => {
+                return <Slide key={index} videoLink={elem} />;
+              })}
+            </VideoContainer>
+          </VideoAndButtonContainer>
+          <ButtonContainer>
+            <Button onClick={NextSlide}>&rarr;</Button>
+          </ButtonContainer>
+        </ButtonContainerOuter>
         <VideoTitle>
           <p>부위별</p>
           <hr></hr>

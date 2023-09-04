@@ -23,6 +23,7 @@ export const UserInfoContainer = styled.div`
 
 export const PainChoice = styled.div`
   display: flex;
+  height: 7rem;
 `;
 
 export const PainLabel = styled.label`
@@ -34,6 +35,7 @@ export const OuterContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  margin-bottom: 1rem;
 `;
 
 export const UserInfoInnerContainer = styled.div`
@@ -65,7 +67,7 @@ export const EditButtonContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export const NavAndContent = styled.div`
+export const NavAndContent = styled.article`
   display: flex;
 `;
 
@@ -104,4 +106,14 @@ export const InputButton = styled.input`
 
 export const LabelForInput = styled.label`
   cursor: pointer;
+`;
+
+export const PainListContainer = styled.div`
+  display: flex;
+`;
+
+export const PainSpan = styled.span`
+  margin-top: 1em;
+  margin-bottom: 1em;
+  color: blue;
 `;

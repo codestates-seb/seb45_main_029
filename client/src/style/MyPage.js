@@ -53,6 +53,8 @@ export const VideoTitle = styled.div`
 
 export const VideoContainer = styled.div`
   /* margin-left: 22rem; */
+  width: 60rem;
+  display: flex;
 `;
 
 export const BoardCotainer = styled.div`
@@ -66,4 +68,39 @@ export const QuestionBoardContainer = styled.div`
 export const BoardTitle = styled.p`
   margin-bottom: 2rem;
   font-weight: bold;
+`;
+
+export const Button = styled.div`
+  all: unset;
+  color: burlywood;
+  border-radius: 10px;
+  border: 1px solid burlywood;
+  cursor: pointer;
+  &:hover {
+    background-color: burlywood;
+    color: #fff;
+  }
+  z-index: 10;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1em;
+`;
+export const VideoAndButtonContainer = styled.div`
+  display: flex;
+  width: 65rem;
+  overflow: hidden;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonContainerOuter = styled.div`
+  display: flex;
 `;
