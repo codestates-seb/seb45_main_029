@@ -13,17 +13,30 @@ import {
   UserImg,
   Line,
   PainChoice,
-  PainLabel,
-  SelectButtonContainer,
-  SelectButton,
   EditButtonContainer,
   EditButton,
   InputButton,
   LabelForInput,
+  PainListContainer,
+  PainSpan,
 } from "../style/MyPageInfo";
+
+const checkBoxList = [
+  "가슴",
+  "다리",
+  "등",
+  "머리",
+  "무릎",
+  "발",
+  "손",
+  "어깨",
+  "팔",
+  "허리",
+];
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState("");
+  const [checkedList, setCheckedList] = useState([]);
   const imgRef = useRef();
 
   const saveImgFile = () => {
@@ -33,6 +46,25 @@ export default function MyPageInfo() {
     reader.onloadend = () => {
       setImgFile(reader.result);
     };
+  };
+
+  const buttonOnclickHandler = () => {
+    console.log("Hey");
+  };
+
+  const checkedItemHandler = (value, isChecked) => {
+    if (isChecked) {
+      setCheckedList((prev) => [...prev, value]);
+      return;
+    }
+
+    if (!isChecked && checkedList.includes(value)) {
+      setCheckedList(checkedList.filter((item) => item !== value));
+    }
+  };
+
+  const checkHandler = (e, value) => {
+    checkedItemHandler(value, e.target.checked);
   };
 
   return (
@@ -75,56 +107,34 @@ export default function MyPageInfo() {
               <input />
               <p>좌우명:</p>
               <input />
-              <p>통증 부위</p>
+              <PainListContainer>
+                <PainSpan>통증 부위 : &nbsp; </PainSpan>
+                {checkedList.length > 0 ? (
+                  checkedList.map((elem, index) => {
+                    return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
+                  })
+                ) : (
+                  <></>
+                )}
+              </PainListContainer>
               <Line />
               <PainChoice>
-                <PainLabel>
-                  가슴
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  다리
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  등
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  머리
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  무릎
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  발
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  손
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  어깨
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  팔
-                  <input type="checkbox" />
-                </PainLabel>
-                <PainLabel>
-                  허리
-                  <input type="checkbox" />
-                </PainLabel>
+                {checkBoxList.map((elem, index) => {
+                  return (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={elem}
+                        onChange={(e) => checkHandler(e, elem)}
+                      />
+                      <label htmlFor={elem}>{elem}</label>
+                    </div>
+                  );
+                })}
               </PainChoice>
-              <SelectButtonContainer>
-                <SelectButton>선택</SelectButton>
-              </SelectButtonContainer>
               <Line />
               <EditButtonContainer>
-                <EditButton>수정하기</EditButton>
+                <EditButton onClick={buttonOnclickHandler}>수정하기</EditButton>
               </EditButtonContainer>
             </UserInfoInnerContainer>
           </UserInfoContainer>
