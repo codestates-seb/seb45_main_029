@@ -171,7 +171,7 @@ function SignUp() {
           </div>
           {!passwordIsValid ? (
             <div className="error-message">
-              최소 8글자 이상, 영문, 숫자, 특수문자 포함되어야합니다!
+              최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!
             </div>
           ) : null}
         </div>
