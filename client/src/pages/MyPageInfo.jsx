@@ -37,6 +37,9 @@ const checkBoxList = [
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState("");
   const [checkedList, setCheckedList] = useState([]);
+  const [nickName, setNickName] = useState("");
+  const [password, setPassword] = useState("");
+  const [motto, setMotto] = useState("");
   const imgRef = useRef();
 
   const saveImgFile = () => {
@@ -48,8 +51,20 @@ export default function MyPageInfo() {
     };
   };
 
+  const nickNameChangeHandler = (e) => {
+    setNickName(e.target.value);
+  };
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
+  const mottoChangeHandler = (e) => {
+    setMotto(e.target.value);
+  };
+
   const buttonOnclickHandler = () => {
-    console.log("Hey");
+    // axios 또는 api 폴더에 있더라고? 거기서 넘겨주기
+    const data = { nickName, password, motto };
+    console.log(data);
   };
 
   const checkedItemHandler = (value, isChecked) => {
@@ -102,11 +117,11 @@ export default function MyPageInfo() {
               <p>이메일:</p>
               <input disabled />
               <p>닉네임:</p>
-              <input />
+              <input onChange={nickNameChangeHandler} />
               <p>비밀번호:</p>
-              <input />
+              <input onChange={passwordChangeHandler} />
               <p>좌우명:</p>
-              <input />
+              <input onChange={mottoChangeHandler} />
               <PainListContainer>
                 <PainSpan>통증 부위 : &nbsp; </PainSpan>
                 {checkedList.length > 0 ? (
