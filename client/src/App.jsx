@@ -11,12 +11,14 @@ import GlobalStyles from 'styled-components';
 import Footer from './components/Footer';
 import MyPageDelete from './pages/MyPageDelete';
 import MyPageInfo from './pages/MyPageInfo';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
       <GlobalStyles />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route exact path='/' element={<Main />} />
           <Route path='/mypage' element={<MyPage />} />
