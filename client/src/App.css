@@ -1,0 +1,10 @@
+:root{
+  /* 나눔 펜 스크립트 폰트 */
+  --nanum : "NanumPenScript";
+  /* 컬러 포인트 */
+  --pink : #D7B9FC;
+  --blue : #859DE8;
+  --navy : #0C2139;
+  --white : #FFFFFF;
+  --black : #000000;
+}
