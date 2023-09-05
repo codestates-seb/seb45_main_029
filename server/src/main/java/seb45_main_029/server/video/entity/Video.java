@@ -6,14 +6,14 @@ import lombok.Setter;
 import seb45_main_029.server.audit.Auditable;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@Table(indexes = @Index(name = "title_index",columnList = "title"))
 @Entity
-public class Video {
+public class Video extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
