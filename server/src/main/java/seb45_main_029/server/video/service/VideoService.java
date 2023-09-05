@@ -87,10 +87,15 @@ public class VideoService {
         //       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
         User user = new User(3L, "son1@gmail.com", "son12345@", "son1", "son1", "할수있다", "허리디스크", "개발자");
         //        -------------------------------------------------------------------------------------------------------
-        List<Long> bookmarkedVideo = new ArrayList<>();
-        bookmarkedVideo.add(videoId);
-        user.setBookmark(bookmarkedVideo);
+        List<Long> userBookmarkingList = new ArrayList<>();
+        userBookmarkingList.add(videoId);
+        user.setBookmark(userBookmarkingList);
         userRepository.save(user);
+
+        Video bookmarkedVideo = findVideo(videoId);
+        bookmarkedVideo.setBookmarkCount(bookmarkedVideo.getBookmarkCount() + 1);
+        videoRepository.save(bookmarkedVideo);
+
         return user;
     }
 
