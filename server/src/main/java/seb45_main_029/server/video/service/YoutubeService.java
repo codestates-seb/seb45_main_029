@@ -20,7 +20,6 @@ import seb45_main_029.server.video.repository.VideoRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -49,19 +48,20 @@ public class YoutubeService {
         }).setApplicationName(YOUTUBE_API_APPLICATION).build();
     }
 
-    public List<YoutubeVideoInfo> youtubeSearch(String query, long maxResult) {
+    public List<Video> youtubeSearch(String query, String category, long maxResult) {
 
         log.info("===== 유튜브 API 를 통해 관련 동영상 검색중... =====");
 //        초기화
         YouTube youtubeService = getService();
 //        리스트에 유튜브 비디오 정보 저장
         List<YoutubeVideoInfo> videoInfo = new ArrayList<>();
+        List<Video> savedVideoList = new ArrayList<>();
 
         try {
             if (youTube != null) {
 //                쿼리 파라미터 설정
                 YouTube.Search.List search = youTube.search().list(("snippet,id"));
-                search.setKey("YOUTUBE API KEY");
+                search.setKey("AIzaSyCde6Qb4XhLvkXJ6tWhcPWj_css263v9yo");
                 search.setQ(query);
                 search.setMaxResults(maxResult);
                 search.setTopicId("/m/0kt51");
@@ -79,10 +79,16 @@ public class YoutubeService {
                                 result.getSnippet().getThumbnails().getDefault().getUrl(),
                                 result.getSnippet().getDescription());
                         videoInfo.add(info);
+                        if ((info.getTitle().contains("재활") || info.getTitle().contains("스트레칭"))) {
 
 //                        조회한 동영상 정보 데이터베이스 저장
-                        Video video = new Video(info.getUrl(), info.getTitle(), info.getThumbnailUrl(), info.getDescription(),query);
-                        videoRepository.save(video);
+
+                            Video video = new Video(info.getUrl(), info.getTitle(), info.getThumbnailUrl(), info.getDescription(), category);
+                            List<String> tag = createTag(query, category);
+                            video.setTag(tag);
+                            videoRepository.save(video);
+                            savedVideoList.add(video);
+                        }
                     }
 
                 } else {
@@ -99,7 +105,18 @@ public class YoutubeService {
             log.warn(e.getCause() + " : " + e.getMessage());
         }
 
-        log.info("===== 검색완료 =====");
-        return videoInfo;
+        log.info("===== 검색 완료 =====");
+
+//        저장된 동영상 만 response 로 리턴
+        return savedVideoList;
+    }
+
+    public List<String> createTag(String description, String query) {
+//      좀 더 나은 방법을 생각 해보자
+        List<String> tag = new ArrayList<>();
+        tag.add("#" + query);
+        tag.add("#" + description);
+
+        return tag;
     }
 }
