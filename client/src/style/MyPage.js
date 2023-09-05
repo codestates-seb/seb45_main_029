@@ -104,3 +104,9 @@ export const ButtonContainer = styled.div`
 export const ButtonContainerOuter = styled.div`
   display: flex;
 `;
+
+export const TitleFont = styled.p`
+  font-family: var(--nanum);
+  color: var(--pink);
+  font-size: 2rem;
+`;

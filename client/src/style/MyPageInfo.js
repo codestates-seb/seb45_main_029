@@ -14,8 +14,9 @@ export const UserInfoContainer = styled.div`
   border-radius: 12%;
   border: 1px solid gray;
   width: 45rem;
-  height: 45rem;
+  height: 56rem;
   display: flex;
+  padding-left: 1em;
   justify-content: center;
   align-items: center;
   margin-top: 5rem;
@@ -23,7 +24,13 @@ export const UserInfoContainer = styled.div`
 
 export const PainChoice = styled.div`
   display: flex;
-  height: 7rem;
+  height: 4rem;
+`;
+
+export const JobChoice = styled.div`
+  display: flex;
+  height: 4rem;
+  font-size: 0.5rem;
 `;
 
 export const PainLabel = styled.label`
@@ -42,6 +49,7 @@ export const UserInfoInnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  height: 55rem;
 `;
 
 export const Line = styled.hr`
@@ -116,4 +124,14 @@ export const PainSpan = styled.span`
   margin-top: 1em;
   margin-bottom: 1em;
   color: blue;
+`;
+
+export const WarningP = styled.p`
+  color: red;
+  font-size: 0.5rem;
+`;
+
+export const InputDesign = styled.input`
+  display: inline-block;
+  width: 20rem;
 `;

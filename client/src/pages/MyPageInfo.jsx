@@ -1,5 +1,7 @@
-import { useRef, useState } from "react";
-import MyPageNav from "../components/MyPageNav";
+import { useRef, useState } from 'react';
+import MyPageNav from '../components/MyPageNav';
+import WarningMessage from '../components/WarningMessage';
+import BodyAndJobList from '../components/BodyAndJobList';
 import {
   NavAndContent,
   NavContainer,
@@ -19,27 +21,22 @@ import {
   LabelForInput,
   PainListContainer,
   PainSpan,
-} from "../style/MyPageInfo";
-
-const checkBoxList = [
-  "가슴",
-  "다리",
-  "등",
-  "머리",
-  "무릎",
-  "발",
-  "손",
-  "어깨",
-  "팔",
-  "허리",
-];
+  WarningP,
+  InputDesign,
+  JobChoice,
+} from '../style/MyPageInfo';
+import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 
 export default function MyPageInfo() {
-  const [imgFile, setImgFile] = useState("");
+  const [imgFile, setImgFile] = useState('');
   const [checkedList, setCheckedList] = useState([]);
-  const [nickName, setNickName] = useState("");
-  const [password, setPassword] = useState("");
-  const [motto, setMotto] = useState("");
+  const [checkedListJob, setCheckedListJob] = useState('');
+  const [nickName, setNickName] = useState('');
+  const [nickNameIsValid, setNickNameIsValid] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [motto, setMotto] = useState('');
+  const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
 
   const saveImgFile = () => {
@@ -51,50 +48,83 @@ export default function MyPageInfo() {
         setImgFile(reader.result);
       };
     } catch {
-      alert("에러가 발생하였습니다. 다시 시도해주세요.");
+      alert('에러가 발생하였습니다. 다시 시도해주세요.');
     } finally {
-      console.log("처리완료");
+      console.log('처리완료');
+    }
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+    if (
+      e.target.value.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{10,}$/)
+    ) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
     }
   };
 
   const nickNameChangeHandler = (e) => {
     setNickName(e.target.value);
+    if (e.target.value.length > 0) {
+      setNickNameIsValid(true);
+    } else {
+      setNickNameIsValid(false);
+    }
   };
-  const passwordChangeHandler = (e) => {
-    setPassword(e.target.value);
-  };
+
   const mottoChangeHandler = (e) => {
     setMotto(e.target.value);
+    if (e.target.value.length > 0) {
+      setMottoIsValid(true);
+    } else {
+      setMottoIsValid(false);
+    }
   };
 
   const buttonOnclickHandler = () => {
     // axios 또는 api 폴더에 있더라고? 거기서 넘겨주기
-    const data = { nickName, password, motto };
+    const data = {
+      nickName,
+      password,
+      motto,
+      checkedList,
+      checkBoxListJob,
+    };
     console.log(data);
   };
 
-  const checkedItemHandler = (value, isChecked) => {
+  const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
-      setCheckedList((prev) => [...prev, value].sort());
+      if (type === 'body') {
+        setCheckedList((prev) => [...prev, value].sort());
+      } else {
+        setCheckedListJob(value);
+      }
       return;
     }
 
     if (!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter((item) => item !== value));
+      if (type === 'body') {
+        setCheckedList(checkedList.filter((item) => item !== value));
+      } else {
+        setCheckedListJob(checkBoxListJob);
+      }
     }
   };
 
-  const checkHandler = (e, value) => {
-    checkedItemHandler(value, e.target.checked);
+  const checkHandler = (e, value, type) => {
+    checkedItemHandler(value, e.target.checked, type);
   };
 
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav color="second" />
+        <MyPageNav color='second' />
       </NavContainer>
       <OuterContainer>
-        <div>
+        <article>
           <UserInfoContainer>
             <UserInfoInnerContainer>
               <TitleAndPic>
@@ -112,8 +142,8 @@ export default function MyPageInfo() {
                   <LabelForInput>
                     수정
                     <InputButton
-                      type="file"
-                      accept="image/*"
+                      type='file'
+                      accept='image/*'
                       onChange={saveImgFile}
                       ref={imgRef}
                     />
@@ -121,13 +151,35 @@ export default function MyPageInfo() {
                 </ImgContainer>
               </TitleAndPic>
               <p>이메일:</p>
-              <input disabled />
-              <p>닉네임:</p>
-              <input onChange={nickNameChangeHandler} />
-              <p>비밀번호:</p>
-              <input onChange={passwordChangeHandler} />
-              <p>좌우명:</p>
-              <input onChange={mottoChangeHandler} />
+              <InputDesign disabled />
+              <WarningP>이메일은 변경하실 수 없습니다.</WarningP>
+              <WarningMessage
+                inputName='닉네임:'
+                changeHandler={nickNameChangeHandler}
+                valid={nickNameIsValid}
+                message='최소 1글자 이상 입력해주세요!'
+              />
+              <WarningMessage
+                inputName='비밀번호:'
+                changeHandler={passwordChangeHandler}
+                valid={passwordIsValid}
+                message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'
+              />
+              <WarningMessage
+                inputName='좌우명:'
+                changeHandler={mottoChangeHandler}
+                valid={mottoIsValid}
+                message='최소 1글자 이상 입력해주세요!'
+              />
+              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
+              <JobChoice>
+                <BodyAndJobList
+                  list={checkBoxListJob}
+                  name='job'
+                  type='radio'
+                  checkHandler={checkHandler}
+                />
+              </JobChoice>
               <PainListContainer>
                 <PainSpan>통증 부위 : &nbsp; </PainSpan>
                 {checkedList.length > 0 ? (
@@ -140,18 +192,12 @@ export default function MyPageInfo() {
               </PainListContainer>
               <Line />
               <PainChoice>
-                {checkBoxList.map((elem, index) => {
-                  return (
-                    <div key={index}>
-                      <input
-                        type="checkbox"
-                        id={elem}
-                        onChange={(e) => checkHandler(e, elem)}
-                      />
-                      <label htmlFor={elem}>{elem}</label>
-                    </div>
-                  );
-                })}
+                <BodyAndJobList
+                  list={checkBoxListBody}
+                  name='body'
+                  type='checkbox'
+                  checkHandler={checkHandler}
+                />
               </PainChoice>
               <Line />
               <EditButtonContainer>
@@ -159,7 +205,7 @@ export default function MyPageInfo() {
               </EditButtonContainer>
             </UserInfoInnerContainer>
           </UserInfoContainer>
-        </div>
+        </article>
       </OuterContainer>
     </NavAndContent>
   );
