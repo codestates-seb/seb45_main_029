@@ -45,10 +45,16 @@ export default function MyPageInfo() {
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgFile(reader.result);
-    };
+    try {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImgFile(reader.result);
+      };
+    } catch {
+      alert("에러가 발생하였습니다. 다시 시도해주세요.");
+    } finally {
+      console.log("처리완료");
+    }
   };
 
   const nickNameChangeHandler = (e) => {
@@ -69,7 +75,7 @@ export default function MyPageInfo() {
 
   const checkedItemHandler = (value, isChecked) => {
     if (isChecked) {
-      setCheckedList((prev) => [...prev, value]);
+      setCheckedList((prev) => [...prev, value].sort());
       return;
     }
 

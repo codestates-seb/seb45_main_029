@@ -10,7 +10,9 @@ export const LoginBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
+  margin-left: 710px;
+  margin-top: 170px;
+  margin-bottom: 400px;
   gap: 10px;
   width: 500px;
   height: 400px;
@@ -32,7 +34,7 @@ export const LoginBox = styled.div`
     &::before {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: 0px;
       left: 50%;
       transform: translateX(-50%);
       width: 400px;
