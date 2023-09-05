@@ -105,8 +105,20 @@ export const ButtonContainerOuter = styled.div`
   display: flex;
 `;
 
-export const TitleFont = styled.p`
+export const TitleFontSpanBlue = styled.span`
+  font-family: var(--nanum);
+  color: var(--blue);
+  font-size: 2rem;
+`;
+
+export const TitleFontSpanPink = styled.span`
   font-family: var(--nanum);
   color: var(--pink);
   font-size: 2rem;
+`;
+
+export const TitleFontSpanBlack = styled.span`
+  font-family: var(--nanum);
+  font-size: 2rem;
+  color: var(--black);
 `;
