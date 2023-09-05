@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import './App.css';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import BoardPage from './pages/BoardPage';
