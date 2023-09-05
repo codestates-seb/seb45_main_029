@@ -117,3 +117,13 @@ export const PainSpan = styled.span`
   margin-bottom: 1em;
   color: blue;
 `;
+
+export const WarningP = styled.p`
+  color: red;
+  font-size: 0.5rem;
+`;
+
+export const InputDesign = styled.input`
+  display: inline-block;
+  width: 20rem;
+`;
