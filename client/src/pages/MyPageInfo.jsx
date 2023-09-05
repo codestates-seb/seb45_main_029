@@ -25,30 +25,7 @@ import {
   InputDesign,
   JobChoice,
 } from '../style/MyPageInfo';
-
-const checkBoxListBody = [
-  '가슴',
-  '다리',
-  '등',
-  '머리',
-  '무릎',
-  '발',
-  '손',
-  '어깨',
-  '팔',
-  '허리',
-];
-const checkBoxListJob = [
-  '경영·사무',
-  '연구·기술',
-  '경찰·군인·소방',
-  '보건·의료직',
-  '예술·디자인·방송',
-  '미용·여행·음식',
-  '영업·판매·운송',
-  '건설·채굴',
-  '설치·설비생산',
-];
+import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -194,6 +171,15 @@ export default function MyPageInfo() {
                 valid={mottoIsValid}
                 message='최소 1글자 이상 입력해주세요!'
               />
+              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
+              <JobChoice>
+                <BodyAndJobList
+                  list={checkBoxListJob}
+                  name='job'
+                  type='radio'
+                  checkHandler={checkHandler}
+                />
+              </JobChoice>
               <PainListContainer>
                 <PainSpan>통증 부위 : &nbsp; </PainSpan>
                 {checkedList.length > 0 ? (
@@ -204,16 +190,7 @@ export default function MyPageInfo() {
                   <></>
                 )}
               </PainListContainer>
-              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
               <Line />
-              <JobChoice>
-                <BodyAndJobList
-                  list={checkBoxListJob}
-                  name='job'
-                  type='radio'
-                  checkHandler={checkHandler}
-                />
-              </JobChoice>
               <PainChoice>
                 <BodyAndJobList
                   list={checkBoxListBody}
