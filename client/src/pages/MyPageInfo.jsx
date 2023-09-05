@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import MyPageNav from '../components/MyPageNav';
 import WarningMessage from '../components/WarningMessage';
+import BodyAndJobList from '../components/BodyAndJobList';
 import {
   NavAndContent,
   NavContainer,
@@ -203,36 +204,23 @@ export default function MyPageInfo() {
                   <></>
                 )}
               </PainListContainer>
-              <Line />
               <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
+              <Line />
               <JobChoice>
-                {checkBoxListJob.map((elem, index) => {
-                  return (
-                    <section key={index}>
-                      <input
-                        name='job'
-                        type='radio'
-                        id={elem}
-                        onChange={(e) => checkHandler(e, elem, 'job')}
-                      />
-                      <label htmlFor={elem}>{elem}</label>
-                    </section>
-                  );
-                })}
+                <BodyAndJobList
+                  list={checkBoxListJob}
+                  name='job'
+                  type='radio'
+                  checkHandler={checkHandler}
+                />
               </JobChoice>
               <PainChoice>
-                {checkBoxListBody.map((elem, index) => {
-                  return (
-                    <section key={index}>
-                      <input
-                        type='checkbox'
-                        id={elem}
-                        onChange={(e) => checkHandler(e, elem, 'body')}
-                      />
-                      <label htmlFor={elem}>{elem}</label>
-                    </section>
-                  );
-                })}
+                <BodyAndJobList
+                  list={checkBoxListBody}
+                  name='body'
+                  type='checkbox'
+                  checkHandler={checkHandler}
+                />
               </PainChoice>
               <Line />
               <EditButtonContainer>
