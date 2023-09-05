@@ -16,6 +16,7 @@ export const UserInfoContainer = styled.div`
   width: 45rem;
   height: 56rem;
   display: flex;
+  padding-left: 1em;
   justify-content: center;
   align-items: center;
   margin-top: 5rem;
@@ -76,7 +77,6 @@ export const EditButtonContainer = styled.div`
 
 export const NavAndContent = styled.article`
   display: flex;
-  width: 50rem;
 `;
 
 export const InfoTitle = styled.p`
