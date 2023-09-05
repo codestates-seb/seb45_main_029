@@ -1,66 +1,54 @@
-import styled from 'styled-components';
+import { useState } from 'react';
+import {
+  MainContainer,
+  InputContainer,
+  InputDesign,
+  ImageDesign,
+} from '../style/Main';
+import ToggleContainer from '../components/ToggleContainer';
 
-export const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-`;
-
-export const InputContainer = styled.div`
-  display: flex;
-  width: 45rem;
-  position: relative;
-`;
-
-export const InputDesign = styled.input`
-  display: inline-block;
-  width: 40rem;
-  height: 4rem;
-  border-radius: 10px;
-`;
-
-export const ImageDesign = styled.img`
-  right: 12%;
-  position: absolute;
-  top: 30%;
-  cursor: pointer;
-`;
-
-export const VideoTypeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const VideoType = styled.div`
-  cursor: pointer;
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin-right: 1rem;
-  width: 10rem;
-  height: 3rem;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
-export const VideoTypeDetailContainer = styled.div`
-  display: flex;
-`;
-
-export const VideoTypeDetail = styled.div`
-  cursor: pointer;
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin-right: 1rem;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
+const typeOfVideo = ['전체', '부위별', '직업별'];
+const checkBoxListBody = [
+  '가슴',
+  '다리',
+  '등',
+  '머리',
+  '무릎',
+  '발',
+  '손',
+  '어깨',
+  '팔',
+  '허리',
+];
+const checkBoxListJob = [
+  '경영·사무',
+  '연구·기술',
+  '경찰·군인·소방',
+  '보건·의료직',
+  '예술·디자인·방송',
+  '미용·여행·음식',
+  '영업·판매·운송',
+  '건설·채굴',
+  '설치·설비생산',
+];
 
 function Main() {
+  const [videoType, setVideoType] = useState('전체');
+  const [videoDetailType, setVideoDetailType] = useState('가슴');
+  const [videoDetailType2, setVideoDetailType2] = useState('경영·사무');
+
+  const onClickHandler = (e) => {
+    setVideoType(e.target.innerText);
+  };
+
+  const onClickHandlerDetail = (e) => {
+    setVideoDetailType(e.target.innerText);
+  };
+
+  const onClickHandlerDetail2 = (e) => {
+    setVideoDetailType2(e.target.innerText);
+  };
+
   return (
     <MainContainer>
       <InputContainer>
@@ -78,17 +66,32 @@ function Main() {
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
         allowFullScreen
       ></iframe>
-      <p>부위별 운동 확인하기</p>
-      <VideoTypeContainer>
-        <VideoType>전체</VideoType>
-        <VideoType>부위별</VideoType>
-        <VideoType>직업별</VideoType>
-      </VideoTypeContainer>
-      <VideoTypeDetailContainer>
-        <VideoTypeDetail>사무직</VideoTypeDetail>
-        <VideoTypeDetail>현장직</VideoTypeDetail>
-        <VideoTypeDetail>개발직</VideoTypeDetail>
-      </VideoTypeDetailContainer>
+
+      <p>{videoType} 운동 확인하기</p>
+      <ToggleContainer
+        typeOfVideo={typeOfVideo}
+        videoType={videoType}
+        onClickHandler={onClickHandler}
+      />
+      {videoType === '부위별' ? (
+        <ToggleContainer
+          typeOfVideo={checkBoxListBody}
+          videoType={videoDetailType}
+          onClickHandler={onClickHandlerDetail}
+        />
+      ) : (
+        <></>
+      )}
+      {videoType === '직업별' ? (
+        <ToggleContainer
+          typeOfVideo={checkBoxListJob}
+          videoType={videoDetailType2}
+          onClickHandler={onClickHandlerDetail2}
+        />
+      ) : (
+        <></>
+      )}
+
       <iframe
         width='560'
         height='315'
