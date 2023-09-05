@@ -16,5 +16,5 @@ public class VideoResponseDto {
     private String bookmarkCount;
     private String category;
     private String description;
-    private List<String > tags;
+    private List<String> tag;
 }

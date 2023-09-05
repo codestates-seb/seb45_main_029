@@ -1,7 +1,6 @@
 package seb45_main_029.server.video.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
 import seb45_main_029.server.video.dto.VideoResponseDto;
 import seb45_main_029.server.video.entity.Video;
 
