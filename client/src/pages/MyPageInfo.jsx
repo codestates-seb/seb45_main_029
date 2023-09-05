@@ -22,6 +22,7 @@ import {
   PainSpan,
   WarningP,
   InputDesign,
+  JobChoice,
 } from '../style/MyPageInfo';
 
 const checkBoxListBody = [
@@ -36,12 +37,22 @@ const checkBoxListBody = [
   '팔',
   '허리',
 ];
-
-// const checkBoxListJob = ['hi'];
+const checkBoxListJob = [
+  '경영·사무',
+  '연구·기술',
+  '경찰·군인·소방',
+  '보건·의료직',
+  '예술·디자인·방송',
+  '미용·여행·음식',
+  '영업·판매·운송',
+  '건설·채굴',
+  '설치·설비생산',
+];
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
   const [checkedList, setCheckedList] = useState([]);
+  const [checkedListJob, setCheckedListJob] = useState('');
   const [nickName, setNickName] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
   const [password, setPassword] = useState('');
@@ -96,23 +107,37 @@ export default function MyPageInfo() {
 
   const buttonOnclickHandler = () => {
     // axios 또는 api 폴더에 있더라고? 거기서 넘겨주기
-    const data = { nickName, password, motto };
+    const data = {
+      nickName,
+      password,
+      motto,
+      checkedList,
+      checkBoxListJob,
+    };
     console.log(data);
   };
 
-  const checkedItemHandler = (value, isChecked) => {
+  const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
-      setCheckedList((prev) => [...prev, value].sort());
+      if (type === 'body') {
+        setCheckedList((prev) => [...prev, value].sort());
+      } else {
+        setCheckedListJob(value);
+      }
       return;
     }
 
     if (!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter((item) => item !== value));
+      if (type === 'body') {
+        setCheckedList(checkedList.filter((item) => item !== value));
+      } else {
+        setCheckedListJob(checkBoxListJob);
+      }
     }
   };
 
-  const checkHandler = (e, value) => {
-    checkedItemHandler(value, e.target.checked);
+  const checkHandler = (e, value, type) => {
+    checkedItemHandler(value, e.target.checked, type);
   };
 
   return (
@@ -179,6 +204,22 @@ export default function MyPageInfo() {
                 )}
               </PainListContainer>
               <Line />
+              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
+              <JobChoice>
+                {checkBoxListJob.map((elem, index) => {
+                  return (
+                    <section key={index}>
+                      <input
+                        name='job'
+                        type='radio'
+                        id={elem}
+                        onChange={(e) => checkHandler(e, elem, 'job')}
+                      />
+                      <label htmlFor={elem}>{elem}</label>
+                    </section>
+                  );
+                })}
+              </JobChoice>
               <PainChoice>
                 {checkBoxListBody.map((elem, index) => {
                   return (
@@ -186,7 +227,7 @@ export default function MyPageInfo() {
                       <input
                         type='checkbox'
                         id={elem}
-                        onChange={(e) => checkHandler(e, elem)}
+                        onChange={(e) => checkHandler(e, elem, 'body')}
                       />
                       <label htmlFor={elem}>{elem}</label>
                     </section>

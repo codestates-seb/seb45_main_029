@@ -14,7 +14,7 @@ export const UserInfoContainer = styled.div`
   border-radius: 12%;
   border: 1px solid gray;
   width: 45rem;
-  height: 45rem;
+  height: 56rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,13 @@ export const UserInfoContainer = styled.div`
 
 export const PainChoice = styled.div`
   display: flex;
-  height: 7rem;
+  height: 4rem;
+`;
+
+export const JobChoice = styled.div`
+  display: flex;
+  height: 4rem;
+  font-size: 0.5rem;
 `;
 
 export const PainLabel = styled.label`
@@ -42,6 +48,7 @@ export const UserInfoInnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  height: 55rem;
 `;
 
 export const Line = styled.hr`
@@ -69,6 +76,7 @@ export const EditButtonContainer = styled.div`
 
 export const NavAndContent = styled.article`
   display: flex;
+  width: 50rem;
 `;
 
 export const InfoTitle = styled.p`
