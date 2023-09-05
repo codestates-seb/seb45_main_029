@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb45_main_029.server.exception.BusinessLogicException;
 import seb45_main_029.server.exception.ExceptionCode;
-import seb45_main_029.server.member.entity.Member;
-import seb45_main_029.server.member.repository.MemberRepository;
+import seb45_main_029.server.user.entity.User;
+import seb45_main_029.server.user.repository.UserRepository;
 import seb45_main_029.server.video.entity.Video;
 import seb45_main_029.server.video.repository.VideoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -23,33 +22,43 @@ import java.util.Optional;
 public class VideoService {
 
     private final VideoRepository videoRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
-    //    부위별 운동영상 리스트 조회
+    //            부위별 운동영상 리스트 조회
     @Transactional(readOnly = true)
-    public Page<Video> getPartVideos(int page, int size, String keyword) {
+    public Page<Video> getPartVideos(int page, int size, String part) {
+//        부위와 동일한 태그를 가진 동영상을 가져옴
 
-        return null;
+        return videoRepository.findByCategory(PageRequest.of(page, size), part);
+
     }
 
 
-    //    직업별 운동영상 리스트 조회
-    @Transactional(readOnly = true)
+    //        직업별 운동영상 리스트 조회
+//    @Transactional(readOnly = true)
     public Page<Video> getJobVideos(int page, int size) {
-        Member member = new Member(1L, "son@gmail.com", "son", "개발자", "허리디스크");
-        String job = member.getJob();
+        //       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
+        User user = new User(1L, "son@gmail.com", "son12345@", "son", "son", "할수있다", "허리디스크", "개발자");
+        userRepository.save(user);
+        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        String job = findUser.getJob();
+        //        -------------------------------------------------------------------------------------------------------
 
         return videoRepository.findByTitleContaining(PageRequest.of(page, size), job);
 
     }
 
     //    맞춤 운동 영상 조회
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public Page<Video> getRecommendedVideos(int page, int size) {
-        Member member = new Member(1L, "son@gmail.com", "son", "개발자", "허리디스크");
-        String status = member.getStatus();
+//       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
+        User user = new User(2L, "son1@gmail.com", "son12345@", "son1", "son1", "할수있다", "허리디스크", "개발자");
+        userRepository.save(user);
+        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        String userStatus = findUser.getStatus();
+//        -------------------------------------------------------------------------------------------------------
 
-        return videoRepository.findByTitleContaining(PageRequest.of(page, size), status);
+        return videoRepository.findByTitleContaining(PageRequest.of(page, size), userStatus);
 
     }
 
@@ -62,18 +71,27 @@ public class VideoService {
     //    키워드로 동영상 검색
     @Transactional(readOnly = true)
     public Page<Video> getKeywordSearch(int page, int size, String keyword) {
+
         return videoRepository.findByTitleContaining(PageRequest.of(page, size), keyword);
     }
 
-    public Member bookmark() {
-//        사용자가 북마크 버튼을 누르면 로그인한 정보를 기반으로 멤버의 북마크 필드에 리스트 형식으로 해당 동영상의 videoId 를 넣어주는 방식을 생각함
-        return null;
-    }
-
+    //
     public Video findVideo(long videoId) {
         Video findVideo = videoRepository.findById(videoId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.VIDEO_NOT_FOUND));
-        videoRepository.save(findVideo);
 
         return findVideo;
     }
+
+    public User bookmark(long videoId) {
+//        사용자가 북마크 버튼을 누르면 로그인한 정보를 기반으로 멤버의 북마크 필드에 리스트 형식으로 해당 동영상의 videoId 를 넣어주는 방식을 생각함
+        //       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
+        User user = new User(3L, "son1@gmail.com", "son12345@", "son1", "son1", "할수있다", "허리디스크", "개발자");
+        //        -------------------------------------------------------------------------------------------------------
+        List<Long> bookmarkedVideo = new ArrayList<>();
+        bookmarkedVideo.add(videoId);
+        user.setBookmark(bookmarkedVideo);
+        userRepository.save(user);
+        return user;
+    }
+
 }
