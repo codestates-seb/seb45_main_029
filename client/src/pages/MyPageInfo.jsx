@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
-import MyPageNav from "../components/MyPageNav";
+import { useRef, useState } from 'react';
+import MyPageNav from '../components/MyPageNav';
+import WarningMessage from '../components/WarningMessage';
 import {
   NavAndContent,
   NavContainer,
@@ -19,27 +20,34 @@ import {
   LabelForInput,
   PainListContainer,
   PainSpan,
-} from "../style/MyPageInfo";
+  WarningP,
+  InputDesign,
+} from '../style/MyPageInfo';
 
-const checkBoxList = [
-  "가슴",
-  "다리",
-  "등",
-  "머리",
-  "무릎",
-  "발",
-  "손",
-  "어깨",
-  "팔",
-  "허리",
+const checkBoxListBody = [
+  '가슴',
+  '다리',
+  '등',
+  '머리',
+  '무릎',
+  '발',
+  '손',
+  '어깨',
+  '팔',
+  '허리',
 ];
 
+// const checkBoxListJob = ['hi'];
+
 export default function MyPageInfo() {
-  const [imgFile, setImgFile] = useState("");
+  const [imgFile, setImgFile] = useState('');
   const [checkedList, setCheckedList] = useState([]);
-  const [nickName, setNickName] = useState("");
-  const [password, setPassword] = useState("");
-  const [motto, setMotto] = useState("");
+  const [nickName, setNickName] = useState('');
+  const [nickNameIsValid, setNickNameIsValid] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [motto, setMotto] = useState('');
+  const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
 
   const saveImgFile = () => {
@@ -51,20 +59,39 @@ export default function MyPageInfo() {
         setImgFile(reader.result);
       };
     } catch {
-      alert("에러가 발생하였습니다. 다시 시도해주세요.");
+      alert('에러가 발생하였습니다. 다시 시도해주세요.');
     } finally {
-      console.log("처리완료");
+      console.log('처리완료');
+    }
+  };
+
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+    if (
+      e.target.value.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{10,}$/)
+    ) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
     }
   };
 
   const nickNameChangeHandler = (e) => {
     setNickName(e.target.value);
+    if (e.target.value.length > 0) {
+      setNickNameIsValid(true);
+    } else {
+      setNickNameIsValid(false);
+    }
   };
-  const passwordChangeHandler = (e) => {
-    setPassword(e.target.value);
-  };
+
   const mottoChangeHandler = (e) => {
     setMotto(e.target.value);
+    if (e.target.value.length > 0) {
+      setMottoIsValid(true);
+    } else {
+      setMottoIsValid(false);
+    }
   };
 
   const buttonOnclickHandler = () => {
@@ -91,10 +118,10 @@ export default function MyPageInfo() {
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav color="second" />
+        <MyPageNav color='second' />
       </NavContainer>
       <OuterContainer>
-        <div>
+        <article>
           <UserInfoContainer>
             <UserInfoInnerContainer>
               <TitleAndPic>
@@ -112,8 +139,8 @@ export default function MyPageInfo() {
                   <LabelForInput>
                     수정
                     <InputButton
-                      type="file"
-                      accept="image/*"
+                      type='file'
+                      accept='image/*'
                       onChange={saveImgFile}
                       ref={imgRef}
                     />
@@ -121,13 +148,26 @@ export default function MyPageInfo() {
                 </ImgContainer>
               </TitleAndPic>
               <p>이메일:</p>
-              <input disabled />
-              <p>닉네임:</p>
-              <input onChange={nickNameChangeHandler} />
-              <p>비밀번호:</p>
-              <input onChange={passwordChangeHandler} />
-              <p>좌우명:</p>
-              <input onChange={mottoChangeHandler} />
+              <InputDesign disabled />
+              <WarningP>이메일은 변경하실 수 없습니다.</WarningP>
+              <WarningMessage
+                inputName='닉네임:'
+                changeHandler={nickNameChangeHandler}
+                valid={nickNameIsValid}
+                message='최소 1글자 이상 입력해주세요!'
+              />
+              <WarningMessage
+                inputName='비밀번호:'
+                changeHandler={passwordChangeHandler}
+                valid={passwordIsValid}
+                message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'
+              />
+              <WarningMessage
+                inputName='좌우명:'
+                changeHandler={mottoChangeHandler}
+                valid={mottoIsValid}
+                message='최소 1글자 이상 입력해주세요!'
+              />
               <PainListContainer>
                 <PainSpan>통증 부위 : &nbsp; </PainSpan>
                 {checkedList.length > 0 ? (
@@ -140,16 +180,16 @@ export default function MyPageInfo() {
               </PainListContainer>
               <Line />
               <PainChoice>
-                {checkBoxList.map((elem, index) => {
+                {checkBoxListBody.map((elem, index) => {
                   return (
-                    <div key={index}>
+                    <section key={index}>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         id={elem}
                         onChange={(e) => checkHandler(e, elem)}
                       />
                       <label htmlFor={elem}>{elem}</label>
-                    </div>
+                    </section>
                   );
                 })}
               </PainChoice>
@@ -159,7 +199,7 @@ export default function MyPageInfo() {
               </EditButtonContainer>
             </UserInfoInnerContainer>
           </UserInfoContainer>
-        </div>
+        </article>
       </OuterContainer>
     </NavAndContent>
   );
