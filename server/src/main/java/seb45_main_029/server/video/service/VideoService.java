@@ -56,8 +56,6 @@ public class VideoService {
     @Transactional(readOnly = true)
     public Page<Video> getRecommendedVideos(int page, int size) {
         User getLoginUser = userService.getLoginUser();
-//        String loginUserEmail = getLoginUserPrincipal();
-//        User findUser = userRepository.findByEmail(loginUserEmail).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         String userStatus = getLoginUser.getStatus();
 
 
