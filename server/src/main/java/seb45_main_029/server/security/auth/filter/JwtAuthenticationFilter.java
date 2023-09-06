@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) {
+                                            Authentication authResult) throws IOException,ServletException{
 
         User user = (User) authResult.getPrincipal();
 
@@ -82,6 +82,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // header에 Refresh Token 추가
         response.setHeader("Refresh", refreshToken);
+
+        this.getSuccessHandler().onAuthenticationSuccess(request,response,authResult);
     }
 
     /*
@@ -92,7 +94,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("username", user.getEmail());
-        //claims.put("roles", user.getRoles());
+        claims.put("roles", user.getRoles());
         claims.put("userId", user.getUserId());
 
         String subject = user.getEmail();

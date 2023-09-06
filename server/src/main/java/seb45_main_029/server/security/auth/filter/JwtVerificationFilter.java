@@ -84,7 +84,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String username = (String) claims.get("username");
 
         // 사용자명과 역할 정보 추출
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>)claims.get("roles"));
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
