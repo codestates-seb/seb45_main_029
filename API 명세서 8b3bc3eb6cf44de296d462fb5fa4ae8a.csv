@@ -1,0 +1,310 @@
+﻿category,Description,Method,URI,Request,Response
+Members,회원가입,POST,http://localhost:8080/signup,"{
+""mailto:email%22:%22asdasd@gmail.com"",
+""password"":""asd1234"",
+""username"":""asd"",
+""nickname"":""asd"",
+""motto"":""할수있다"",
+""status"":""비만""
+}","{
+”memberId” : 1,
+""mailto:email%22:%22asdasd@gmail.com"",
+""password"":""asd1234"",
+""username"":""asd"",
+""nickname"":""asd"",
+""motto"":""할수있다"",
+""status"":""비만""
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234""
+}"
+,회원 정보 수정,PATCH,http://localhost:8080/updateMember,"{
+""password"":""asd1234"",
+""nickname"":""asd"",
+""motto"":""할수있다"",
+""status"":""비만"",
+”image”:”이미지주소”
+}","{
+""password"":""asd1234"",
+""nickname"":""asd"",
+""motto"":""할수있다"",
+""status"":""비만""
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”image”:”이미지주소”
+}"
+,회원 조회,GET,http://localhost:8080/member/1,없음,"{
+""mailto:email%22:%22asdasd@gmail.com"",
+""password"":""asd1234"",
+""username"":""asd"",
+""nickname"":""asd"",
+""motto"":""할수있다"",
+""status"":""비만"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”youtubeLink” : [ ],
+”questions” : [ {”questionsId” : 1, “title” : “제목”, “date” : 2023.08.23} ],
+”answers” : [ ],
+}"
+,회원 삭제,DELETE,http://localhost:8080/member/1,없음,204 NO CONTENT
+,로그인,POST,http://localhost:8080/login,"{
+""mailto:email%22:%22asdasd@gmail.com"",
+""password"":""asd1234""
+} 
+# 현재 로그인한 유저의 id를 알 수 있는지 ?",200 OK
+,로그아웃,POST,http://localhost:8080/logout,,200 OK
+게시판,게시물 작성,POST,http://localhost:8080/question,"{
+""title"":""제목"",
+""content:""내용""
+}","{
+""questionId"":1
+""title"":""제목"",
+""content:""내용"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,게시물 수정,PATCH,http://localhost:8080/question/1,"{
+""title"":""제목수정"",
+""content:""내용수정""
+}","{
+""questionId"":1
+""title"":""제목수정"",
+""content:""내용수정""
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,게시물 조회,GET,http://localhost:8080/question/1,,"{
+""questionId"":1
+""title"":""제목수정"",
+""content:""내용수정"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,게시물 리스트 조회,GET,http://localhost:8080/question$page=1&size=10,"requestparam page=1 , size=10 ","""questionData"":
+[
+{""questionId"":1
+""title"":""제목수정"",
+""content:""내용수정"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd}
+]
+""pageInfo"":
+{""page"":1,
+""size"":10,
+""totalElements"":1,
+""totalPages"":1
+}"
+,게시물 삭제,DELETE,http://localhost:8080/question/1,,204 NO CONTENT
+답변,답변 작성,POST,http://localhost:8080/comment,"{
+""questionId"":1,
+""content"":""답변""
+}","{
+""commentId"":1,
+""questionId"":1,
+""content"":""답변"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,답변 수정,PATCH,http://localhost:8080/,"{
+""questionId"":1,
+""content"":""답변수정""
+}","{
+""commentId"":1,
+""questionId"":1,
+""content"":""답변수정"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,답변조회,GET,http://localhost:8080/,,"{
+""commentId"":1,
+""questionId"":1,
+""content"":""답변수정"",
+""createdAt"": ""2023-08-25T23:11:12.1234"",
+""modifiedAt"": ""2023-08-25T23:11:12.1234"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}"
+,답변 리스트 조회,GET,http://localhost:8080/,"request param page =1 , size =10 ","{
+""commentData"":[
+{""commentId"":1,
+""content"":""답변수정"",
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}
+]
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,,DELETE,http://localhost:8080/,,204 NO CONTENTS
+영상,데이터베이스 저장,POST,http://localhost:8080/youtube?query=””&maxResult=(숫자),"request param query = “” , maxResult = ","{
+        ""url"": ""https://www.youtube.com/watch?v=videoId"",
+        ""title"": ""동영상제목"",
+        ""thumbnailUrl"": ""=썸네일URL"",
+        ”description”: """"
+ }"
+,직업별 재활영상 리스트 조회,GET,http://localhost:8080/,,"{
+""videoData"":[
+{""videoId"":1,
+""youtubeLink"":""url"",
+”title”:”title”,
+”thumbnail”:”썸네일주소”,
+”description”:”동영상설명”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}
+]
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,부위별 재활영상 리스트,GET,http://localhost:8080/,,"{
+""videoData"":[
+{""videoId"":1,
+""youtubeLink"":""url"",
+”title”:”title”,
+”thumbnail”:”썸네일주소”,
+”description”:”동영상설명”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}
+]
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,재활영상 키워드로 조회,GET,http://localhost:8080/,,"{
+""videoData"":[
+{""videoId"":1,
+""youtubeLink"":""url"",
+”title”:”title”,
+”thumbnail”:”썸네일주소”,
+”description”:”동영상설명”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179"",
+”createdBy”:”asd”,
+”modifiedBy”:”asd
+}
+]
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,동영상 좋아요,POST,http://localhost:8080/,보류,보류
+,동영상 북마크,POST,http://localhost:8080/,,
+상품,상품 교환,POST,http://localhost:8080/,"{
+”memberId” : 1,
+”productId” : 1
+} —— 확실치않을것같음??","{
+”status”:”상품구매가완료되었습니다?”
+}"
+,상품 등록,POST,http://localhost:8080/,"{
+”productName”:”요가매트”,
+”price”:1000,
+”description”:”상품설명”
+}","{
+”productName”:”요가매트”,
+”price”:1000,
+”description”:”상품설명”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}"
+,상품리스트,GET,http://localhost:8080/,,"[
+{
+”productId”:1
+”productName”:”요가매트”,
+”price”:1000,
+”description”:”상품설명”
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}
+]
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,상품 조회,GET,http://localhost:8080/,,"{
+”productId”:1
+”productName”:”요가매트”,
+”price”:1000,
+”description”:”상품설명”
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}"
+,상품 수정,PATCH,http://localhost:8080/,"{
+”productName”:”요가매트2”,
+”price”:1500,
+”description”:”상품설명2”
+}","{
+”productId”:1
+”productName”:”요가매트2”,
+”price”:1500,
+”description”:”상품설명2”
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}"
+,상품 삭제,DELETE,http://localhost:8080/,,204 NO CONTENT
+나의 다짐,나의다짐 등록,POST,http://localhost:8080/,"{
+ “ comment” : “나는 천재” ,
+}","{
+”commentId”:1
+“comment” : “나는 천재”,
+”admin” : “ 10 포인트가 적립되었습니다.”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}
+
+// 하루에 2번째 등록부터는 포인트 안 줘야함"
+,나의다짐 수정,PATCH,http://localhost:8080/,"{
+ “comment” : “나는 천재2” 
+}","{
+”commentId”:1
+“comment” : “나는 천재2”,
+”admin” : “ 10 포인트가 적립되었습니다.”
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}
+"
+,나의 다짐 리스트 조회,GET,http://localhost:8080/,,"{
+”commentId”:1
+“comment” : “나는 천재”,
+”admin” : “ 10 포인트가 적립되었습니다.”,
+""createdAt"":""2023-08-18T23:25:15.756179"",
+""modifiedAt"":""2023-08-18T23:25:15.756179""
+}
+""pageInfo"":
+{""page"":1
+,""size"":10
+,""totalElements"":1
+,""totalPages"":1}
+}"
+,나의다짐 답변,GET,http://localhost:8080,고민좀 해보는게 좋을것같습니다 보류,"{
+”admin” : “ 10 포인트가 적립되었습니다.”
+}"
