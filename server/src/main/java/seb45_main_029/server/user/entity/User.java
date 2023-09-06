@@ -61,7 +61,7 @@ public class User extends Auditable {
     private String job;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> bookmark;
+    private List<Long> bookmark;
 
 
 
