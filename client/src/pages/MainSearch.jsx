@@ -79,7 +79,7 @@ export default function MainSearch() {
         return <img key={index} src={elem} alt='picture' />;
       })}
       <div ref={observer} />
-      <>{isLoading && <Loading />}</>
+      {isLoading && <Loading />}
     </MainContainer>
   );
 }

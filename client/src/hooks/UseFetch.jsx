@@ -8,7 +8,7 @@ const useFetch = (page) => {
 
   //query API 요청 보내기
   const sendQuery = useCallback(async () => {
-    // const URL = `${END_POINT}?${page}~~~`; // page에 대한
+    // const URL = `${END_POINT}?${page}~~~`; // page에 대한 정보를
 
     try {
       setIsLoading(true); // 우선은 하드코딩
@@ -19,7 +19,7 @@ const useFetch = (page) => {
       if (!response) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
-      setList((prev) => [...prev, ...response]);
+      setList((prev) => [...prev, ...response]); // response.data
       if (page < 5) {
         // 지금은 하드코딩
         setHasMore(response.length > 0);
