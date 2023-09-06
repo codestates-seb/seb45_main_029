@@ -60,11 +60,8 @@ public class User {
     @Column(nullable = false)
     private String job;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
+
 
 
     //유튜브링크??
@@ -115,14 +112,8 @@ public class User {
         return userAnswerInfos;
     }*/
 
-    /**
-     * ElementCollection 을 사용하면 테이블을 생성하지 않고 컬렉션 관리가 가능
-     *
-     * 회원이 가지는 역할을 나타내느 정보를 담고 있는 문자열 리스트
-     * FetchType.EAGER : 옵션을 사용해서 즉시 로딩되도록 설정
-     * FetchType.LAZY : 지연 로딩
-     *//*
-    @ElementCollection(fetch = FetchType.EAGER)
+
+    /*@ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
     public void setQuestion(Question question) {
@@ -130,9 +121,9 @@ public class User {
         if (question.getUser() != this) {
             question.setUser(this);
         }
-    }
+    }*/
 
-    public void setAnswer(Answer answer) {
+    /*public void setAnswer(Answer answer) {
         answers.add(answer);
         if(answer.getUser() != this) {
             answer.setUser(this);
