@@ -3,7 +3,7 @@ package seb45_main_029.server.security.auth.utils;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import seb45_main_029.server.user.response.ErrorResponse;
+import seb45_main_029.server.response.ErrorResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

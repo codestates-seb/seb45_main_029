@@ -51,8 +51,6 @@ public class YoutubeService {
     public List<Video> youtubeSearch(String query, String category, long maxResult) {
 
         log.info("===== 유튜브 API 를 통해 관련 동영상 검색중... =====");
-//        초기화
-        YouTube youtubeService = getService();
 //        리스트에 유튜브 비디오 정보 저장
         List<YoutubeVideoInfo> videoInfo = new ArrayList<>();
         List<Video> savedVideoList = new ArrayList<>();
