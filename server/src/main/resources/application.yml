@@ -1,13 +1,26 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
-  jpa:
+    url: jdbc:mysql://localhost:3306/db_main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: user_assa2
+    password: 1234
+  jpa:          #JPA 설정
     hibernate:
-      ddl-auto: create  # (1) 스키마 자동 생성
-    show-sql: true      # (2) SQL 쿼리 출력
-    properties:
-      hibernate:
-        format_sql: true
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+logging:         #로그 레벨 설정
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  key: asdlkfjaasfljqlkj3rlkj123l41j234l1234l1j234
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420

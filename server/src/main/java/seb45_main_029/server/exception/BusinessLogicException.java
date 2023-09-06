@@ -3,7 +3,6 @@ package seb45_main_029.server.exception;
 import lombok.Getter;
 
 public class BusinessLogicException extends RuntimeException {
-
     @Getter
     private ExceptionCode exceptionCode;
 
