@@ -11,6 +11,7 @@ import GlobalStyles from 'styled-components';
 import MyPageDelete from './pages/MyPageDelete';
 import MyPageInfo from './pages/MyPageInfo';
 import Header from './components/Header';
+import MainSearch from './pages/MainSearch';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Header />
         <Routes>
           <Route exact path='/' element={<Main />} />
+          <Route path='/search' element={<MainSearch />}></Route>
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/mypageinfo' element={<MyPageInfo />} />
           <Route path='/boardpage' element={<BoardPage />} />
