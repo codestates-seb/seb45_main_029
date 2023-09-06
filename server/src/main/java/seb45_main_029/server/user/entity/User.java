@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import seb45_main_029.server.audit.Auditable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,9 +31,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "USERS")
-public class User {
+public class User extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +60,8 @@ public class User {
     @Column(nullable = false)
     private String job;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> bookmark;
 
 
 
