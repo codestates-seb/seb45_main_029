@@ -1,0 +1,90 @@
+package seb45_main_029.server.video.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import seb45_main_029.server.response.MultiResponseDto;
+import seb45_main_029.server.response.SingleResponseDto;
+import seb45_main_029.server.user.entity.User;
+import seb45_main_029.server.video.entity.Video;
+import seb45_main_029.server.video.mapper.BookmarkMapper;
+import seb45_main_029.server.video.mapper.VideoMapper;
+import seb45_main_029.server.video.service.VideoService;
+
+import javax.validation.constraints.Positive;
+import java.util.List;
+
+@RequiredArgsConstructor
+@RequestMapping("/video")
+@RestController
+public class VideoController {
+
+    private final VideoService videoService;
+    private final VideoMapper videoMapper;
+    private final BookmarkMapper bookmarkMapper;
+
+
+    //    운동 영상 키워드 검색
+    @GetMapping("/keyword")
+    public ResponseEntity getKeywordSearch(@RequestParam int page,
+                                           @RequestParam int size,
+                                           @RequestParam String keyword) {
+
+        Page<Video> videoPage = videoService.getKeywordSearch(page - 1, size, keyword);
+        List<Video> videos = videoPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
+    }
+
+//        부위별 운동 영상 리스트
+    @GetMapping("/part")
+    public ResponseEntity getPartVideos(@RequestParam int page,
+                                        @RequestParam int size,
+                                        @RequestParam String part) {
+        Page<Video> videoPage = videoService.getPartVideos(page - 1, size, part);
+        List<Video> videos = videoPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
+    }
+
+    //    맞춤 운동 영상 리스트
+    @GetMapping("/recommended")
+    public ResponseEntity getRecommendedVideos(@RequestParam int page,
+                                               @RequestParam int size) {
+        Page<Video> videoPage = videoService.getRecommendedVideos(page - 1, size);
+        List<Video> videos = videoPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
+    }
+
+
+    //    직업별 운동 영상 리스트
+    @GetMapping("/job")
+    public ResponseEntity getJobVideos(@RequestParam int page,
+                                       @RequestParam int size) {
+        Page<Video> videoPage = videoService.getJobVideos(page - 1, size);
+        List<Video> videos = videoPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
+    }
+
+    //    인기 동영상 조회
+    @GetMapping("/popular")
+    public ResponseEntity getPopularVideos(@RequestParam int page,
+                                           @RequestParam int size) {
+        Page<Video> videoPage = videoService.getPopularVideos(page - 1, size);
+        List<Video> videos = videoPage.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
+    }
+
+//        동영상 북마크
+    @PostMapping("/bookmark/{video-id}")
+    public ResponseEntity bookmark(@PathVariable("video-id") @Positive long videoId) {
+
+        User user = videoService.bookmark(videoId);
+
+        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user),HttpStatus.OK);
+    }
+}
