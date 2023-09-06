@@ -13,8 +13,11 @@ public enum ExceptionCode {
 //    QUESTION_AUTHOR_NOT_MATCH(404, "The author of the question does not match"),
     ANSWER_NOT_FOUND(404,"Answer not found"),
 //    ANSWER_AUTHOR_NOT_MATCH(404,"The author of the answer does not match");
-    UNAUTHORIZED_USER(403, "Unauthorized user");
+    UNAUTHORIZED_USER(403, "Unauthorized user"),
     //unauthorized_user
+
+
+    VIDEO_NOT_FOUND(404,"Video not found");
 
     @Getter
     private int status;

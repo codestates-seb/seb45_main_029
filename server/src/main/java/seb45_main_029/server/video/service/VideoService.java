@@ -40,7 +40,7 @@ public class VideoService {
         //       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
         User user = new User(1L, "son@gmail.com", "son12345@", "son", "son", "할수있다", "허리디스크", "개발자");
         userRepository.save(user);
-        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         String job = findUser.getJob();
         //        -------------------------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ public class VideoService {
 //       ------------------------------------ 임시 코드 ( 로그인 구현 완료시 수정 ) ------------------------------------
         User user = new User(2L, "son1@gmail.com", "son12345@", "son1", "son1", "할수있다", "허리디스크", "개발자");
         userRepository.save(user);
-        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        User findUser = userRepository.findById(1L).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         String userStatus = findUser.getStatus();
 //        -------------------------------------------------------------------------------------------------------
 
