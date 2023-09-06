@@ -20,7 +20,7 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 
 
-//back에 올리기
+//back에 올려야함
 @RestController
 @RequestMapping("/users")
 @Validated
