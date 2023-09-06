@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
+import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
+import useFetch from '../hooks/UseFetch'; // 커스텀 훅
 import {
   InputContainer,
   InputDesign,
@@ -8,32 +10,53 @@ import {
 } from '../style/Main';
 
 export default function MainSearch() {
-  const [contents, setContents] = useState([]);
+  const [searchContent, setSearchContent] = useState('');
   const location = useLocation();
+  const [pageNum, setPageNum] = useState(1);
 
+  const observerRef = useRef(null);
   const inputRef = useRef(null);
+
+  const { list, hasMore, isLoading } = useFetch(pageNum);
+
+  const observer = (node) => {
+    if (isLoading) return;
+    if (observerRef.current) observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasMore) {
+        setPageNum((page) => page + 1);
+      }
+    });
+    node && observerRef.current.observe(node);
+  };
 
   useEffect(() => {
     // axios로 전체 데이터를 받아온 후, setContents로 contents 변수 초기화
-    //setContents()
-    const SearchContent = location.state.value;
-    inputRef.current.value = SearchContent;
+    const fromMainContent = location.state.value;
+    inputRef.current.value = fromMainContent;
+    setSearchContent(inputRef.current.value);
   }, []);
 
+  useEffect(() => {
+    inputRef.current.value = searchContent;
+  }, [searchContent]);
+
   const onClickSearchHandler = (e) => {
-    if (e.target.previousSibling === '') {
+    const content = e.target.previousSibling.value;
+    if (content === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
-    // axios로 e.target.previousSibling 값을 서버로 보내서
-    // setContents(e.target.previousSibling); // 검색한 값을 불러옴
+    setSearchContent(e.target.previousSibling.value);
+    // axios로 content 값을 서버로 보내서, 필터링된 결과값을 가져온 후 setContents로 초기화
   };
 
   const onKeyUpHandler = (e) => {
-    if (e.target.value === '') {
+    const content = e.target.value;
+    if (e.target.value === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
     if (e.keyCode === 13) {
-      // setContents(e.target.value); // 마찬가지
+      setSearchContent(e.target.value);
     }
   };
 
@@ -52,13 +75,11 @@ export default function MainSearch() {
           alt='magnifier'
         />
       </InputContainer>
-      {contents ? (
-        contents.map((elem, index) => {
-          return elem;
-        })
-      ) : (
-        <></>
-      )}
+      {list?.map((elem, index) => {
+        return <img key={index} src={elem} alt='picture' />;
+      })}
+      <div ref={observer} />
+      {isLoading && <Loading />}
     </MainContainer>
   );
 }
