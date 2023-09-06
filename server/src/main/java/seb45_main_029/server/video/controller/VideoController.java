@@ -38,21 +38,23 @@ public class VideoController {
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-//        부위별 운동 영상 리스트
+    //        부위별 운동 영상 리스트
     @GetMapping("/part")
     public ResponseEntity getPartVideos(@RequestParam int page,
                                         @RequestParam int size,
-                                        @RequestParam String part) {
+                                        @RequestParam Video.BodyPart part) {
+
         Page<Video> videoPage = videoService.getPartVideos(page - 1, size, part);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-    //    맞춤 운동 영상 리스트
+    //        맞춤 운동 영상 리스트
     @GetMapping("/recommended")
     public ResponseEntity getRecommendedVideos(@RequestParam int page,
                                                @RequestParam int size) {
+
         Page<Video> videoPage = videoService.getRecommendedVideos(page - 1, size);
         List<Video> videos = videoPage.getContent();
 
@@ -64,27 +66,38 @@ public class VideoController {
     @GetMapping("/job")
     public ResponseEntity getJobVideos(@RequestParam int page,
                                        @RequestParam int size) {
+
         Page<Video> videoPage = videoService.getJobVideos(page - 1, size);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-    //    인기 동영상 조회
+    //    TOP5 인기 동영상 조회
     @GetMapping("/popular")
-    public ResponseEntity getPopularVideos(@RequestParam int page,
-                                           @RequestParam int size) {
-        Page<Video> videoPage = videoService.getPopularVideos(page - 1, size);
+    public ResponseEntity getPopularVideos() {
+
+        Page<Video> videoPage = videoService.getPopularVideos(0,5);
         List<Video> videos = videoPage.getContent();
+
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-//        동영상 북마크
+    //        동영상 북마크
     @PostMapping("/bookmark/{video-id}")
     public ResponseEntity bookmark(@PathVariable("video-id") @Positive long videoId) {
 
         User user = videoService.bookmark(videoId);
 
-        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user),HttpStatus.OK);
+        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user), HttpStatus.OK);
+    }
+
+    //    북마크 제거
+    @DeleteMapping("/bookmark/{video-id}")
+    public ResponseEntity removeBookmark(@PathVariable("video-id") @Positive long videoId) {
+
+        User user = videoService.removeBookmark(videoId);
+
+        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user), HttpStatus.OK);
     }
 }

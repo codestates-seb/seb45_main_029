@@ -39,12 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             setUserId(user.getUserId());
             setEmail(user.getEmail());
             setPassword(user.getPassword());
-            //setRoles(user.getRoles());
+            setRoles(user.getRoles());
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getEmail());//getroles오류로 인한 변경
+            return authorityUtils.createAuthorities(this.getRoles());//getroles오류로 인한 변경
         }
 
         @Override

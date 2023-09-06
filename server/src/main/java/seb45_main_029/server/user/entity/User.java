@@ -48,7 +48,7 @@ public class User extends Auditable {
     @Column(name = "user_name", nullable = false)
     private String username;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String nickname;
 
     @Column(nullable = false)
@@ -60,9 +60,11 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String job;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Long> bookmark;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<Long> bookmark = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
 
 

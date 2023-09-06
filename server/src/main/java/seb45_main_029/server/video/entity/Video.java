@@ -37,14 +37,30 @@ public class Video extends Auditable{
     @Column
     private String category;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private BodyPart bodyPart;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> tag;
 
-    public Video(String youtubeLink, String title, String thumbnail, String description,String category) {
+    public Video(String youtubeLink, String title, String thumbnail, String description,BodyPart bodyPart) {
         this.youtubeLink = youtubeLink;
         this.title = title;
         this.thumbnail = thumbnail;
         this.description = description;
-        this.category=category;
+        this.bodyPart=bodyPart;
+    }
+
+    @Getter
+    public enum BodyPart{
+
+        머리,
+        가슴,
+        허리,
+        어깨,
+        등,
+        UNKNOWN;
+
     }
 }

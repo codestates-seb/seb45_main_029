@@ -18,10 +18,10 @@ public class YoutubeController {
 
     @PostMapping("/youtube")
     public ResponseEntity search(@RequestParam String query,
-                                 @RequestParam String category,
+                                 @RequestParam Video.BodyPart bodyPart,
                                  @RequestParam long maxResult) {
 
-        List<Video> result = youtubeService.youtubeSearch(query, category, maxResult);
+        List<Video> result = youtubeService.youtubeSearch(query, bodyPart, maxResult);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

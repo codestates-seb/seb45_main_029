@@ -50,7 +50,7 @@ public class UserService {
 
         // DB에 등록하는 User 의 Role 정보를 생성하고 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
-        //user.setRoles(roles);
+        user.setRoles(roles);
 
         User savedUser = userRepository.save(user);
 
