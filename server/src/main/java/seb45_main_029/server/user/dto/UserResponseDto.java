@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.user.entity.UserAnswerInfo;
 import seb45_main_029.server.user.entity.UserQuestionInfo;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserResponseDto {
+public class UserResponseDto extends Auditable {
     private Long userId;
 
     private String email;
@@ -29,11 +30,11 @@ public class UserResponseDto {
 
     private String job;
 
-    @CreatedDate
+    /*@CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt;*/
 
 
 

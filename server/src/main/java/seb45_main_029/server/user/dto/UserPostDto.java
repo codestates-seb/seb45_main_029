@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import seb45_main_029.server.audit.Auditable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UserPostDto {
+public class UserPostDto extends Auditable {
 
 
 
@@ -40,11 +41,11 @@ public class UserPostDto {
     @NotBlank(message = "직업은 필수입니다.")
     private String job;
 
-    @CreatedDate
+    /*@CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt;*/
 
 
 
