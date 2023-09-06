@@ -30,7 +30,13 @@ export const UserInfoPContainer = styled.div`
   margin-top: 2rem;
 `;
 
-export const UserInfoP = styled.p``;
+export const UserInfoP = styled.p`
+  margin-top: 1em;
+`;
+
+export const UserSpan = styled.span`
+  margin-right: 1em;
+`;
 
 export const UserInfoOuterContainer = styled.div`
   display: flex;

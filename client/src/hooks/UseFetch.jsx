@@ -8,21 +8,21 @@ const useFetch = (page) => {
 
   //query API 요청 보내기
   const sendQuery = useCallback(async () => {
-    // const URL = `${END_POINT}?${page}~~~`; // page에 대한 정보를
+    // const URL = `${END_POINT}?${page}~~~`; // page에 대한 정보를 건네주고 데이터를 받아오자
 
     try {
-      setIsLoading(true); // 우선은 하드코딩
+      setIsLoading(true);
       const response = [
         'https://funissu.com/wp-content/uploads/2021/08/%EC%83%81%EC%97%85%EC%9A%A9%EB%AC%B4%EB%A3%8C%EC%9D%B4%EB%AF%B8%EC%A7%80%EC%82%AC%EC%9D%B4%ED%8A%B8-0.jpg',
         'https://cdn.pixabay.com/photo/2023/06/10/06/36/pink-8053329_1280.jpg',
-      ]; // axios로 대체할 것
+      ]; // axios로 대체할 것, 우선은 하드코딩
       if (!response) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
       setList((prev) => [...prev, ...response]); // response.data
       if (page < 5) {
         // 지금은 하드코딩
-        setHasMore(response.length > 0);
+        setHasMore(response.length > 0); // 다 끝났으면 빈배열을 받을지? 아니면 따로 boolean 변수를 둘지? 회의를 해봐야겠음
       } else {
         setHasMore(false);
       }
