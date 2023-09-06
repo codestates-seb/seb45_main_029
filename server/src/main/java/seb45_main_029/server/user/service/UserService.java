@@ -45,8 +45,8 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
-        //createdAt 필드에 현재 시간 설정 merge 후 상속하기
-        //user.setCreatedAt(currentTime);
+        //현재시간
+        user.setCreatedAt(currentTime);
 
         // DB에 등록하는 User 의 Role 정보를 생성하고 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
@@ -69,8 +69,8 @@ public class UserService {
 
         Optional.ofNullable(user.getUsername())
                 .ifPresent(name -> getUser.setUsername(user.getUsername()));
-        //수정시간 merge 후 상속하기
-        //getUser.setModifiedAt(LocalDateTime.now());
+        //수정시간
+        getUser.setModifiedAt(LocalDateTime.now());
 
 
         return userRepository.save(getUser);
