@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import seb45_main_029.server.audit.Auditable;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.user.entity.UserAnswerInfo;
 import seb45_main_029.server.user.entity.UserQuestionInfo;
 
@@ -26,9 +28,9 @@ public class UserResponseDto extends Auditable {
 
     private String motto;
 
-    private String status;
+    private PainArea painArea;
 
-    private String job;
+    private Job job;
 
     /*@CreatedDate
     private LocalDateTime createdAt;
