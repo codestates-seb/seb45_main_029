@@ -71,10 +71,9 @@ export default function MyPage() {
             </UserInfoPContainer>
           </InfoContainer>
           <UserHealthContainer>
-            <p>나의 건강상태</p>
+            <p>나의 통증 부위</p>
             <Line></Line>
-            <span>허리디스크</span>
-            <span>아파요</span>
+            <span>허리</span>
           </UserHealthContainer>
         </UserInfoOuterContainer>
         <Carousel
