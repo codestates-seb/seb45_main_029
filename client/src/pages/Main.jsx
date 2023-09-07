@@ -19,8 +19,8 @@ function Main() {
   const [videoType, setVideoType] = useState('전체');
   const [videoDetailType, setVideoDetailType] = useState('가슴');
   const [videoDetailType2, setVideoDetailType2] = useState('경영·사무');
-  const [currentSlide, setCurrentSlide] = useState(1);
-  const [currentSlideTop5, setCurrentSlideTop5] = useState(1);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
 
