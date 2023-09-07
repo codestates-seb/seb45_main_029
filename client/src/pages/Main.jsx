@@ -44,7 +44,6 @@ function Main() {
     if (content === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
-    console.log(e.target.previousSibling.value); // 값 얻어올 수 있음
     navigate('/search', { state: { value: content } }); // 검색 페이지로 이동
   };
 
