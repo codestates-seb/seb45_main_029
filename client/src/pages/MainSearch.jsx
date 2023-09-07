@@ -15,7 +15,7 @@ export default function MainSearch() {
   const location = useLocation();
   const [pageNum, setPageNum] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const [listIndex, setListIndex] = useState(0);
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -34,7 +34,7 @@ export default function MainSearch() {
 
   const openModal = (index) => {
     setModalOpen(true);
-    console.log(index);
+    setListIndex(index);
   };
 
   useEffect(() => {
@@ -69,7 +69,12 @@ export default function MainSearch() {
 
   return (
     <MainContainer>
-      <Modal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
+      <Modal
+        isModalOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+        list={list}
+        listIndex={listIndex}
+      />
       <InputContainer>
         <InputDesign
           onKeyUp={onKeyUpHandler}
@@ -84,6 +89,7 @@ export default function MainSearch() {
         />
       </InputContainer>
 
+      {/* 받아온 URL로 썸네일 추출하고 */}
       {list?.map((elem, index) => {
         return (
           <img

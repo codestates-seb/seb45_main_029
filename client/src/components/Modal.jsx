@@ -28,7 +28,7 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 
-export default function Modal({ isModalOpen, setModalOpen }) {
+export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -38,14 +38,15 @@ export default function Modal({ isModalOpen, setModalOpen }) {
       {isModalOpen && (
         <ModalBackground onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <iframe
+            {/* <iframe
               width='560'
               height='315'
               src='https://www.youtube.com/embed/ZFCuBTyW0so?si=V44HsQjYHFXdiuiT'
               title='YouTube video player'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
               allowFullScreen
-            ></iframe>
+            ></iframe> */}
+            <img src={list[listIndex]} />
           </ModalContent>
         </ModalBackground>
       )}
