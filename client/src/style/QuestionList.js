@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const QuestionContainer = styled.div`
   box-sizing: border-box;
   width: 73.5rem;
-  height: 62.5rem;
+  height: 15.625rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -19,6 +19,10 @@ export const ContainerTitle = styled.title`
   font-weight: 600;
   line-height: normal;
   margin-bottom: 1.37rem;
+`;
+
+export const Line = styled.hr`
+  width: 40rem;
 `;
 
 export const ContentCard = styled.div`

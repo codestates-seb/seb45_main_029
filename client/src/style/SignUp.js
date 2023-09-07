@@ -77,28 +77,31 @@ export const SignBox = styled.div`
   }
 `;
 
-export const CheckboxGroup = styled.div`
-  width: 734px;
-  height: 206px;
-  flex-shrink: 0;
+export const PainChoice = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  height: 4rem;
 `;
 
-export const CheckBox = styled.div`
-  width: 50px;
-  height: 20px;
-  flex-shrink: 0;
+export const JobChoice = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  border: 1px;
+  height: 4rem;
+  font-size: 0.5rem;
+`;
 
-  &:active {
-    background-color: rgba(215, 185, 252, 1);
-  }
+export const PainLabel = styled.label`
+  margin-right: 1rem;
+`;
+
+export const Line = styled.hr`
+  width: 40rem;
+`;
+
+export const PainListContainer = styled.div`
+  display: flex;
+`;
+
+export const PainSpan = styled.span`
+  margin-top: 1em;
+  margin-bottom: 1em;
+  color: blue;
 `;

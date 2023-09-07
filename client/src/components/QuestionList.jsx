@@ -5,14 +5,15 @@ import {
   ContentCard,
   BottomContainer,
   ContainerTitle,
-} from './QuestionListItem.Styled';
+  Line,
+} from '../style/QuestionList';
 import { useNavigate } from 'react-router-dom';
 
 const QuestionItem = ({ question }) => {
   const navigate = useNavigate();
 
   const questiondetail = () => {
-    navigate('/boardpage/:id');
+    navigate('/question/:id');
   };
   const parsedDate = new Date(question.createdAt).toLocaleDateString('ko-kr', {
     year: 'numeric',
@@ -25,35 +26,38 @@ const QuestionItem = ({ question }) => {
   });
 
   return (
-    <QuestionContainer>
-      <ContainerTitle>{question.title}</ContainerTitle>
-      <ContentCard onClick={questiondetail} key={question.questionId}>
-        <div className='question-message'>{question.content}</div>
-      </ContentCard>
-      <BottomContainer>
-        <div className='wrapper'>
-          <span className='question-author'>{question.author} </span>
+    <>
+      <QuestionContainer>
+        <ContainerTitle>{question.title}</ContainerTitle>
+        <ContentCard onClick={questiondetail} key={question.questionId}>
+          <div className='question-message'>{question.content}</div>
+        </ContentCard>
+        <BottomContainer>
+          <div className='wrapper'>
+            <span className='question-author'>{question.author} </span>
 
-          <span className='question-createdAt'>{parsedDate}</span>
-        </div>
-
-        <div className='icon-count'>
-          <div>
-            <div>
-              <img src='/images/ph-heart-thin.png' alt='' />
-            </div>
-            <span>{question.likes_count}</span>
+            <span className='question-createdAt'>{parsedDate}</span>
           </div>
 
-          <div>
+          <div className='icon-count'>
             <div>
-              <img src='/images/iconmoon-comment-thin.png' alt='' />
+              <div>
+                <img src='/images/ph-heart-thin.png' alt='' />
+              </div>
+              <span>{question.likes_count}</span>
             </div>
-            <span>{question.comments.length}</span>
+
+            <div>
+              <div>
+                <img src='/images/iconmoon-comment-thin.png' alt='' />
+              </div>
+              <span>{question.comments.length}</span>
+            </div>
           </div>
-        </div>
-      </BottomContainer>
-    </QuestionContainer>
+        </BottomContainer>
+      </QuestionContainer>
+      <Line />
+    </>
   );
 };
 export default QuestionItem;
