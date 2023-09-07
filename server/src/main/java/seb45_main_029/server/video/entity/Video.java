@@ -4,16 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb45_main_029.server.audit.Auditable;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 
 import javax.persistence.*;
-import java.util.List;
 
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(indexes = @Index(name = "title_index",columnList = "title"))
+@Table(indexes = @Index(name = "title_index", columnList = "title"))
 @Entity
-public class Video extends Auditable{
+public class Video extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,32 +36,25 @@ public class Video extends Auditable{
     private long bookmarkCount = 0;
 
     @Column
-    private String category;
+    private long viewCount = 0;
 
     @Enumerated(EnumType.STRING)
     @Column
-    private BodyPart bodyPart;
+    private Job job;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> tag;
+    @Enumerated(EnumType.STRING)
+    @Column
+    private PainArea painArea;
 
-    public Video(String youtubeLink, String title, String thumbnail, String description,BodyPart bodyPart) {
+
+    public Video(String youtubeLink, String title, String thumbnail, String description, PainArea painArea, Job job) {
+
         this.youtubeLink = youtubeLink;
         this.title = title;
         this.thumbnail = thumbnail;
         this.description = description;
-        this.bodyPart=bodyPart;
-    }
-
-    @Getter
-    public enum BodyPart{
-
-        머리,
-        가슴,
-        허리,
-        어깨,
-        등,
-        UNKNOWN;
+        this.painArea = painArea;
+        this.job = job;
 
     }
 }
