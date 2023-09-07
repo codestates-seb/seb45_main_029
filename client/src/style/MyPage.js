@@ -30,7 +30,13 @@ export const UserInfoPContainer = styled.div`
   margin-top: 2rem;
 `;
 
-export const UserInfoP = styled.p``;
+export const UserInfoP = styled.p`
+  margin-top: 1em;
+`;
+
+export const UserSpan = styled.span`
+  margin-right: 1em;
+`;
 
 export const UserInfoOuterContainer = styled.div`
   display: flex;
@@ -53,7 +59,7 @@ export const VideoTitle = styled.div`
 
 export const VideoContainer = styled.div`
   /* margin-left: 22rem; */
-  width: 60rem;
+  width: 95rem;
   display: flex;
 `;
 
@@ -91,7 +97,20 @@ export const Button = styled.div`
 `;
 export const VideoAndButtonContainer = styled.div`
   display: flex;
-  width: 65rem;
+  width: 95rem;
+  overflow: hidden;
+`;
+
+export const VideoContainerFlexWrap = styled.div`
+  /* margin-left: 22rem; */
+  width: 95rem;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const VideoAndButtonContainerFlexWrap = styled.div`
+  display: flex;
+  width: 95rem;
   overflow: hidden;
 `;
 
@@ -105,8 +124,20 @@ export const ButtonContainerOuter = styled.div`
   display: flex;
 `;
 
-export const TitleFont = styled.p`
+export const TitleFontSpanBlue = styled.span`
+  font-family: var(--nanum);
+  color: var(--blue);
+  font-size: 2rem;
+`;
+
+export const TitleFontSpanPink = styled.span`
   font-family: var(--nanum);
   color: var(--pink);
   font-size: 2rem;
+`;
+
+export const TitleFontSpanBlack = styled.span`
+  font-family: var(--nanum);
+  font-size: 2rem;
+  color: var(--black);
 `;

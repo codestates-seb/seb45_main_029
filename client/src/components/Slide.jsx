@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const IframeDesign = styled.iframe`
   margin: 0.5em;
@@ -20,7 +20,7 @@ const IframeContainer = styled.div`
 
 export default function Slide({ videoLink }) {
   const imgOnclickHandler = () => {
-    console.log("hey");
+    console.log('hey');
     // axios 요청으로 bookmark리스트에서 삭제해야함
     // redux로도 가지고 있어야함?
     // 애초에 axios 요청으로 북마크 리스트를 가져와야함 그 다음에 머 삭제하든가 말든가
@@ -30,17 +30,17 @@ export default function Slide({ videoLink }) {
   return (
     <IframeContainer>
       <IframeDesign
-        width="560"
-        height="315"
+        width='490'
+        height='315'
         src={videoLink}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        title='YouTube video player'
+        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
         allowFullScreen
       ></IframeDesign>
       <ImageDesign
         onClick={imgOnclickHandler}
-        src="/images/starFill.png"
-        alt="star"
+        src='/images/starFill.png'
+        alt='star'
       />
     </IframeContainer>
   );

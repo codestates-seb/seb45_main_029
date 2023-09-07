@@ -13,7 +13,7 @@ import {
   PainChoice,
 } from '../style/SignUp';
 import { Button } from '../components/Button';
-import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function SignUp() {
@@ -115,29 +115,6 @@ function SignUp() {
     }
   };
 
-  const checkedItemHandler = (value, isChecked, type) => {
-    if (isChecked) {
-      if (type === 'body') {
-        setCheckedList((prev) => [...prev, value].sort());
-      } else {
-        setCheckedListJob(value);
-      }
-      return;
-    }
-
-    if (!isChecked && checkedList.includes(value)) {
-      if (type === 'body') {
-        setCheckedList(checkedList.filter((item) => item !== value));
-      } else {
-        setCheckedListJob(checkBoxListJob);
-      }
-    }
-  };
-
-  const checkHandler = (e, value, type) => {
-    checkedItemHandler(value, e.target.checked, type);
-  };
-
   return (
     <>
       <Container>
@@ -231,35 +208,22 @@ function SignUp() {
             </div>
           </section>
           <article>
-            <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
-            <JobChoice>
-              <BodyAndJobList
-                list={checkBoxListJob}
-                name='job'
-                type='radio'
-                checkHandler={checkHandler}
-              />
-            </JobChoice>
-            <PainListContainer>
-              <PainSpan>통증 부위 : &nbsp; </PainSpan>
-              {checkedList.length > 0 ? (
-                checkedList.map((elem, index) => {
-                  return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                })
-              ) : (
-                <></>
-              )}
-            </PainListContainer>
-            <Line />
-            <PainChoice>
-              <BodyAndJobList
-                list={checkBoxListBody}
-                name='body'
-                type='checkbox'
-                checkHandler={checkHandler}
-              />
-            </PainChoice>
-            <Line />
+            <CheckboxGroup
+              label='통증부위는?'
+              values={colors}
+              onChange={setColors}
+            >
+              <Checkbox value='chest'>가슴</Checkbox>
+              <Checkbox value='leg'>다리</Checkbox>
+              <Checkbox value='back'>등</Checkbox>
+              <Checkbox value='head'>머리</Checkbox>
+              <Checkbox value='knee'>무릎</Checkbox>
+              <Checkbox value='waist'>허리</Checkbox>
+              <Checkbox value='hand'>손</Checkbox>
+              <Checkbox value='foot'>발</Checkbox>
+              <Checkbox value='shoulder'>어깨</Checkbox>
+              <Checkbox value='arm'>팔</Checkbox>
+            </CheckboxGroup>
           </article>
 
           <Button primay onClick={signUp}>
