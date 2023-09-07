@@ -8,3 +8,14 @@
   --white : #FFFFFF;
   --black : #000000;
 }
+
+/* 너비 잡기 */
+.container_wt{
+  max-width: 92.5rem;
+  margin: 0 auto;
+}
+
+/* 컨텐츠 상하 패딩값 */
+.content_pd{
+  padding: 6.25rem 0;
+}
