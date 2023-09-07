@@ -8,31 +8,16 @@ import {
   UserInfoP,
   UserHealthContainer,
   Line,
-  VideoTitle,
-  VideoContainer,
   BoardCotainer,
   QuestionBoardContainer,
-  Button,
-  VideoAndButtonContainer,
-  ButtonContainer,
-  ButtonContainerOuter,
-  TitleFontSpanBlue,
   TitleFontSpanPink,
   TitleFontSpanBlack,
   UserSpan,
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
-import Slide from '../components/Slide';
+import Carousel from '../components/Carousel';
 import { useEffect, useRef, useState } from 'react';
 
-const VideoLinks = [
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-];
-const TOTAL_SLIDES = 4;
 export default function MyPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
@@ -41,62 +26,6 @@ export default function MyPage() {
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
-
-  // Next 버튼 클릭 시
-  const NextSlide = () => {
-    if (currentSlide >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-  // Prev 버튼 클릭 시
-  const PrevSlide = () => {
-    if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
-  const NextSlideJob = () => {
-    if (currentSlideJob >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlideJob(0); // 1번째 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlideJob(currentSlideJob + 1);
-    }
-  };
-  // Prev 버튼 클릭 시
-  const PrevSlideJob = () => {
-    if (currentSlideJob === 0) {
-      setCurrentSlideJob(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlideJob(currentSlideJob - 1);
-    }
-  };
-  const NextSlideBody = () => {
-    if (currentSlideBody >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlideBody(0); // 1번째 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlideBody(currentSlideBody + 1);
-    }
-  };
-  // Prev 버튼 클릭 시
-  const PrevSlideBody = () => {
-    if (currentSlideBody === 0) {
-      setCurrentSlideBody(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlideBody(currentSlideBody - 1);
-    }
-  };
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -148,68 +77,25 @@ export default function MyPage() {
             <span>아파요</span>
           </UserHealthContainer>
         </UserInfoOuterContainer>
-        <VideoTitle>
-          <p>
-            <span>나의 </span> <TitleFontSpanBlue>영상</TitleFontSpanBlue>
-          </p>
-          <TitleFontSpanBlack>전체</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <ButtonContainerOuter>
-          <ButtonContainer>
-            <Button onClick={PrevSlide}>&larr;</Button>
-          </ButtonContainer>
-          <VideoAndButtonContainer>
-            <VideoContainer ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
-              })}
-            </VideoContainer>
-          </VideoAndButtonContainer>
-          <ButtonContainer>
-            <Button onClick={NextSlide}>&rarr;</Button>
-          </ButtonContainer>
-        </ButtonContainerOuter>
-        <VideoTitle>
-          <TitleFontSpanBlack>부위별</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <ButtonContainerOuter>
-          <ButtonContainer>
-            <Button onClick={PrevSlideBody}>&larr;</Button>
-          </ButtonContainer>
-          <VideoAndButtonContainer>
-            <VideoContainer ref={slideRefBody}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
-              })}
-            </VideoContainer>
-          </VideoAndButtonContainer>
-          <ButtonContainer>
-            <Button onClick={NextSlideBody}>&rarr;</Button>
-          </ButtonContainer>
-        </ButtonContainerOuter>
-        <VideoTitle>
-          <TitleFontSpanBlack>직업별</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <ButtonContainerOuter>
-          <ButtonContainer>
-            <Button onClick={PrevSlideJob}>&larr;</Button>
-          </ButtonContainer>
-          <VideoAndButtonContainer>
-            <VideoContainer ref={slideRefJob}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
-              })}
-            </VideoContainer>
-          </VideoAndButtonContainer>
-          <ButtonContainer>
-            <Button onClick={NextSlideJob}>&rarr;</Button>
-          </ButtonContainer>
-        </ButtonContainerOuter>
+        <Carousel
+          message='나의 운동'
+          slideRef={slideRef}
+          setCurrentSlide={setCurrentSlide}
+          currentSlide={currentSlide}
+        />
+        <Carousel
+          message='부위별'
+          slideRef={slideRefBody}
+          setCurrentSlide={setCurrentSlideBody}
+          currentSlide={currentSlideBody}
+        />
+        <Carousel
+          message='직업별'
+          slideRef={slideRefJob}
+          setCurrentSlide={setCurrentSlideJob}
+          currentSlide={currentSlideJob}
+        />
         <hr></hr>
-
         <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
         <BoardCotainer>
           <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
