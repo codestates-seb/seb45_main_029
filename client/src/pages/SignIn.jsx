@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 import { LoginBox, Button, MyCustomButton } from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
 
@@ -90,7 +89,6 @@ function SignIn() {
 
   return (
     <>
-      <Header />
       <LoginBox>
         <h3>로그인</h3>
         <div className='input-container'>

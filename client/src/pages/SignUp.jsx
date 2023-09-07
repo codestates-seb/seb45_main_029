@@ -1,10 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import CheckboxGroup from '../components/CheckboxGroup';
-import Checkbox from '../components/CheckBox';
+import BodyAndJobList from '../components/BodyAndJobList';
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
-import { SignBox, Container } from '../style/SignUp';
+import {
+  SignBox,
+  Container,
+  PainSpan,
+  JobChoice,
+  PainListContainer,
+  Line,
+  PainChoice,
+} from '../style/SignUp';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -22,7 +29,9 @@ function SignUp() {
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
-  const [colors, setColors] = useState(['lightviolet']);
+
+  const [checkedList, setCheckedList] = useState([]);
+  const [checkedListJob, setCheckedListJob] = useState('');
 
   const navigate = useNavigate();
 
@@ -108,7 +117,6 @@ function SignUp() {
 
   return (
     <>
-      <Header />
       <Container>
         <SignBox>
           <section>
