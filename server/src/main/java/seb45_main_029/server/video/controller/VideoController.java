@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.response.MultiResponseDto;
 import seb45_main_029.server.response.SingleResponseDto;
 import seb45_main_029.server.user.entity.User;
@@ -25,6 +26,13 @@ public class VideoController {
     private final VideoMapper videoMapper;
     private final BookmarkMapper bookmarkMapper;
 
+    @GetMapping("/{video-id}")
+    public ResponseEntity getVideo(@PathVariable("video-id") @Positive long videoId) {
+
+        Video video = videoService.getVideo(videoId);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(videoMapper.videoToVideoResponseDto(video)), HttpStatus.OK);
+    }
 
     //    운동 영상 키워드 검색
     @GetMapping("/keyword")
@@ -42,9 +50,9 @@ public class VideoController {
     @GetMapping("/part")
     public ResponseEntity getPartVideos(@RequestParam int page,
                                         @RequestParam int size,
-                                        @RequestParam Video.BodyPart part) {
+                                        @RequestParam PainArea painArea) {
 
-        Page<Video> videoPage = videoService.getPartVideos(page - 1, size, part);
+        Page<Video> videoPage = videoService.getPartVideos(page - 1, size, painArea);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
@@ -77,13 +85,13 @@ public class VideoController {
     @GetMapping("/popular")
     public ResponseEntity getPopularVideos() {
 
-        Page<Video> videoPage = videoService.getPopularVideos(0,5);
+        Page<Video> videoPage = videoService.getPopularVideos(0, 5);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-    //        동영상 북마크
+//            동영상 북마크
     @PostMapping("/bookmark/{video-id}")
     public ResponseEntity bookmark(@PathVariable("video-id") @Positive long videoId) {
 
@@ -91,7 +99,7 @@ public class VideoController {
 
         return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user), HttpStatus.OK);
     }
-
+//
     //    북마크 제거
     @DeleteMapping("/bookmark/{video-id}")
     public ResponseEntity removeBookmark(@PathVariable("video-id") @Positive long videoId) {

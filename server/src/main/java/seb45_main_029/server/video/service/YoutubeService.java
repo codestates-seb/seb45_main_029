@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.video.entity.Video;
 import seb45_main_029.server.video.entity.YoutubeVideoInfo;
 import seb45_main_029.server.video.repository.VideoRepository;
@@ -27,19 +29,19 @@ import java.util.List;
 public class YoutubeService {
     private final VideoRepository videoRepository;
 
-    private Logger log = LoggerFactory.getLogger(YoutubeService.class);
+    private static Logger log = LoggerFactory.getLogger(YoutubeService.class);
 
-    public final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    public final JsonFactory JSON_FACTORY = new JacksonFactory();
+    public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    public static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
-    private final String GOOGLE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
-    private final String YOUTUBE_SEARCH_TYPE = "video";
-    private final String YOUTUBE_API_APPLICATION = "test";
+    private static final String GOOGLE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
+    private static final String YOUTUBE_SEARCH_TYPE = "video";
+    private static final String YOUTUBE_API_APPLICATION = "test";
 
-    private YouTube youTube;
+    private static YouTube youTube;
 
     // API 서비스 초기화 메서드
-    public YouTube getService() {
+    public static YouTube getService() {
         return youTube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
             @Override
             public void initialize(HttpRequest request) throws IOException {
@@ -48,7 +50,7 @@ public class YoutubeService {
         }).setApplicationName(YOUTUBE_API_APPLICATION).build();
     }
 
-    public List<Video> youtubeSearch(String query, Video.BodyPart bodyPart, long maxResult) {
+    public List<Video> youtubeSearch(String query, long maxResult, PainArea painArea, Job job) {
 
         log.info("===== 유튜브 API 를 통해 관련 동영상 검색중... =====");
 //        리스트에 유튜브 비디오 정보 저장
@@ -61,7 +63,7 @@ public class YoutubeService {
             if (youTube != null) {
 //                쿼리 파라미터 설정
                 YouTube.Search.List search = youTube.search().list(("snippet,id"));
-                search.setKey("AIzaSyCde6Qb4XhLvkXJ6tWhcPWj_css263v9yo");
+                search.setKey("");
                 search.setQ(query);
                 search.setMaxResults(maxResult);
                 search.setTopicId("/m/0kt51");
@@ -80,12 +82,8 @@ public class YoutubeService {
                                 result.getSnippet().getDescription());
                         videoInfo.add(info);
                         if ((info.getTitle().contains("재활") || info.getTitle().contains("스트레칭"))) {
-
 //                        조회한 동영상 정보 데이터베이스 저장
-
-                            Video video = new Video(info.getUrl(), info.getTitle(), info.getThumbnailUrl(), info.getDescription(), bodyPart);
-                            List<String> tag = createTag(query, bodyPart.name());
-                            video.setTag(tag);
+                            Video video = new Video(info.getUrl(), info.getTitle(), info.getThumbnailUrl(), info.getDescription(), painArea, job);
                             videoRepository.save(video);
                             savedVideoList.add(video);
                         }
@@ -111,12 +109,4 @@ public class YoutubeService {
         return savedVideoList;
     }
 
-    public List<String> createTag(String description, String query) {
-//      좀 더 나은 방법을 생각 해보자
-        List<String> tag = new ArrayList<>();
-        tag.add("#" + query);
-        tag.add("#" + description);
-
-        return tag;
-    }
 }

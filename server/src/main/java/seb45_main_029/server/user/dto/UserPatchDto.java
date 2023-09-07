@@ -2,6 +2,8 @@ package seb45_main_029.server.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -23,11 +25,11 @@ public class UserPatchDto {
     @NotBlank(message = "좌우명은 필수값입니다.")
     private String motto;
 
-    @NotBlank(message = "건강상태는 필수값입니다.")
-    private String status;
+    //    @NotBlank(message = "건강상태는 필수값입니다.")
+    private Job job;
 
-    @NotBlank(message = "직업은 필수입니다.")
-    private String job;
+    //    @NotBlank(message = "직업은 필수입니다.")
+    private PainArea painArea;
 
     private String image;// 이미지??
 }

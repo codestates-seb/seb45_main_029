@@ -8,5 +8,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VideoMapper {
-    List<VideoResponseDto>  videosToVideoResponseDtos (List<Video> videos);
+
+    VideoResponseDto videoToVideoResponseDto(Video video);
+
+    List<VideoResponseDto> videosToVideoResponseDtos(List<Video> videos);
 }

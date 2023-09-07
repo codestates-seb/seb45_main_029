@@ -5,9 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.exception.BusinessLogicException;
 import seb45_main_029.server.exception.ExceptionCode;
 import seb45_main_029.server.security.auth.utils.AuthUserUtils;
@@ -17,9 +18,7 @@ import seb45_main_029.server.user.service.UserService;
 import seb45_main_029.server.video.entity.Video;
 import seb45_main_029.server.video.repository.VideoRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -30,12 +29,22 @@ public class VideoService {
     private final UserRepository userRepository;
     private final UserService userService;
 
+
+    public Video getVideo(long videoId) {
+        Video findVideo = findVideo(videoId);
+
+        findVideo.setViewCount(findVideo.getViewCount() + 1);
+        videoRepository.save(findVideo);
+
+        return findVideo;
+    }
+
     //            부위별 운동영상 리스트 조회
     @Transactional(readOnly = true)
-    public Page<Video> getPartVideos(int page, int size, Video.BodyPart part) {
+    public Page<Video> getPartVideos(int page, int size, PainArea painArea) {
 //        부위와 동일한 태그를 가진 동영상을 가져옴
 
-        return videoRepository.findByBodyPart(PageRequest.of(page, size), part);
+        return videoRepository.findByPainArea(PageRequest.of(page, size), painArea);
 
     }
 
@@ -46,9 +55,9 @@ public class VideoService {
         String loginUserEmail = getLoginUserPrincipal();
 
         User findUser = userRepository.findByEmail(loginUserEmail).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-        String job = findUser.getJob();
+        Job job = findUser.getJob();
 
-        return videoRepository.findByTitleContaining(PageRequest.of(page, size), job);
+        return videoRepository.findByJob(PageRequest.of(page, size), job);
 
     }
 
@@ -56,10 +65,10 @@ public class VideoService {
     @Transactional(readOnly = true)
     public Page<Video> getRecommendedVideos(int page, int size) {
         User getLoginUser = userService.getLoginUser();
-        String userStatus = getLoginUser.getStatus();
+        PainArea painArea = getLoginUser.getPainArea();
 
 
-        return videoRepository.findByTitleContaining(PageRequest.of(page, size), userStatus);
+        return videoRepository.findByPainArea(PageRequest.of(page, size), painArea);
 
     }
 
@@ -84,6 +93,7 @@ public class VideoService {
         return findVideo;
     }
 
+    @Transactional
     public User bookmark(long videoId) {
 //        사용자가 북마크 버튼을 누르면 로그인한 정보를 기반으로 멤버의 북마크 필드에 리스트 형식으로 해당 동영상의 videoId 를 넣어주는 방식을 생각함
         User loginUser = userService.getLoginUser();
@@ -101,6 +111,7 @@ public class VideoService {
         return loginUser;
     }
 
+    @Transactional
     public User removeBookmark(long videoId) {
         User loginUser = userService.getLoginUser();
 

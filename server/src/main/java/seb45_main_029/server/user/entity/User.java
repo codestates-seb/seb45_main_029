@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import seb45_main_029.server.audit.Auditable;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -54,19 +56,17 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String motto;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Job job;
 
-    @Column(nullable = false)
-    private String job;
+    @Enumerated(EnumType.STRING)
+    private PainArea painArea;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Long> bookmark = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
-
 
 
     //유튜브링크??

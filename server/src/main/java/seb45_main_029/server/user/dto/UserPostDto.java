@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import seb45_main_029.server.audit.Auditable;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +16,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class UserPostDto extends Auditable {
-
 
 
     @NotBlank(message = "이메일은 필수값입니다.")
@@ -35,18 +36,17 @@ public class UserPostDto extends Auditable {
     @NotBlank(message = "좌우명은 필수값입니다.")
     private String motto;
 
-    @NotBlank(message = "건강상태는 필수값입니다.")
-    private String status;
+//    @NotBlank(message = "건강상태는 필수값입니다.")
+    private PainArea painArea;
 
-    @NotBlank(message = "직업은 필수입니다.")
-    private String job;
+//    @NotBlank(message = "직업은 필수입니다.")
+    private Job job;
 
     /*@CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;*/
-
 
 
 }
