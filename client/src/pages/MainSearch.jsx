@@ -8,16 +8,18 @@ import {
   ImageDesign,
   MainContainer,
 } from '../style/Main';
+import Modal from '../components/Modal';
 
 export default function MainSearch() {
   const [searchContent, setSearchContent] = useState('');
   const location = useLocation();
   const [pageNum, setPageNum] = useState(1);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const { list, hasMore, isLoading } = useFetch(pageNum);
+  const { list, hasMore, isLoading } = useFetch(pageNum); // list 서버에서 가져온 데이터
 
   const observer = (node) => {
     if (isLoading) return;
@@ -28,6 +30,11 @@ export default function MainSearch() {
       }
     });
     node && observerRef.current.observe(node);
+  };
+
+  const openModal = (index) => {
+    setModalOpen(true);
+    console.log(index);
   };
 
   useEffect(() => {
@@ -62,6 +69,7 @@ export default function MainSearch() {
 
   return (
     <MainContainer>
+      <Modal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
       <InputContainer>
         <InputDesign
           onKeyUp={onKeyUpHandler}
@@ -75,9 +83,20 @@ export default function MainSearch() {
           alt='magnifier'
         />
       </InputContainer>
+
       {list?.map((elem, index) => {
-        return <img key={index} src={elem} alt='picture' />;
+        return (
+          <img
+            onClick={() => {
+              openModal(index);
+            }}
+            key={index}
+            src={elem}
+            alt='picture'
+          />
+        );
       })}
+
       <div ref={observer} />
       {isLoading && <Loading />}
     </MainContainer>

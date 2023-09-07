@@ -16,7 +16,7 @@ import {
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function MyPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -26,25 +26,6 @@ export default function MyPage() {
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
-
-  useEffect(() => {
-    slideRef.current.style.transition = 'all 0.5s ease-in-out';
-    slideRef.current.style.transform = `translateX(${-5 * currentSlide}0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  }, [currentSlide]);
-
-  useEffect(() => {
-    slideRefJob.current.style.transition = 'all 0.5s ease-in-out';
-    slideRefJob.current.style.transform = `translateX(${
-      -5 * currentSlideJob
-    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  }, [currentSlideJob]);
-
-  useEffect(() => {
-    slideRefBody.current.style.transition = 'all 0.5s ease-in-out';
-    slideRefBody.current.style.transform = `translateX(${
-      -5 * currentSlideBody
-    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  }, [currentSlideBody]);
 
   return (
     <NavAndContent>
