@@ -35,7 +35,12 @@ const VideoLinks = [
 const TOTAL_SLIDES = 4;
 export default function MyPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlideJob, setCurrentSlideJob] = useState(0);
+  const [currentSlideBody, setCurrentSlideBody] = useState(0);
+
   const slideRef = useRef(null);
+  const slideRefBody = useRef(null);
+  const slideRefJob = useRef(null);
 
   // Next 버튼 클릭 시
   const NextSlide = () => {
@@ -56,11 +61,61 @@ export default function MyPage() {
       setCurrentSlide(currentSlide - 1);
     }
   };
+  const NextSlideJob = () => {
+    if (currentSlideJob >= TOTAL_SLIDES) {
+      // 더 이상 넘어갈 슬라이드가 없으면
+      setCurrentSlideJob(0); // 1번째 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlideJob(currentSlideJob + 1);
+    }
+  };
+  // Prev 버튼 클릭 시
+  const PrevSlideJob = () => {
+    if (currentSlideJob === 0) {
+      setCurrentSlideJob(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlideJob(currentSlideJob - 1);
+    }
+  };
+  const NextSlideBody = () => {
+    if (currentSlideBody >= TOTAL_SLIDES) {
+      // 더 이상 넘어갈 슬라이드가 없으면
+      setCurrentSlideBody(0); // 1번째 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlideBody(currentSlideBody + 1);
+    }
+  };
+  // Prev 버튼 클릭 시
+  const PrevSlideBody = () => {
+    if (currentSlideBody === 0) {
+      setCurrentSlideBody(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+      // return;  // 클릭이 작동하지 않습니다.
+    } else {
+      setCurrentSlideBody(currentSlideBody - 1);
+    }
+  };
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
     slideRef.current.style.transform = `translateX(${-5 * currentSlide}0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
   }, [currentSlide]);
+
+  useEffect(() => {
+    slideRefJob.current.style.transition = 'all 0.5s ease-in-out';
+    slideRefJob.current.style.transform = `translateX(${
+      -5 * currentSlideJob
+    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  }, [currentSlideJob]);
+
+  useEffect(() => {
+    slideRefBody.current.style.transition = 'all 0.5s ease-in-out';
+    slideRefBody.current.style.transform = `translateX(${
+      -5 * currentSlideBody
+    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  }, [currentSlideBody]);
 
   return (
     <NavAndContent>
@@ -119,30 +174,42 @@ export default function MyPage() {
           <TitleFontSpanBlack>부위별</TitleFontSpanBlack>
           <hr></hr>
         </VideoTitle>
-        <VideoContainer>
-          <iframe
-            width='560'
-            height='315'
-            src='https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD'
-            title='YouTube video player'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowFullScreen
-          ></iframe>
-        </VideoContainer>
+        <ButtonContainerOuter>
+          <ButtonContainer>
+            <Button onClick={PrevSlideBody}>&larr;</Button>
+          </ButtonContainer>
+          <VideoAndButtonContainer>
+            <VideoContainer ref={slideRefBody}>
+              {VideoLinks.map((elem, index) => {
+                return <Slide key={index} videoLink={elem} />;
+              })}
+            </VideoContainer>
+          </VideoAndButtonContainer>
+          <ButtonContainer>
+            <Button onClick={NextSlideBody}>&rarr;</Button>
+          </ButtonContainer>
+        </ButtonContainerOuter>
         <VideoTitle>
           <TitleFontSpanBlack>직업별</TitleFontSpanBlack>
           <hr></hr>
         </VideoTitle>
-        <VideoContainer>
-          <iframe
-            width='560'
-            height='315'
-            src='https://www.youtube.com/embed/xIx9wBI9il0?si=ygq9e4zRxY3SnzXJ'
-            title='YouTube video player'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowFullScreen
-          ></iframe>
-        </VideoContainer>
+        <ButtonContainerOuter>
+          <ButtonContainer>
+            <Button onClick={PrevSlideJob}>&larr;</Button>
+          </ButtonContainer>
+          <VideoAndButtonContainer>
+            <VideoContainer ref={slideRefJob}>
+              {VideoLinks.map((elem, index) => {
+                return <Slide key={index} videoLink={elem} />;
+              })}
+            </VideoContainer>
+          </VideoAndButtonContainer>
+          <ButtonContainer>
+            <Button onClick={NextSlideJob}>&rarr;</Button>
+          </ButtonContainer>
+        </ButtonContainerOuter>
+        <hr></hr>
+
         <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
         <BoardCotainer>
           <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
