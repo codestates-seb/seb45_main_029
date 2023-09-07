@@ -97,7 +97,7 @@ export const Button = styled.div`
 `;
 export const VideoAndButtonContainer = styled.div`
   display: flex;
-  width: 65rem;
+  width: 85rem;
   overflow: hidden;
 `;
 

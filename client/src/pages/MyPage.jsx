@@ -8,59 +8,43 @@ import {
   UserInfoP,
   UserHealthContainer,
   Line,
-  VideoTitle,
-  VideoContainer,
   BoardCotainer,
   QuestionBoardContainer,
-  Button,
-  VideoAndButtonContainer,
-  ButtonContainer,
-  ButtonContainerOuter,
-  TitleFontSpanBlue,
   TitleFontSpanPink,
   TitleFontSpanBlack,
   UserSpan,
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
-import Slide from '../components/Slide';
+import Carousel from '../components/Carousel';
 import { useEffect, useRef, useState } from 'react';
 
-const VideoLinks = [
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-];
-const TOTAL_SLIDES = 4;
 export default function MyPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef(null);
+  const [currentSlideJob, setCurrentSlideJob] = useState(0);
+  const [currentSlideBody, setCurrentSlideBody] = useState(0);
 
-  // Next 버튼 클릭 시
-  const NextSlide = () => {
-    if (currentSlide >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-  // Prev 버튼 클릭 시
-  const PrevSlide = () => {
-    if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
-      // return;  // 클릭이 작동하지 않습니다.
-    } else {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+  const slideRef = useRef(null);
+  const slideRefBody = useRef(null);
+  const slideRefJob = useRef(null);
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
     slideRef.current.style.transform = `translateX(${-5 * currentSlide}0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
   }, [currentSlide]);
+
+  useEffect(() => {
+    slideRefJob.current.style.transition = 'all 0.5s ease-in-out';
+    slideRefJob.current.style.transform = `translateX(${
+      -5 * currentSlideJob
+    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  }, [currentSlideJob]);
+
+  useEffect(() => {
+    slideRefBody.current.style.transition = 'all 0.5s ease-in-out';
+    slideRefBody.current.style.transform = `translateX(${
+      -5 * currentSlideBody
+    }0%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  }, [currentSlideBody]);
 
   return (
     <NavAndContent>
@@ -87,62 +71,30 @@ export default function MyPage() {
             </UserInfoPContainer>
           </InfoContainer>
           <UserHealthContainer>
-            <p>나의 건강상태</p>
+            <p>나의 통증 부위</p>
             <Line></Line>
-            <span>허리디스크</span>
-            <span>아파요</span>
+            <span>허리</span>
           </UserHealthContainer>
         </UserInfoOuterContainer>
-        <VideoTitle>
-          <p>
-            <span>나의 </span> <TitleFontSpanBlue>영상</TitleFontSpanBlue>
-          </p>
-          <TitleFontSpanBlack>전체</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <ButtonContainerOuter>
-          <ButtonContainer>
-            <Button onClick={PrevSlide}>&larr;</Button>
-          </ButtonContainer>
-          <VideoAndButtonContainer>
-            <VideoContainer ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
-              })}
-            </VideoContainer>
-          </VideoAndButtonContainer>
-          <ButtonContainer>
-            <Button onClick={NextSlide}>&rarr;</Button>
-          </ButtonContainer>
-        </ButtonContainerOuter>
-        <VideoTitle>
-          <TitleFontSpanBlack>부위별</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <VideoContainer>
-          <iframe
-            width='560'
-            height='315'
-            src='https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD'
-            title='YouTube video player'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowFullScreen
-          ></iframe>
-        </VideoContainer>
-        <VideoTitle>
-          <TitleFontSpanBlack>직업별</TitleFontSpanBlack>
-          <hr></hr>
-        </VideoTitle>
-        <VideoContainer>
-          <iframe
-            width='560'
-            height='315'
-            src='https://www.youtube.com/embed/xIx9wBI9il0?si=ygq9e4zRxY3SnzXJ'
-            title='YouTube video player'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowFullScreen
-          ></iframe>
-        </VideoContainer>
+        <Carousel
+          message='나의 운동'
+          slideRef={slideRef}
+          setCurrentSlide={setCurrentSlide}
+          currentSlide={currentSlide}
+        />
+        <Carousel
+          message='부위별'
+          slideRef={slideRefBody}
+          setCurrentSlide={setCurrentSlideBody}
+          currentSlide={currentSlideBody}
+        />
+        <Carousel
+          message='직업별'
+          slideRef={slideRefJob}
+          setCurrentSlide={setCurrentSlideJob}
+          currentSlide={currentSlideJob}
+        />
+        <hr></hr>
         <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
         <BoardCotainer>
           <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
