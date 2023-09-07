@@ -59,7 +59,7 @@ export const VideoTitle = styled.div`
 
 export const VideoContainer = styled.div`
   /* margin-left: 22rem; */
-  width: 60rem;
+  width: 95rem;
   display: flex;
 `;
 
@@ -97,7 +97,20 @@ export const Button = styled.div`
 `;
 export const VideoAndButtonContainer = styled.div`
   display: flex;
-  width: 85rem;
+  width: 95rem;
+  overflow: hidden;
+`;
+
+export const VideoContainerFlexWrap = styled.div`
+  /* margin-left: 22rem; */
+  width: 95rem;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const VideoAndButtonContainerFlexWrap = styled.div`
+  display: flex;
+  width: 95rem;
   overflow: hidden;
 `;
 
