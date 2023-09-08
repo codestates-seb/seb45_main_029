@@ -35,20 +35,23 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity postUser(@Valid
-                                   @RequestBody UserPostDto userPostDto) {
-
+    public ResponseEntity postUser(@Valid @RequestBody UserPostDto userPostDto) {
         User user = mapper.userPostDtoToUser(userPostDto);
-        User createdUser = userService.createUser(user);
 
-        URI location = UriCreator.createUri("/users/signup", user.getUserId());
-        // ex) http://localhost:8080/signup/{user-id}
+        try {
+            User createdUser = userService.createUser(user, userPostDto.getConfirmPassword());
 
-        ResponseEntity response = ResponseEntity.created(location).build();
+            URI location = UriCreator.createUri("/users/signup", createdUser.getUserId());
+            ResponseEntity<UserPostDto> response = ResponseEntity.created(location).body(userPostDto);
 
-//        return new ResponseEntity(response, HttpStatus.CREATED) ;
-        return ResponseEntity.created(location).build();
+            return new ResponseEntity(response, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            // 비밀번호 확인 예외 처리
+            return ResponseEntity.badRequest().body("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        }
     }
+
+
 
     //회원정보수정
     @PatchMapping("/mypage/edit/{user-id}")
@@ -60,7 +63,9 @@ public class UserController {
         User user = userService.updateUser(mapper.userPatchDtoToUser(userPatchDto));
         UserResponseDto response = mapper.userToUserResponseDto(user);
 
-        return new ResponseEntity(response, HttpStatus.OK);
+
+
+        return  ResponseEntity.ok(response);
     }
 
     //회원 마이페이지
@@ -70,7 +75,7 @@ public class UserController {
         User user = userService.getUser(userId);
         UserResponseDto response = mapper.userToUserResponseDto(user);
 
-        return new ResponseEntity(response, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
     //회원삭제
     @DeleteMapping("/{user-id}")

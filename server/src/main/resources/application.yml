@@ -1,9 +1,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mainProject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: dnwls4545!
+    url: jdbc:mysql://localhost:3306/db_main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: user_assa2
+    password: 1234
+    validation:
+      exclude-until-explicit: false
   jpa:          #JPA 설정
     hibernate:
       ddl-auto: create-drop

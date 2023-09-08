@@ -27,6 +27,9 @@ public class UserPostDto extends Auditable {
             message = "비밀번호는 8자리 이상 숫자, 문자, 특수문자 조합으로 입력해야 합니다.")
     private String password;
 
+    @NotBlank(message = "비밀번호 확인은 필수값입니다.")
+    private String confirmPassword;
+
     @NotBlank(message = "이름은 필수값입니다.")
     private String username;
 
@@ -41,6 +44,7 @@ public class UserPostDto extends Auditable {
 
 //    @NotBlank(message = "직업은 필수입니다.")
     private Job job;
+
 
     /*@CreatedDate
     private LocalDateTime createdAt;
