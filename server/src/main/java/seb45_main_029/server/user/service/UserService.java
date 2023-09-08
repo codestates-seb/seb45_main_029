@@ -41,7 +41,7 @@ public class UserService {
 
         //회원가입시 입력한 비밀번호가 서로 동일한지 확인
         if(!user.getPassword().equals(confirmPassword)){
-            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);//예외처리
         }
         //현재시간 받아오기
         LocalDateTime currentTime = LocalDateTime.now();
