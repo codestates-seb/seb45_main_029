@@ -1,5 +1,6 @@
 package seb45_main_029.server.video.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Setter
@@ -46,6 +49,9 @@ public class Video extends Auditable {
     @Column
     private PainArea painArea;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "video",fetch = FetchType.LAZY)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     public Video(String youtubeLink, String title, String thumbnail, String description, PainArea painArea, Job job) {
 
@@ -57,4 +63,10 @@ public class Video extends Auditable {
         this.job = job;
 
     }
+//    public void setBookmark(Bookmark bookmark) {
+//        this.bookmarks.add(bookmark);
+//        if (bookmark.getVideo()!=this) {
+//            bookmark.setVideo(this);
+//        }
+//    }
 }

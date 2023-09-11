@@ -15,10 +15,14 @@ import seb45_main_029.server.security.auth.utils.AuthUserUtils;
 import seb45_main_029.server.user.entity.User;
 import seb45_main_029.server.user.repository.UserRepository;
 import seb45_main_029.server.user.service.UserService;
+import seb45_main_029.server.video.entity.Bookmark;
 import seb45_main_029.server.video.entity.Video;
+import seb45_main_029.server.video.repository.BookmarkRepository;
 import seb45_main_029.server.video.repository.VideoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -28,7 +32,7 @@ public class VideoService {
     private final VideoRepository videoRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-
+    private final BookmarkRepository bookmarkRepository;
 
     public Video getVideo(long videoId) {
         Video findVideo = findVideo(videoId);
@@ -52,19 +56,30 @@ public class VideoService {
     //        직업별 운동영상 리스트 조회
     @Transactional(readOnly = true)
     public Page<Video> getJobVideos(int page, int size) {
-        String loginUserEmail = getLoginUserPrincipal();
 
-        User findUser = userRepository.findByEmail(loginUserEmail).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-        Job job = findUser.getJob();
+        User getLoginUser = userService.getLoginUser();
+        Job job = getLoginUser.getJob();
 
-        return videoRepository.findByJob(PageRequest.of(page, size), job);
+        Job jobType = null;
+
+        if (job.getJobType().equals("사무직")) {
+            jobType = Job.사무직;
+            return videoRepository.findByJob(PageRequest.of(page, size), jobType);
+
+        } else if (job.getJobType().equals("현장직")) {
+            jobType = Job.현장직;
+            return videoRepository.findByJob(PageRequest.of(page, size), jobType);
+
+        } else return videoRepository.findAll(PageRequest.of(page, size));
 
     }
 
     //        맞춤 운동 영상 조회
     @Transactional(readOnly = true)
     public Page<Video> getRecommendedVideos(int page, int size) {
+
         User getLoginUser = userService.getLoginUser();
+
         PainArea painArea = getLoginUser.getPainArea();
 
 
@@ -93,45 +108,57 @@ public class VideoService {
         return findVideo;
     }
 
+
     @Transactional
-    public User bookmark(long videoId) {
+    public Bookmark bookmark(long videoId) {
 //        사용자가 북마크 버튼을 누르면 로그인한 정보를 기반으로 멤버의 북마크 필드에 리스트 형식으로 해당 동영상의 videoId 를 넣어주는 방식을 생각함
         User loginUser = userService.getLoginUser();
+        Video findVideo = findVideo(videoId);
 
-        List<Long> userBookmarkingList = loginUser.getBookmark();
+        Bookmark bookmark = new Bookmark();
+        bookmark.setVideo(findVideo);
+        bookmark.setUser(loginUser);
+        bookmarkRepository.save(bookmark);
 
-        if (!userBookmarkingList.contains(videoId)) {
-            userBookmarkingList.add(videoId);
-            userRepository.save(loginUser);
 
-            Video bookmarkedVideo = findVideo(videoId);
-            bookmarkedVideo.setBookmarkCount(bookmarkedVideo.getBookmarkCount() + 1);
-            videoRepository.save(bookmarkedVideo);
-        }
-        return loginUser;
+        findVideo.setBookmarkCount(findVideo.getBookmarkCount() + 1);
+
+        videoRepository.save(findVideo);
+        return bookmark;
+
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Bookmark> getBookmark(int page, int size) {
+        long loginUserId = userService.getLoginUser().getUserId();
+
+        return bookmarkRepository.findByUserUserId(PageRequest.of(page, size), loginUserId);
     }
 
     @Transactional
-    public User removeBookmark(long videoId) {
+    public Bookmark removeBookmark(long videoId) {
+
         User loginUser = userService.getLoginUser();
+        Video findVideo = findVideo(videoId);
 
-        List<Long> userBookmarkingList = loginUser.getBookmark();
+        Bookmark findBookmark = bookmarkRepository.findByUserAndVideo(loginUser, findVideo);
+        if (findBookmark != null) {
+            bookmarkRepository.delete(findBookmark);
 
-        if (userBookmarkingList.contains(videoId)) {
-            userBookmarkingList.remove(videoId);
-            userRepository.save(loginUser);
+            findVideo.setBookmarkCount(findVideo.getBookmarkCount() - 1);
 
-            Video bookmarkedVideo = findVideo(videoId);
-            bookmarkedVideo.setBookmarkCount(bookmarkedVideo.getBookmarkCount() - 1);
-            videoRepository.save(bookmarkedVideo);
+            videoRepository.save(findVideo);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.BOOKMARK_VIDEO_NOT_FOUND);
         }
-        return loginUser;
+        return findBookmark;
+
     }
 
-    public String getLoginUserPrincipal() {
-        Authentication authentication = AuthUserUtils.getAuthUser();
-        Object principal = authentication.getPrincipal();
-        String email = (String) principal;
-        return email;
-    }
+//    public String getLoginUserPrincipal() {
+//        Authentication authentication = AuthUserUtils.getAuthUser();
+//        Object principal = authentication.getPrincipal();
+//        String email = (String) principal;
+//        return email;
+//    }
 }
