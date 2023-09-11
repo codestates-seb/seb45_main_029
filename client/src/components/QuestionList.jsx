@@ -9,13 +9,13 @@ import {
 } from '../style/QuestionList';
 import { useNavigate } from 'react-router-dom';
 
-const QuestionItem = ({ question }) => {
+function QuestionList({ props }) {
   const navigate = useNavigate();
 
   const questiondetail = () => {
-    navigate('/question/:id');
+    navigate('/questionDetail');
   };
-  const parsedDate = new Date(question.createdAt).toLocaleDateString('ko-kr', {
+  const parsedDate = new Date(props.createdAt).toLocaleDateString('ko-kr', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -28,13 +28,13 @@ const QuestionItem = ({ question }) => {
   return (
     <>
       <QuestionContainer>
-        <ContainerTitle>{question.title}</ContainerTitle>
-        <ContentCard onClick={questiondetail} key={question.questionId}>
-          <div className='question-message'>{question.content}</div>
+        <ContainerTitle>{props.title}</ContainerTitle>
+        <ContentCard onClick={questiondetail} key={props.questionId}>
+          <div className='question-message'>{props.content}</div>
         </ContentCard>
         <BottomContainer>
           <div className='wrapper'>
-            <span className='question-author'>{question.author} </span>
+            <span className='question-author'>{props.author} </span>
 
             <span className='question-createdAt'>{parsedDate}</span>
           </div>
@@ -42,16 +42,16 @@ const QuestionItem = ({ question }) => {
           <div className='icon-count'>
             <div>
               <div>
-                <img src='/images/ph-heart-thin.png' alt='' />
+                <img src='/images/likes.png' alt='likes' />
               </div>
-              <span>{question.likes_count}</span>
+              <span>{props.likes_count}</span>
             </div>
 
             <div>
               <div>
-                <img src='/images/iconmoon-comment-thin.png' alt='' />
+                <img src='/images/comment.png' alt='comment' />
               </div>
-              <span>{question.comments.length}</span>
+              <span>{props.comments.length}</span>
             </div>
           </div>
         </BottomContainer>
@@ -59,5 +59,5 @@ const QuestionItem = ({ question }) => {
       <Line />
     </>
   );
-};
-export default QuestionItem;
+}
+export default QuestionList;

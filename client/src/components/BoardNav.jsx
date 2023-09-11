@@ -30,15 +30,15 @@ const ColorLink3 = styled(DefaultP)`
 export default function MyPageNav({ color }) {
   return (
     <nav>
-      <ColorLink color={color} to='/mypage'>
+      <ColorLink color={color} to='/pointstore'>
         포인트 상점
       </ColorLink>
       <LineHR></LineHR>
-      <ColorLink2 color={color} to='/mypageInfo'>
+      <ColorLink2 color={color} to='/myfighting'>
         나의 다짐
       </ColorLink2>
       <LineHR></LineHR>
-      <ColorLink3 color={color} to='/mypageDelete'>
+      <ColorLink3 color={color} to='/myanswer'>
         질문 답변
       </ColorLink3>
       <LineHR></LineHR>

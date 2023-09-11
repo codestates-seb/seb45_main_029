@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 
 export const BoardMainContent = styled.div`
   display: flex;
+  margin-left: 10.75rem;
 `;
 
 export const NavContainer = styled.div`
@@ -18,16 +19,12 @@ export const BoardPageContainer = styled.div`
   height: 56.25rem;
   display: flex;
   flex-direction: column;
+  margin-top: 5.3rem;
 `;
 
 export const Topcontent = styled.div`
   display: flex;
-  justify-content: space-between;
-  .btn_top button:not(:last-child) {
-    display: flex;
-    justify-content: flex-start;
-    margin-right: 1.37rem;
-  }
+  gap: 1.37rem;
 `;
 
 export const Line = styled.hr`
@@ -36,44 +33,12 @@ export const Line = styled.hr`
   background: #848282;
 `;
 
-export const SearchBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1.62rem;
-  .search {
-    position: relative;
-
-    input {
-      width: 65.625rem;
-      height: 3.125rem;
-      flex-shrink: 0;
-      border-radius: 0.625rem;
-      border: 1px solid #848282;
-    }
-    img {
-      position: absolute;
-      width: 1.5625rem;
-      height: 1.5625rem;
-      flex-shrink: 0;
-      color: var(--blue);
-    }
-    button {
-      width: 6.25rem;
-      height: 3.125rem;
-      flex-shrink: 0;
-      border-radius: 0.625rem;
-      background: var(--pink);
-    }
-  }
-`;
-
-export const SecondCotent = styled.div`
+export const SecondContent = styled.div`
   display: flex;
   justify-content: space-between;
   .btn_secon {
     display: flex;
     justify-content: flex-end;
-    margin-right: 13.75rem;
   }
 `;
 export const QuestionButton = styled.button`
@@ -95,36 +60,15 @@ export const QuestionListContainer = styled.div`
   gap: 7.5rem;
 `;
 
-export const DefaultB = styled.div`
-  width: 7rem;
-  display: inline-block;
-  text-align: center;
-  font-size: 0.8rem;
-  margin-top: 0.4rem;
-  cursor: pointer;
-  text-decoration: none;
-  color: black;
-`;
-
-export const Button1 = styled(DefaultB)`
-  background-color: ${(props) => props.color === 'first' && '#fff'};
-`;
-
-export const Button2 = styled(DefaultB)`
-  background-color: ${(props) => props.color === 'second' && '#EAEAEA'};
-`;
-
-export const Button3 = styled(DefaultB)`
-  background-color: ${(props) => props.color === 'third' && '#859DE8'};
-`;
-
 export const BottomContent = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 2.3rem;
   padding-left: 6.5rem;
 
-  margin-top .pagination {
+  margin-top: 3rem;
+
+  .pagination {
     list-style: none;
     padding-bottom: 3.125rem;
     gap: 0px;
@@ -132,7 +76,7 @@ export const BottomContent = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: #3f2305;
+    color: var(--white);
     width: 46.25rem;
     height: 3.0625rem;
     flex-shrink: 0;
@@ -156,8 +100,7 @@ export const BottomContent = styled.div`
       color: var(--white);
     }
   }
-  .pagination > li {
-  }
+
   .active {
     background: var(--blue);
     color: var(--white);
