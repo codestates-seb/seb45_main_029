@@ -1,21 +1,14 @@
 package seb45_main_029.server.user.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
-import seb45_main_029.server.video.entity.Bookmark;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,12 +57,8 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING)
     private PainArea painArea;
 
-//    @ElementCollection
-//    private List<Long> bookmark = new ArrayList<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<Long> bookmark = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

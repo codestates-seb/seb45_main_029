@@ -1,8 +1,8 @@
 package seb45_main_029.server.user.service;
 
 
-import org.springframework.context.ApplicationEventPublisher;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,6 @@ import seb45_main_029.server.user.entity.User;
 import seb45_main_029.server.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +33,15 @@ public class UserService {
     /*private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;*/
 
-    // 회원 가입에 대한 메서드
-    public User createUser(User user) {
+    // 회원 가입에 대한 메서드//
+    public User createUser(User user, String confirmPassword) {
 
         verifyExistsUser(user.getEmail());
+
+        //회원가입시 입력한 비밀번호가 서로 동일한지 확인
+        if(!user.getPassword().equals(confirmPassword)){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);//예외처리
+        }
         //현재시간 받아오기
         LocalDateTime currentTime = LocalDateTime.now();
 
@@ -58,23 +62,46 @@ public class UserService {
         return savedUser;
     }
 
+
+
     // 회원 정보 수정에 대한 메서드
     public User updateUser(User user) {
-
+        // 사용자 인증 확인
+        User loginUser = getLoginUser();
         User getUser = getVerifiedUser(user.getUserId());
 
         // 로그인 User의 아이디와 회원정보를 가진 user의 아이디가 다르면 예외 던지기
-        if(!getLoginUser().getUserId().equals(getUser.getUserId()))
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);   // 🚨 예외처리
+        if (!loginUser.getUserId().equals(getUser.getUserId())) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER); // 예외 처리
+        }
 
-        Optional.ofNullable(user.getUsername())
-                .ifPresent(name -> getUser.setUsername(user.getUsername()));
-        //수정시간
+        // 변경된 필드 업데이트
+        if (user.getPassword() != null) {
+            getUser.setPassword(user.getPassword());
+        }
+        if (user.getNickname() != null) {
+            getUser.setNickname(user.getNickname());
+        }
+        if (user.getMotto() != null) {
+            getUser.setMotto(user.getMotto());
+        }
+        if (user.getPainArea() != null) {
+            getUser.setPainArea(user.getPainArea());
+        }
+        /*if (user.getImage() != null) {
+            getUser.setImage(user.getImage());
+        }*/
+        if (user.getJob() != null) {
+            getUser.setJob(user.getJob());
+        }
+
+        // 수정 시간 업데이트
         getUser.setModifiedAt(LocalDateTime.now());
 
-
+        // 사용자 정보 저장
         return userRepository.save(getUser);
     }
+
 
     // user 사용자 정보 가지고 오기
     public User getUser(Long userId) {

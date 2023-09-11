@@ -2,15 +2,12 @@ package seb45_main_029.server.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.user.entity.UserAnswerInfo;
 import seb45_main_029.server.user.entity.UserQuestionInfo;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

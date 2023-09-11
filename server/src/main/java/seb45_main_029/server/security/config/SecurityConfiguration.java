@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,8 +26,6 @@ import seb45_main_029.server.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @AllArgsConstructor
 public class SecurityConfiguration {
@@ -40,6 +36,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
+
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
@@ -84,7 +81,6 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:3000"));
         // 모든 헤더 허용
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용

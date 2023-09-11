@@ -8,7 +8,6 @@ import seb45_main_029.server.user.dto.UserResponseDto;
 import seb45_main_029.server.user.entity.User;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
