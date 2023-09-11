@@ -1,12 +1,14 @@
 package seb45_main_029.server.user.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
+import seb45_main_029.server.video.entity.Bookmark;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -57,8 +59,9 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING)
     private PainArea painArea;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private List<Long> bookmark = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
