@@ -2,13 +2,16 @@ package seb45_main_029.server.security.auth.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import seb45_main_029.server.security.auth.dto.UserLoginDto;
+import seb45_main_029.server.security.auth.dto.UserLoginResponseDto;
 import seb45_main_029.server.security.auth.jwt.JwtTokenizer;
 import seb45_main_029.server.user.entity.User;
 
@@ -35,10 +38,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final JwtTokenizer jwtTokenizer;
 
     /*
-      * 메서드 내부에서 인증을 시도하는 로직 구현
-      * objectMapper : userName & Password 를 DTO로 역직렬화 하기 위해 인스턴스 생성
-      * authenticationToken : userName & Password 포함한 Token 생성
-      * UsernamePasswordAuthenticationToken 을 AuthenticationManager 에게 전달
+     * 메서드 내부에서 인증을 시도하는 로직 구현
+     * objectMapper : userName & Password 를 DTO로 역직렬화 하기 위해 인스턴스 생성
+     * authenticationToken : userName & Password 포함한 Token 생성
+     * UsernamePasswordAuthenticationToken 을 AuthenticationManager 에게 전달
      */
     @SneakyThrows
     @Override
@@ -63,15 +66,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * @param response
      * @param chain
      * @param authResult the object returned from the <tt>attemptAuthentication</tt>
-     * method.
+     *                   method.
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException,ServletException{
+                                            Authentication authResult) throws IOException, ServletException {
 
         User user = (User) authResult.getPrincipal();
+        Gson gson = new Gson();
 
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
@@ -82,7 +86,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // header에 Refresh Token 추가
         response.setHeader("Refresh", refreshToken);
 
-        this.getSuccessHandler().onAuthenticationSuccess(request,response,authResult);
+        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto(user.getUserId(), user.getEmail(), accessToken);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(gson.toJson(userLoginResponseDto));
+
+        this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 
     /*
