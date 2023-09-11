@@ -38,15 +38,16 @@ export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
       {isModalOpen && (
         <ModalBackground onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            {/* <iframe
-              width='560'
-              height='315'
-              src='https://www.youtube.com/embed/ZFCuBTyW0so?si=V44HsQjYHFXdiuiT'
-              title='YouTube video player'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-              allowFullScreen
-            ></iframe> */}
-            <img src={list[listIndex]} />
+            {
+              <iframe
+                width='560'
+                height='315'
+                src={list[listIndex]}
+                title='YouTube video player'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                allowFullScreen
+              ></iframe>
+            }
           </ModalContent>
         </ModalBackground>
       )}

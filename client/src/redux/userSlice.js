@@ -8,6 +8,8 @@ export const userSlice = createSlice({
     name: '',
     memberId: 1,
     bookmark: [],
+    job: '',
+    image: '',
   },
 
   reducers: {
@@ -17,12 +19,12 @@ export const userSlice = createSlice({
       state.name = action.payload.name;
       state.memberId = action.payload.memberId;
       state.bookmark = action.payload.bookmark;
+      state.job = action.payload.job;
+      state.image = action.payload.image;
       return state;
     },
     updateUser: (state, action) => {
-      state.name = action.payload.name;
       state.nickname = action.payload.nickname;
-      state.memberId = action.payload.memberId;
       state.motto = action.payload.motto;
       state.painArea = action.payload.painArea;
       state.image = action.payload.image;
@@ -42,5 +44,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBookmark, deleteBookmark } = userSlice.actions;
+export const { setUser, setBookmark, deleteBookmark, updateUser } =
+  userSlice.actions;
 export default userSlice.reducer;

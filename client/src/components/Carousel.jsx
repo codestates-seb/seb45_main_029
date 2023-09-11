@@ -11,16 +11,8 @@ import {
   VideoAndButtonContainerFlexWrap,
   VideoContainerFlexWrap,
 } from '../style/MyPage';
-
+import axios from 'axios';
 // @todo : 비디오 받아온 후에 지우기
-const VideoLinks = [
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-];
 
 export default function Carousel({
   message,
@@ -31,9 +23,10 @@ export default function Carousel({
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
+
   const TOTAL_SLIDES = flexWrap
-    ? parseInt(VideoLinks.length / 6) - 1
-    : parseInt(VideoLinks.length / 3) - 1;
+    ? parseInt(videos.length / 6) - 1
+    : parseInt(videos.length / 3) - 1;
 
   const NextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -53,9 +46,19 @@ export default function Carousel({
 
   // @todo : .서버 연결
   useEffect(() => {
-    // axios.get(video~)
-    // setVideo(data);
-    console.log(videos, setVideos);
+    const asyncFunction = async () => {
+      let type = '';
+      if (message === 'TOP5 재활운동') {
+        type = 'popular';
+      } else if (message === '직업별') {
+        type = 'job';
+      }
+      const { data } = await axios.get(
+        `http://localhost:8080/video/${type}?page=1&size=10`
+      );
+      setVideos(data);
+    };
+    asyncFunction();
   }, []);
 
   useEffect(() => {
@@ -76,11 +79,11 @@ export default function Carousel({
         {flexWrap ? (
           <VideoAndButtonContainerFlexWrap>
             <VideoContainerFlexWrap ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
+              {videos.map((elem, index) => {
                 return (
                   <VideoDetail
                     key={index}
-                    videoLink={elem}
+                    youtubeLink={elem}
                     videoId={elem.videoId}
                   />
                 );
@@ -90,11 +93,11 @@ export default function Carousel({
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
+              {videos.map((elem, index) => {
                 return (
                   <VideoDetail
                     key={index}
-                    videoLink={elem}
+                    youtubeLink={elem}
                     videoId={elem.videoId}
                   />
                 );

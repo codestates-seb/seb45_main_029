@@ -1,6 +1,5 @@
 import { VideoTypeContainer } from '../style/Main';
 import Toggle from './Toggle';
-import PropTypes from 'prop-types';
 
 export default function ToggleContainer({
   typeOfVideo,
@@ -22,9 +21,3 @@ export default function ToggleContainer({
     </VideoTypeContainer>
   );
 }
-
-ToggleContainer.propTypes = {
-  typeOfVideo: PropTypes.array.isRequired,
-  videoType: PropTypes.string.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
-};

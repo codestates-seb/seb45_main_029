@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
-import useFetch from '../hooks/UseFetch'; // 커스텀 훅
+import useFetch from '../hooks/UseFetch';
+
 import {
   InputContainer,
   InputDesign,
@@ -13,7 +14,6 @@ import Modal from '../components/Modal';
 export default function MainSearch() {
   const location = useLocation();
 
-  const [searchContent, setSearchContent] = useState('');
   const [pageNum, setPageNum] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
@@ -21,7 +21,7 @@ export default function MainSearch() {
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const { list, hasMore, isLoading } = useFetch(pageNum); // list 서버에서 가져온 데이터
+  const { list, hasMore, isLoading } = useFetch(pageNum, location.state.value); // 커스텀훅, list 서버에서 가져온 데이터
 
   const observer = (node) => {
     if (isLoading) return;
@@ -40,23 +40,15 @@ export default function MainSearch() {
   };
 
   useEffect(() => {
-    // axios로 전체 데이터를 받아온 후, setContents로 contents 변수 초기화
-    const fromMainContent = location.state.value;
-    inputRef.current.value = fromMainContent;
-    setSearchContent(inputRef.current.value);
+    inputRef.current.value = location.state.value;
   }, []);
-
-  useEffect(() => {
-    inputRef.current.value = searchContent;
-  }, [searchContent]);
 
   const onClickSearchHandler = (e) => {
     const content = e.target.previousSibling.value;
     if (content === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
-    setSearchContent(e.target.previousSibling.value);
-    // axios로 content 값을 서버로 보내서, 필터링된 결과값을 가져온 후 setContents로 초기화
+    inputRef.current.value = e.target.previousSibling.value;
   };
 
   const onKeyUpHandler = (e) => {
@@ -65,7 +57,7 @@ export default function MainSearch() {
       return;
     }
     if (e.keyCode === 13) {
-      setSearchContent(e.target.value);
+      inputRef.current.value = e.target.value;
     }
   };
 
@@ -99,7 +91,7 @@ export default function MainSearch() {
               openModal(index);
             }}
             key={index}
-            src={elem}
+            src={elem.thumbnail}
             alt='picture'
           />
         );

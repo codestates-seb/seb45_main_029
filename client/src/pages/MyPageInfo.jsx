@@ -26,6 +26,9 @@ import {
   JobChoice,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -38,6 +41,9 @@ export default function MyPageInfo() {
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
+
+  const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -93,8 +99,15 @@ export default function MyPageInfo() {
       job: checkBoxListJob,
       image: imgFile,
     };
-    // axios.patch
-    console.log(data);
+    try {
+      axios.patch(
+        `http://localhost:8080/users/mypage/edit/${userInfo.memberId}`,
+        data
+      );
+      dispatch(updateUser(data));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const checkedItemHandler = (value, isChecked, type) => {
