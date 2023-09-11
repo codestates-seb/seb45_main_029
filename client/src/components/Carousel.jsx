@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import VideoDetail from './VideoDetail';
 import {
   VideoTitle,
@@ -12,7 +12,7 @@ import {
   VideoContainerFlexWrap,
 } from '../style/MyPage';
 
-// @todo : 비디오 받아오기
+// @todo : 비디오 받아온 후에 지우기
 const VideoLinks = [
   'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
   'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
@@ -30,7 +30,7 @@ export default function Carousel({
   flexWrap,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
-
+  const [videos, setVideos] = useState([]);
   const TOTAL_SLIDES = flexWrap
     ? parseInt(VideoLinks.length / 6) - 1
     : parseInt(VideoLinks.length / 3) - 1;
@@ -42,7 +42,7 @@ export default function Carousel({
       setCurrentSlide(currentSlide + 1);
     }
   };
-  // Prev 버튼 클릭 시
+
   const PrevSlide = () => {
     if (currentSlide === 0) {
       setCurrentSlide(TOTAL_SLIDES);
@@ -50,6 +50,13 @@ export default function Carousel({
       setCurrentSlide(currentSlide - 1);
     }
   };
+
+  // @todo : .서버 연결
+  useEffect(() => {
+    // axios.get(video~)
+    // setVideo(data);
+    console.log(videos, setVideos);
+  }, []);
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';

@@ -89,9 +89,11 @@ export default function MyPageInfo() {
       nickName,
       password,
       motto,
-      checkedList,
-      checkBoxListJob,
+      painArea: checkedList,
+      job: checkBoxListJob,
+      image: imgFile,
     };
+    // axios.patch
     console.log(data);
   };
 

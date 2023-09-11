@@ -9,6 +9,7 @@ export const userSlice = createSlice({
     memberId: 1,
     bookmark: [],
   },
+
   reducers: {
     setUser: (state, action) => {
       state.loggedIn = action.payload.loggedIn;
@@ -20,7 +21,12 @@ export const userSlice = createSlice({
     },
     updateUser: (state, action) => {
       state.name = action.payload.name;
+      state.nickname = action.payload.nickname;
       state.memberId = action.payload.memberId;
+      state.motto = action.payload.motto;
+      state.painArea = action.payload.painArea;
+      state.image = action.payload.image;
+      state.job = action.payload.job;
     },
     setBookmark: (state, action) => {
       state.bookmark = [...state.bookmark, action.payload.videoId];
