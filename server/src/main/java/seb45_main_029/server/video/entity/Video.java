@@ -49,9 +49,12 @@ public class Video extends Auditable {
     @Column
     private PainArea painArea;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "video",fetch = FetchType.LAZY)
-    private List<Bookmark> bookmarks = new ArrayList<>();
+    @Column
+    private boolean isBookmarked = false;
+
+//    @JsonManagedReference
+//    @OneToMany(mappedBy = "video", fetch = FetchType.LAZY)
+//    private List<Bookmark> bookmarks = new ArrayList<>();
 
     public Video(String youtubeLink, String title, String thumbnail, String description, PainArea painArea, Job job) {
 
@@ -63,10 +66,4 @@ public class Video extends Auditable {
         this.job = job;
 
     }
-//    public void setBookmark(Bookmark bookmark) {
-//        this.bookmarks.add(bookmark);
-//        if (bookmark.getVideo()!=this) {
-//            bookmark.setVideo(this);
-//        }
-//    }
 }
