@@ -1,3 +1,4 @@
+/*
 package seb45_main_029.server.security.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -7,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
+        registry.addMapping("/users/**")
+                .allowedOriginPatterns("https://localhost:8080")
+                .allowedMethods("GET","POST","PUT","DELETE")
                 .allowCredentials(true);
     }
 }
+*/
