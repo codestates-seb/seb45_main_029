@@ -128,6 +128,7 @@ public class VideoService {
 
     }
 
+    // 북마크 조회
     @Transactional(readOnly = true)
     public Page<Bookmark> getBookmark(int page, int size) {
         long loginUserId = userService.getLoginUser().getUserId();
@@ -135,6 +136,7 @@ public class VideoService {
         return bookmarkRepository.findByUserUserId(PageRequest.of(page, size), loginUserId);
     }
 
+    // 북마크 삭제
     @Transactional
     public Bookmark removeBookmark(long videoId) {
 
