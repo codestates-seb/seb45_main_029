@@ -11,11 +11,13 @@ import {
 import Modal from '../components/Modal';
 
 export default function MainSearch() {
-  const [searchContent, setSearchContent] = useState('');
   const location = useLocation();
+
+  const [searchContent, setSearchContent] = useState('');
   const [pageNum, setPageNum] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
+
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 

@@ -16,16 +16,27 @@ import {
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
-import { useRef, useState } from 'react';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 
 export default function MyPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
-
+  const [userInfo, setUserInfo] = useState({});
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axios.get(
+        'http://localhost:8080/users/mypage/{user-id}'
+      );
+      setUserInfo(data.data);
+    };
+    getData();
+  }, []);
 
   return (
     <NavAndContent>
@@ -45,16 +56,15 @@ export default function MyPage() {
               />
             </header>
             <UserInfoPContainer>
-              <UserSpan>Email :</UserSpan>
-              <UserSpan>nickName :</UserSpan>
-              <UserInfoP>직업군 :</UserInfoP>
-              <UserInfoP>motto :</UserInfoP>
+              <UserSpan>Email : {userInfo.email}</UserSpan>
+              <UserSpan>nickname : {userInfo.nickname}</UserSpan>
+              <UserInfoP>직업군 : {userInfo.job}</UserInfoP>
+              <UserInfoP>motto : {userInfo.motto}</UserInfoP>
             </UserInfoPContainer>
           </InfoContainer>
           <UserHealthContainer>
-            <p>나의 통증 부위</p>
+            <p>나의 통증 부위 : {userInfo.painArea}</p>
             <Line></Line>
-            <span>허리</span>
           </UserHealthContainer>
         </UserInfoOuterContainer>
         <Carousel
@@ -79,7 +89,13 @@ export default function MyPage() {
         <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
         <BoardCotainer>
           <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
+          {userInfo.questions?.map((el) => {
+            return el;
+          })}
           <div>내가 한 답변</div>
+          {userInfo.answers?.map((el) => {
+            return el;
+          })}
         </BoardCotainer>
       </div>
     </NavAndContent>

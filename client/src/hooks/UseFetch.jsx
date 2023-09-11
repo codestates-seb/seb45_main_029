@@ -6,7 +6,7 @@ const useFetch = (page) => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false); //로딩 구현 시에만 필요
 
-  //query API 요청 보내기
+  //@todo query API 요청 보내기
   const sendQuery = useCallback(async () => {
     // const URL = `${END_POINT}?${page}~~~`; // page에 대한 정보를 건네주고 데이터를 받아오자
 
@@ -15,7 +15,7 @@ const useFetch = (page) => {
       const response = [
         'https://funissu.com/wp-content/uploads/2021/08/%EC%83%81%EC%97%85%EC%9A%A9%EB%AC%B4%EB%A3%8C%EC%9D%B4%EB%AF%B8%EC%A7%80%EC%82%AC%EC%9D%B4%ED%8A%B8-0.jpg',
         'https://cdn.pixabay.com/photo/2023/06/10/06/36/pink-8053329_1280.jpg',
-      ]; // axios로 대체할 것, 우선은 하드코딩
+      ]; // @todo : axios로 대체할 것, 우선은 하드코딩
       if (!response) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
