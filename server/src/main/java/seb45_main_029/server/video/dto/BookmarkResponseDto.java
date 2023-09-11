@@ -3,9 +3,9 @@ package seb45_main_029.server.video.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import seb45_main_029.server.audit.Auditable;
+import seb45_main_029.server.common.Job;
+import seb45_main_029.server.common.PainArea;
 
-import java.time.LocalDateTime;
 
 
 @Getter
@@ -21,5 +21,7 @@ public class BookmarkResponseDto {
     private long videoId;
     private String title;
     private String youtubeLink;
+    private Job job;
+    private PainArea painArea;
 
 }
