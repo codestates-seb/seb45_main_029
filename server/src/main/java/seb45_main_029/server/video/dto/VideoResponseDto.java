@@ -26,6 +26,7 @@ public class VideoResponseDto {
     private long viewCount;
     private PainArea painArea;
     private Job job;
+    private boolean isBookmarked;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }
