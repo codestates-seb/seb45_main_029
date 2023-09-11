@@ -17,7 +17,8 @@ public enum ExceptionCode {
     //unauthorized_user
 
 
-    VIDEO_NOT_FOUND(404,"Video not found");
+    VIDEO_NOT_FOUND(404,"Video not found"),
+    BOOKMARK_VIDEO_NOT_FOUND(404,"Bookmark Video Not found");
 
     @Getter
     private int status;

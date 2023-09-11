@@ -9,6 +9,7 @@ import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.response.MultiResponseDto;
 import seb45_main_029.server.response.SingleResponseDto;
 import seb45_main_029.server.user.entity.User;
+import seb45_main_029.server.video.entity.Bookmark;
 import seb45_main_029.server.video.entity.Video;
 import seb45_main_029.server.video.mapper.BookmarkMapper;
 import seb45_main_029.server.video.mapper.VideoMapper;
@@ -91,21 +92,31 @@ public class VideoController {
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
     }
 
-//            동영상 북마크
+    //            동영상 북마크
     @PostMapping("/bookmark/{video-id}")
     public ResponseEntity bookmark(@PathVariable("video-id") @Positive long videoId) {
 
-        User user = videoService.bookmark(videoId);
+        Bookmark bookmark = videoService.bookmark(videoId);
 
-        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDto(bookmark)), HttpStatus.OK);
     }
-//
-    //    북마크 제거
+
+    @GetMapping("/bookmark")
+    public ResponseEntity getBookmark(@RequestParam int page,
+                                      @RequestParam int size) {
+        Page<Bookmark> bookmarkPage = videoService.getBookmark(page - 1, size);
+        List<Bookmark> bookmarks = bookmarkPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDtos(bookmarks),bookmarkPage),HttpStatus.OK);
+
+    }
+
+    //        북마크 제거
     @DeleteMapping("/bookmark/{video-id}")
     public ResponseEntity removeBookmark(@PathVariable("video-id") @Positive long videoId) {
 
-        User user = videoService.removeBookmark(videoId);
+        Bookmark bookmark = videoService.removeBookmark(videoId);
 
-        return new ResponseEntity<>(bookmarkMapper.bookmarkToBookmarkResponseDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

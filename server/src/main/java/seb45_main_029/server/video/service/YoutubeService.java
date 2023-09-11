@@ -63,7 +63,7 @@ public class YoutubeService {
             if (youTube != null) {
 //                쿼리 파라미터 설정
                 YouTube.Search.List search = youTube.search().list(("snippet,id"));
-                search.setKey("");
+                search.setKey("AIzaSyCde6Qb4XhLvkXJ6tWhcPWj_css263v9yo");
                 search.setQ(query);
                 search.setMaxResults(maxResult);
                 search.setTopicId("/m/0kt51");
