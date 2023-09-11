@@ -17,7 +17,6 @@ public interface BookmarkMapper {
             return null;
         }
 
-
         BookmarkResponseDto bookmarkResponseDto = new BookmarkResponseDto();
 
         bookmarkResponseDto.setUserId(bookmark.getUser().getUserId());
@@ -26,6 +25,8 @@ public interface BookmarkMapper {
         bookmarkResponseDto.setTitle(bookmark.getVideo().getTitle());
         bookmarkResponseDto.setYoutubeLink(bookmark.getVideo().getYoutubeLink());
         bookmarkResponseDto.setBookmarkId(bookmark.getBookmarkId());
+        bookmarkResponseDto.setJob(bookmark.getVideo().getJob());
+        bookmarkResponseDto.setPainArea(bookmark.getVideo().getPainArea());
 
         return bookmarkResponseDto;
 
