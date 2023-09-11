@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Slide from './Slide';
+import VideoDetail from './VideoDetail';
 import {
   VideoTitle,
   TitleFontSpanBlack,
@@ -12,6 +12,7 @@ import {
   VideoContainerFlexWrap,
 } from '../style/MyPage';
 
+// @todo : 비디오 받아오기
 const VideoLinks = [
   'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
   'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
@@ -36,8 +37,7 @@ export default function Carousel({
 
   const NextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
+      setCurrentSlide(0);
     } else {
       setCurrentSlide(currentSlide + 1);
     }
@@ -45,7 +45,7 @@ export default function Carousel({
   // Prev 버튼 클릭 시
   const PrevSlide = () => {
     if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+      setCurrentSlide(TOTAL_SLIDES);
     } else {
       setCurrentSlide(currentSlide - 1);
     }
@@ -53,7 +53,7 @@ export default function Carousel({
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
-    slideRef.current.style.transform = `translateX(${-currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+    slideRef.current.style.transform = `translateX(${-currentSlide}00%)`;
   }, [currentSlide]);
 
   return (
@@ -70,7 +70,13 @@ export default function Carousel({
           <VideoAndButtonContainerFlexWrap>
             <VideoContainerFlexWrap ref={slideRef}>
               {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
+                return (
+                  <VideoDetail
+                    key={index}
+                    videoLink={elem}
+                    videoId={elem.videoId}
+                  />
+                );
               })}
             </VideoContainerFlexWrap>
           </VideoAndButtonContainerFlexWrap>
@@ -78,7 +84,13 @@ export default function Carousel({
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
               {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
+                return (
+                  <VideoDetail
+                    key={index}
+                    videoLink={elem}
+                    videoId={elem.videoId}
+                  />
+                );
               })}
             </VideoContainer>
           </VideoAndButtonContainer>
