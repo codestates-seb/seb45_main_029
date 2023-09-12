@@ -111,26 +111,6 @@ function SignUp() {
       });
       console.log(res);
       navigate('/signin');
-      // await api('/users/signup', 'post', {
-      //   id,
-      //   password,
-      //   username,
-      //   motto,
-      //   nickName,
-      //   painArea,
-      //   job
-
-      // })
-      // .then((res) => {
-      //   console.log(res.data.message);
-      //   if (res.status === 201) {
-      //     alert('회원가입에 성공하셨습니다!');
-      //     navigate('/signin');
-      //   }
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
     }
   };
 
