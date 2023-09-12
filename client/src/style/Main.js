@@ -22,6 +22,7 @@ export const InputDesign = styled.input`
 
 export const ImageDesign = styled.img`
   right: 12%;
+  top: 22%;
   position: absolute;
 
   cursor: pointer;

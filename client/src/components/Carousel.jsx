@@ -15,6 +15,11 @@ import axios from 'axios';
 import Modal from './Modal';
 import { useSelector } from 'react-redux';
 import { jobChoose } from '../assets/variousFunctions';
+import styled from 'styled-components';
+
+const DivFlexMovie1 = styled.div`
+  display: flex;
+`;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -61,6 +66,8 @@ export default function Carousel({
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
+  const [upperVideos, setUpperVideos] = useState([]);
+  const [lowerVideos, setLowerVideos] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
   const [total, setTotal] = useState(0);
@@ -106,9 +113,9 @@ export default function Carousel({
           'ngrok-skip-browser-warning': '69420',
         },
       });
-
       setVideos(data.data);
     };
+
     asyncFunction();
   }, [
     videoType,
@@ -120,14 +127,30 @@ export default function Carousel({
   ]);
 
   useEffect(() => {
+    setLowerVideos(
+      videos.filter((el, idx) => {
+        return idx % 2 === 0;
+      })
+    );
+    setUpperVideos(
+      videos.filter((el, idx) => {
+        return idx % 2 === 1;
+      })
+    );
+  }, [videos]);
+
+  useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
     slideRef.current.style.transform = `translateX(${-currentSlide}00%)`;
   }, [currentSlide, slideRef]);
 
   useEffect(() => {
-    const TOTAL_SLIDES = flexWrap
-      ? parseInt(videos.length / 6)
-      : parseInt(videos.length / 3);
+    const upper =
+      videos.length % 3 === 0 ? videos.length / 3 - 1 : videos.length / 3;
+    const lower =
+      videos.length % 6 === 0 ? videos.length / 6 - 1 : videos.length / 6;
+    const TOTAL_SLIDES = flexWrap ? parseInt(lower) : parseInt(upper);
+
     setTotal(TOTAL_SLIDES);
   }, [videos, flexWrap]);
 
@@ -151,20 +174,40 @@ export default function Carousel({
         {flexWrap ? (
           <VideoAndButtonContainerFlexWrap>
             <VideoContainerFlexWrap ref={slideRef}>
-              {videos.map((elem, index) => {
-                return (
-                  <div key={index}>
-                    <VideoDetail
-                      thumb={elem.thumbnail.replace(
-                        'default.jpg',
-                        'maxresdefault.jpg'
-                      )}
-                      videoId={elem.videoId}
-                      openModal={openModal}
-                    />
-                  </div>
-                );
-              })}
+              <DivFlexMovie1>
+                {upperVideos.map((elem, index) => {
+                  return (
+                    <div key={index}>
+                      <VideoDetail
+                        thumb={elem.thumbnail.replace(
+                          'default.jpg',
+                          'maxresdefault.jpg'
+                        )}
+                        videoId={elem.videoId}
+                        openModal={openModal}
+                      />
+                    </div>
+                  );
+                })}
+              </DivFlexMovie1>
+              <DivFlexMovie1>
+                <DivFlexMovie1>
+                  {lowerVideos.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail.replace(
+                            'default.jpg',
+                            'maxresdefault.jpg'
+                          )}
+                          videoId={elem.videoId}
+                          openModal={openModal}
+                        />
+                      </div>
+                    );
+                  })}
+                </DivFlexMovie1>
+              </DivFlexMovie1>
             </VideoContainerFlexWrap>
           </VideoAndButtonContainerFlexWrap>
         ) : (

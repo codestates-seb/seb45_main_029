@@ -9,7 +9,7 @@ const ImageDesign = styled.img`
 `;
 
 const ImageFrame = styled.img`
-  width: 35rem;
+  width: 30.7rem;
   height: 15rem;
   margin: 0.5rem;
 `;

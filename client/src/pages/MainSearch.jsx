@@ -81,7 +81,6 @@ export default function MainSearch() {
           placeholder='검색하기'
           ref={inputRef}
         />
-        {/* 검색하기 */}
         <ImageDesign
           onClick={onClickSearchHandler}
           src='/images/magnify.png'
@@ -89,7 +88,6 @@ export default function MainSearch() {
         />
       </InputContainer>
       <VideoContainerFlexWrap>
-        {/* 받아온 URL로 썸네일 추출하고 */}
         {list?.map((elem, index) => {
           return (
             <div key={index}>
