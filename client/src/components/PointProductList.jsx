@@ -62,12 +62,13 @@ const ProductList = styled.ul`
   }
 `
 
-export default function PointProductList ({ products }){
+export default function PointProductList ({currentPosts, products }){
   return(
     <ProductList>
-      {products.map(list => {
+      {currentPosts && products.length > 0 ? (
+        currentPosts.map((list , idx) => {
           return (
-          <li key={list.id}>
+          <li key={idx}>
             <figure>
               <img src={list.image} alt={list.title} />
             </figure>
@@ -78,7 +79,10 @@ export default function PointProductList ({ products }){
             <button className="detail_view">자세히 보기</button>
           </li>
           )
-      })}
+      })
+      ) : (
+        <div> No posts.</div>
+      )}
     </ProductList>
   )
 }
