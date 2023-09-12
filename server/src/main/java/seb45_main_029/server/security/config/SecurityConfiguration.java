@@ -83,16 +83,17 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://localhost:5173","http://localhost:8080"));
         // 모든 헤더 허용
+        configuration.addAllowedHeader("*");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용
         configuration.setAllowCredentials(true);
         // 허용할 출처 패턴 설정 -> 이전 버전으로 setAllowCredentials과 사용 가능
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         // 클라이언트에 노출할 헤더 설정
-        configuration.addExposedHeader("*");
+        configuration.setExposedHeaders(Arrays.asList("*"));
         // 지정한 HTTPMethod에 대한 통신 허용
         // "OPTIONS" : 프리플라이트 요청
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTION"));   // 지정한 HTTPMethod에 대한 통신 허용
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));   // 지정한 HTTPMethod에 대한 통신 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 모든 엔드포인트에 구성한 CORS 적용
