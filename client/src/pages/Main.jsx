@@ -17,6 +17,8 @@ import Carousel from '../components/Carousel';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+// 아래 선택 carousel이 작동을 안 함
+
 function Main() {
   const [videoType, setVideoType] = useState('전체');
   const [videoDetailType, setVideoDetailType] = useState('가슴');

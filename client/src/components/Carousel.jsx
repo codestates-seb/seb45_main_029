@@ -114,6 +114,7 @@ export default function Carousel({
           },
         });
         setVideos(data.data);
+        console.log(data.data.length);
       } catch (error) {
         console.log(error);
       }
