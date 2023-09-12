@@ -32,7 +32,6 @@ export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
   const closeModal = () => {
     setModalOpen(false);
   };
-
   return (
     <div>
       {isModalOpen && (
@@ -42,7 +41,7 @@ export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
               <iframe
                 width='560'
                 height='315'
-                src={list[listIndex]}
+                src={list[listIndex]?.youtubeLink.replace('watch?v=', 'embed/')}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 allowFullScreen

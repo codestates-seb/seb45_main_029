@@ -1,4 +1,5 @@
-import MyPageNav from "../components/MyPageNav";
+import { useSelector, useDispatch } from 'react-redux';
+import MyPageNav from '../components/MyPageNav';
 import {
   NavAndContent,
   NavContainer,
@@ -11,26 +12,33 @@ import {
   InputAndButtonContainer,
   InputButton,
   Input,
-} from "../style/MyPageDelete";
+} from '../style/MyPageDelete';
 
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { deleteUser } from '../redux/userSlice';
 
 export default function MyPageDelete() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
   const onSubmitDelete = async (e) => {
     e.preventDefault();
-    if (e.target[0].value === "탈퇴하기") {
-      console.log("hey");
-      // const data = await axios.delete("URI");
-      // navigate("/");
+    if (e.target[0].value === '탈퇴하기') {
+      console.log('hey');
+      const data = await axios.delete(
+        `${import.meta.env.SERVER_URL}/users/${userInfo.userId}`
+      );
+      dispatch(deleteUser);
+      console.log(data);
+      navigate('/');
     }
   };
 
   return (
     <NavAndContent>
       <NavContainer>
-        <MyPageNav color="third" />
+        <MyPageNav color='third' />
       </NavContainer>
       <DeleteContainer>
         <Title>탈퇴안내</Title>
@@ -79,8 +87,8 @@ export default function MyPageDelete() {
           적어주세요
         </p>
         <InputAndButtonContainer onSubmit={onSubmitDelete}>
-          <Input type="text" placeholder="탈퇴하기" />
-          <InputButton type="submit">탈퇴하기</InputButton>
+          <Input type='text' placeholder='탈퇴하기' />
+          <InputButton type='submit'>탈퇴하기</InputButton>
         </InputAndButtonContainer>
       </DeleteContainer>
     </NavAndContent>

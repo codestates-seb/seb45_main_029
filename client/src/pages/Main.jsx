@@ -14,6 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
@@ -21,8 +22,12 @@ function Main() {
   const [videoDetailType2, setVideoDetailType2] = useState('경영·사무');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
+  const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
+
+  const userInfo = useSelector((state) => state.user);
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
+  const slideRefRecommend = useRef(null);
 
   const navigate = useNavigate();
 
@@ -32,7 +37,12 @@ function Main() {
   };
 
   const onClickHandlerDetail = (e) => {
-    setVideoDetailType(e.target.innerText);
+    const data = e.target.innerText;
+    if (data === '경영·사무' || data === '연구·기술' || data === '보건·의료직')
+      setVideoDetailType('사무직');
+    else {
+      setVideoDetailType('현장직');
+    }
   };
 
   const onClickHandlerDetail2 = (e) => {
@@ -70,9 +80,19 @@ function Main() {
         />
       </InputContainer>
       {/* 로그인 시, 따로 맞춤추천영상이 떠야함, 리덕스 스토어에 저장된 isLoggedIn을 이용해서 조건부로 하면 될 거 같음 */}
-      {/*isLoggedIn && <Carousel> */}
-      <p>로그인하여 여러분들만의 </p>
-      <p>맞춤 운동 동영상을 확인해보세요</p>
+      {userInfo.loggedIn === false ? (
+        <>
+          <p>로그인하여 여러분들만의 </p>
+          <p>맞춤 운동 동영상을 확인해보세요</p>
+        </>
+      ) : (
+        <Carousel
+          message='My 맞춤운동'
+          slideRef={slideRefRecommend}
+          setCurrentSlide={setCurrentSlideRecommend}
+          currentSlide={currentSlideRecommend}
+        />
+      )}
       <Carousel
         message='TOP5 재활운동'
         slideRef={slideRefTop5}
@@ -109,6 +129,9 @@ function Main() {
         slideRef={slideRef}
         setCurrentSlide={setCurrentSlide}
         currentSlide={currentSlide}
+        videoType={videoType}
+        videoDetailType={videoDetailType}
+        videoDetailType2={videoDetailType2}
       />
     </MainContainer>
   );

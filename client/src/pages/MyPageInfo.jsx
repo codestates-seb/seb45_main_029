@@ -101,7 +101,9 @@ export default function MyPageInfo() {
     };
     try {
       axios.patch(
-        `http://localhost:8080/users/mypage/edit/${userInfo.memberId}`,
+        `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
+          userInfo.memberId
+        }`,
         data
       );
       dispatch(updateUser(data));

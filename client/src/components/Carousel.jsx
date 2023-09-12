@@ -12,7 +12,8 @@ import {
   VideoContainerFlexWrap,
 } from '../style/MyPage';
 import axios from 'axios';
-// @todo : 비디오 받아온 후에 지우기
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export default function Carousel({
   message,
@@ -20,13 +21,16 @@ export default function Carousel({
   slideRef,
   setCurrentSlide,
   flexWrap,
+  videoType,
+  videoDetailType,
+  videoDetailType2,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
 
   const TOTAL_SLIDES = flexWrap
-    ? parseInt(videos.length / 6) - 1
-    : parseInt(videos.length / 3) - 1;
+    ? parseInt(videos.length / 6)
+    : parseInt(videos.length / 3);
 
   const NextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -44,22 +48,37 @@ export default function Carousel({
     }
   };
 
-  // @todo : .서버 연결
+  // @todo : 사무직,
   useEffect(() => {
     const asyncFunction = async () => {
       let type = '';
       if (message === 'TOP5 재활운동') {
-        type = 'popular';
+        type = 'popular?page=1&size=10';
       } else if (message === '직업별') {
-        type = 'job';
+        type = 'job?page=1&size=10';
+      } else if (message === 'My 맞춤운동') {
+        type = 'recommended?page=1&size=10';
       }
-      const { data } = await axios.get(
-        `http://localhost:8080/video/${type}?page=1&size=10`
-      );
-      setVideos(data);
+      if (videoType === '전체') {
+        type = `keyword?page=1&size=30&keyword=`;
+      } else if (videoType === '부위별') {
+        type = `keyword?page=1&size=30&keyword=${videoDetailType}`;
+      } else if (videoType === '직업별') {
+        type = `keyword?page=1&size=30&keyword=${videoDetailType2}`;
+      }
+
+      const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'ngrok-skip-browser-warning': '69420',
+        },
+      });
+      setVideos(data.data);
     };
     asyncFunction();
-  }, []);
+  }, [videoType, videoDetailType, videoDetailType2, message]);
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -83,7 +102,7 @@ export default function Carousel({
                 return (
                   <VideoDetail
                     key={index}
-                    youtubeLink={elem}
+                    youtubeLink={elem.youtubeLink}
                     videoId={elem.videoId}
                   />
                 );
@@ -97,7 +116,7 @@ export default function Carousel({
                 return (
                   <VideoDetail
                     key={index}
-                    youtubeLink={elem}
+                    youtubeLink={elem.youtubeLink}
                     videoId={elem.videoId}
                   />
                 );
