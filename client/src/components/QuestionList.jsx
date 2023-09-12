@@ -8,6 +8,8 @@ import {
   Line,
 } from '../style/QuestionList';
 import { useNavigate } from 'react-router-dom';
+import Like from './Like';
+import Comments from './Comments';
 
 function QuestionList({ props }) {
   const navigate = useNavigate();
@@ -41,17 +43,19 @@ function QuestionList({ props }) {
 
           <div className='icon-count'>
             <div>
-              <div>
-                <img src='/images/likes.png' alt='likes' />
-              </div>
-              <span>{props.likes_count}</span>
+              <Like
+                likes_count={props.likes_count}
+                questionId={props.questionId}
+                user_has_liked={props.user_has_liked}
+              ></Like>
             </div>
 
             <div>
-              <div>
-                <img src='/images/comment.png' alt='comment' />
-              </div>
-              <span>{props.comments.length}</span>
+              <Comments
+                comments_count={props.comments_count}
+                answerId={props.answerId}
+                user_has_commented={props.user_has_commented}
+              ></Comments>
             </div>
           </div>
         </BottomContainer>

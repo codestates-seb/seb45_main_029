@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SearchBox } from '../style/SearchBoard';
-import axios from 'axios';
+import { api } from '../api/api';
 
 const SearchBoard = () => {
   const [isAutoSearch, setIsAutoSearch] = useState(false);
@@ -30,10 +30,10 @@ const SearchBoard = () => {
   };
 
   const goToSearchPage = () => {
-    // eslint-disable-next-line no-undef
-    if (isNull()) return;
     navigate(
-      `/search?query=${isAutoSearch ? autoSearchKeyword : searchKeyword}`
+      `/question?page=1&size=10=${
+        isAutoSearch ? autoSearchKeyword : searchKeyword
+      }`
     );
   };
 
@@ -88,13 +88,15 @@ const SearchBoard = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `//localhost:8080/api/question/1/${searchKeyword}`
-        );
-        const data = await response.json();
-        setSearchResults(data.results);
+        const response = await api(`/question/1/${searchKeyword}`, 'get');
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data.results);
+        } else {
+          console.error('HTTP Error:', response.status);
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.log(error);
       }
     };
 

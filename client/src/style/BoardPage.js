@@ -67,42 +67,4 @@ export const BottomContent = styled.div`
   padding-left: 6.5rem;
 
   margin-top: 3rem;
-
-  .pagination {
-    list-style: none;
-    padding-bottom: 3.125rem;
-    gap: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    color: var(--white);
-    width: 46.25rem;
-    height: 3.0625rem;
-    flex-shrink: 0;
-    cursor: pointer;
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: normal;
-  }
-  .page_num {
-    display: block;
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    width: 6.25rem;
-    padding: 0.625rem;
-    cursor: pointer;
-    text-align: center;
-
-    &:hover {
-      background: var(--blue);
-      color: var(--white);
-    }
-  }
-
-  .active {
-    background: var(--blue);
-    color: var(--white);
-  }
 `;

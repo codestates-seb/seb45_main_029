@@ -13,7 +13,7 @@ export const userSlice = createSlice({
       state.loggedIn = action.payload.loggedIn;
       state.email = action.payload.email;
       state.name = action.payload.name;
-      state.memberId = action.payload.memberId;
+      state.userId = action.payload.userId;
       return state;
     },
   },

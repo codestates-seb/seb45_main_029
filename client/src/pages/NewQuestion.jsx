@@ -2,9 +2,8 @@
 import React, { useState, useRef } from 'react';
 import WebEditor from '../webEditor/WebEditor';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
-
+import { api } from '../api/api';
 const NewquestionContainer = styled.div`
   width: 43.89rem;
   height: 36rem;
@@ -67,15 +66,20 @@ const Newquestion = () => {
       content,
     };
 
-    axios.post('http://localhost:8080/api/question/post', data).then((res) => {
-      if (res.status === 200) {
-        navigate('/boardpage', { replace: true });
-        return;
-      } else {
-        alert('업로드 실패.');
-        return;
-      }
-    });
+    api('/question', 'post', data).then((res) => console.log(res));
+    console.log('hey');
+
+    // axios
+    //   .post('https://22e3-125-191-229-170.ngrok-free.app/question', data)
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       navigate('/boardpage', { replace: true });
+    //       return;
+    //     } else {
+    //       alert('업로드 실패.');
+    //       return;
+    //     }
+    //   });
   };
   return (
     // eslint-disable-next-line react/jsx-no-undef

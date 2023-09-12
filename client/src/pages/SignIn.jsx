@@ -39,7 +39,7 @@ function SignIn() {
 
   const signIn = async () => {
     if (idIsValid && passwordIsValid) {
-      api('/signin', 'post', { id, password })
+      api('/users/login', 'post', { password, email: id })
         .then((response) => {
           console.log(response.data.message);
           if (response.data.success) {

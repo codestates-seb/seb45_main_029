@@ -24,7 +24,7 @@ const AnswerOrEdit = (props) => {
       setAnswer({ ...answer, content: editedContent, title: editedTitle });
       setEditedContent('');
       try {
-        const response = await api(`/answer/${props.answerId}`, 'patch', {
+        const response = await api(`/answer/1/${props.answerId}`, 'patch', {
           editedContent,
           editedTitle,
         });
@@ -46,7 +46,7 @@ const AnswerOrEdit = (props) => {
     setAnswer(updatedAnswers);
     try {
       const response = await api(
-        `question/${props.questionId}/answer/${props.answerId}`,
+        `question/1/${props.questionId}/answer/1/${props.answerId}`,
         'delete'
       );
       if (response.success) {

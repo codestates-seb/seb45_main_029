@@ -13,8 +13,7 @@ import {
 } from '../style/SignUp';
 import { Button } from '../style/Button';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
-import Footer from '../components/Footer';
-import axios from 'axios';
+import { api } from '../api/api';
 
 function SignUp() {
   const [id, setId] = useState('');
@@ -23,8 +22,8 @@ function SignUp() {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [password2, setPassword2] = useState('');
   const [password2IsValid, setPassword2IsValid] = useState(false);
-  const [name, setName] = useState('');
-  const [nameIsValid, setNameIsValid] = useState(false);
+  const [username, setUsername] = useState('');
+  const [usernameIsValid, setUsernameIsValid] = useState(false);
   const [nickName, setNickName] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
   const [motto, setMotto] = useState('');
@@ -36,11 +35,11 @@ function SignUp() {
   const navigate = useNavigate();
 
   const onChangeHandlerName = (e) => {
-    setName(e.target.value);
+    setUsername(e.target.value);
     if (e.target.value.length < 1) {
-      setNameIsValid(false);
+      setUsernameIsValid(false);
     } else {
-      setNameIsValid(true);
+      setUsernameIsValid(true);
     }
   };
 
@@ -96,22 +95,42 @@ function SignUp() {
       idIsValid &&
       passwordIsValid &&
       password2IsValid &&
-      nameIsValid &&
+      usernameIsValid &&
       nickNameIsValid &&
       mottoIsValid
     ) {
-      await axios
-        .post('http://localhost:8080/users/signup', { id, password })
-        .then((res) => {
-          console.log(res.data.message);
-          if (res.status === 201) {
-            alert('회원가입에 성공하셨습니다!');
-            navigate('/signin');
-          }
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+      const res = await api('/users/signup', 'post', {
+        email: id,
+        password,
+        username,
+        confirmPassword: password2,
+        motto,
+        nickname: nickName,
+        painArea: '가슴',
+        job: '사무직',
+      });
+      console.log(res);
+      navigate('/signin');
+      // await api('/users/signup', 'post', {
+      //   id,
+      //   password,
+      //   username,
+      //   motto,
+      //   nickName,
+      //   painArea,
+      //   job
+
+      // })
+      // .then((res) => {
+      //   console.log(res.data.message);
+      //   if (res.status === 201) {
+      //     alert('회원가입에 성공하셨습니다!');
+      //     navigate('/signin');
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
     }
   };
 
@@ -150,11 +169,11 @@ function SignUp() {
                 <input
                   type='text'
                   onChange={onChangeHandlerName}
-                  value={name}
+                  value={username}
                   placeholder='설미선'
                 ></input>
               </div>
-              {!nameIsValid ? (
+              {!usernameIsValid ? (
                 <div className='error-message'>이름을 입력 해주세요</div>
               ) : null}
             </div>
@@ -267,7 +286,6 @@ function SignUp() {
           </Button>
         </SignBox>
       </Container>
-      <Footer />
     </>
   );
 }
