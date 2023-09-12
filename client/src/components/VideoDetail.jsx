@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -24,10 +24,11 @@ const IframeContainer = styled.div`
 // @todo 서버 URI 연결
 export default function VideoDetail({ thumb, videoId, openModal }) {
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const [pic, setPic] = useState(thumb);
+  const link = thumb.replace('default.jpg', 'maxresdefault.jpg');
+  const imgRef = useRef(null);
 
   useEffect(() => {
-    setPic(thumb.replace('default.jpg', 'maxresdefault.jpg'));
+    imgRef.current.src = '새로운 이미지 URL';
   }, []);
 
   const imgOnclickHandler = () => {
@@ -41,8 +42,9 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   return (
     <IframeContainer>
       <ImageFrame
-        src={pic}
+        src={link}
         alt='video'
+        ref={imgRef}
         onClick={() => openModal(videoId)}
       ></ImageFrame>
       {bookmarkClick ? (

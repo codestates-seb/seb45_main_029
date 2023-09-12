@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
+// @todo : 중복 발생
+
 const useFetch = (page, keyword, setPageNum) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
@@ -48,7 +50,7 @@ const useFetch = (page, keyword, setPageNum) => {
       setPageNum(1);
     }
     sendQuery();
-  }, [sendQuery, page, keyword, savedKeyword, setPageNum]);
+  }, [sendQuery, page, keyword, setPageNum]);
 
   return { hasMore, list, isLoading };
 };

@@ -17,6 +17,7 @@ import Carousel from '../components/Carousel';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+//@todo:
 // 아래 선택 carousel이 작동을 안 함
 
 function Main() {
