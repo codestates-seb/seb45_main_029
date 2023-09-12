@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const useFetch = (page, keyword) => {
+const useFetch = (page, keyword, setPageNum) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); //로딩 구현 시에만 필요
+  const [isLoading, setIsLoading] = useState(false);
   const [savedKeyword, SetSavedKeyword] = useState('');
-  //@todo query API 요청 보내기
+
   const sendQuery = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -24,6 +24,12 @@ const useFetch = (page, keyword) => {
         }
       );
 
+      console.log(
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/video/keyword?page=${page}&size=1&keyword=${keyword}`
+      );
+
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
@@ -39,9 +45,10 @@ const useFetch = (page, keyword) => {
   useEffect(() => {
     if (keyword !== savedKeyword) {
       setList([]);
+      setPageNum(1);
     }
     sendQuery();
-  }, [sendQuery, page, keyword, savedKeyword]);
+  }, [sendQuery, page, keyword, savedKeyword, setPageNum]);
 
   return { hasMore, list, isLoading };
 };
