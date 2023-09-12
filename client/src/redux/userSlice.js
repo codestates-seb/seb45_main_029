@@ -6,7 +6,7 @@ export const userSlice = createSlice({
     loggedIn: false,
     email: '',
     name: '',
-    memberId: 1,
+    userId: 1,
     bookmark: [],
     job: '',
     image: '',
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
       state.loggedIn = action.payload.loggedIn;
       state.email = action.payload.email;
       state.name = action.payload.name;
-      state.memberId = action.payload.memberId;
+      state.userId = action.payload.userId;
       state.bookmark = action.payload.bookmark;
       state.job = action.payload.job;
       state.image = action.payload.image;
@@ -29,6 +29,16 @@ export const userSlice = createSlice({
       state.painArea = action.payload.painArea;
       state.image = action.payload.image;
       state.job = action.payload.job;
+    },
+    deleteUser: (state, action) => {
+      state.loggedIn = false;
+      state.email = '';
+      state.name = '';
+      state.userId = 1;
+      state.bookmark = [];
+      state.job = '';
+      state.image = '';
+      return state;
     },
     setBookmark: (state, action) => {
       state.bookmark = [...state.bookmark, action.payload.videoId];
@@ -44,6 +54,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBookmark, deleteBookmark, updateUser } =
+export const { setUser, setBookmark, deleteBookmark, updateUser, deleteUser } =
   userSlice.actions;
 export default userSlice.reducer;

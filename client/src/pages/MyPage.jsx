@@ -20,8 +20,10 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 export default function MyPage() {
-  const { memberId, image } = useSelector((state) => state.user);
+  const { userId, image } = useSelector((state) => state.user);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
@@ -32,9 +34,7 @@ export default function MyPage() {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await axios.get(
-        `http://localhost:8080/users/mypage/${memberId}`
-      );
+      const data = await axios.get(`${SERVER_URL}/${userId}`);
       setUserInfo(data.data);
     };
     getData();

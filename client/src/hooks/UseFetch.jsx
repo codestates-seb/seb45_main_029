@@ -11,23 +11,32 @@ const useFetch = (page, keyword) => {
     try {
       setIsLoading(true);
       const { data } = await axios.get(
-        `http://localhost:8080/video/keyword?page=1&size=30&keyword=${keyword}`
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/video/keyword?page=${page}&size=1&keyword=${keyword}`,
+        {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'ngrok-skip-browser-warning': '69420',
+          },
+        }
       );
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
-
-      setList((prev) => [...prev, ...data]); // response.data
-      setHasMore(data.length > 0); // 다 끝났으면 빈배열을 받을지? 아니면 따로 boolean 변수를 둘지? 회의를 해봐야겠음
+      setList((prev) => [...prev, ...data.data]);
+      setHasMore(data.data.length > 0);
       setIsLoading(false);
     } catch (e) {
       throw new Error(`오류입니다. ${e.message}`);
     }
-  }, [page]);
+  }, [page, keyword]);
 
   useEffect(() => {
     sendQuery();
-  }, [sendQuery, page]);
+  }, [sendQuery, page, keyword]);
 
   return { hasMore, list, isLoading };
 };

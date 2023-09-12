@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
 import useFetch from '../hooks/UseFetch';
-
+import styled from 'styled-components';
 import {
   InputContainer,
   InputDesign,
@@ -10,18 +10,25 @@ import {
   MainContainer,
 } from '../style/Main';
 import Modal from '../components/Modal';
+import { VideoContainerFlexWrap } from '../style/MyPage';
+
+const ImgDesign = styled.img`
+  width: 15rem;
+  height: 15rem;
+  cursor: pointer;
+  margin: 3rem;
+`;
 
 export default function MainSearch() {
   const location = useLocation();
-
+  const [keyword, setKeyword] = useState(location.state.value);
   const [pageNum, setPageNum] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
-
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const { list, hasMore, isLoading } = useFetch(pageNum, location.state.value); // 커스텀훅, list 서버에서 가져온 데이터
+  const { list, hasMore, isLoading } = useFetch(pageNum, keyword); // 커스텀훅, list 서버에서 가져온 데이터
 
   const observer = (node) => {
     if (isLoading) return;
@@ -39,16 +46,13 @@ export default function MainSearch() {
     setListIndex(index);
   };
 
-  useEffect(() => {
-    inputRef.current.value = location.state.value;
-  }, []);
-
   const onClickSearchHandler = (e) => {
     const content = e.target.previousSibling.value;
     if (content === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
     inputRef.current.value = e.target.previousSibling.value;
+    setKeyword(inputRef.current.value);
   };
 
   const onKeyUpHandler = (e) => {
@@ -58,6 +62,7 @@ export default function MainSearch() {
     }
     if (e.keyCode === 13) {
       inputRef.current.value = e.target.value;
+      setKeyword(inputRef.current.value);
     }
   };
 
@@ -82,21 +87,22 @@ export default function MainSearch() {
           alt='magnifier'
         />
       </InputContainer>
-
-      {/* 받아온 URL로 썸네일 추출하고 */}
-      {list?.map((elem, index) => {
-        return (
-          <img
-            onClick={() => {
-              openModal(index);
-            }}
-            key={index}
-            src={elem.thumbnail}
-            alt='picture'
-          />
-        );
-      })}
-
+      <VideoContainerFlexWrap>
+        {/* 받아온 URL로 썸네일 추출하고 */}
+        {list?.map((elem, index) => {
+          return (
+            <div key={index}>
+              <ImgDesign
+                onClick={() => {
+                  openModal(index);
+                }}
+                src={elem.thumbnail}
+                alt='picture'
+              />
+            </div>
+          );
+        })}
+      </VideoContainerFlexWrap>
       <div ref={observer} />
       {isLoading && <Loading />}
     </MainContainer>

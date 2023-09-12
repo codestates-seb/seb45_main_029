@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { setBookmark, deleteBookmark } from '../redux/userSlice';
-import axios from 'axios';
 
 const IframeDesign = styled.iframe`
   margin: 0.5em;
@@ -22,7 +21,7 @@ const IframeContainer = styled.div`
 `;
 
 // @todo 서버 URI 연결
-export default function VideoDetail({ videoLink, videoId }) {
+export default function VideoDetail({ youtubeLink, videoId }) {
   const userInfo = useSelector((state) => state.user);
   const [bookmarkClick, setBookmarkClick] = useState(false);
   const dispatch = useDispatch();
@@ -32,13 +31,13 @@ export default function VideoDetail({ videoLink, videoId }) {
     if (bookmarkClick) {
       const bookmark = [...userInfo.bookmark, videoId];
       dispatch(setBookmark(videoId));
-      axios.patch('url', { bookmark });
+      //axios.patch('url', { bookmark });
     } else {
       const bookmark = userInfo.bookmark.filter((el) => {
         el !== videoId;
       });
       dispatch(deleteBookmark(videoId));
-      axios.patch('url', { bookmark });
+      //axios.patch('url', { bookmark });
     }
   };
 
@@ -48,14 +47,14 @@ export default function VideoDetail({ videoLink, videoId }) {
         setBookmarkClick(true);
       }
     });
-  }, []);
+  }, [userInfo.bookmark, videoId]);
 
   return (
     <IframeContainer>
       <IframeDesign
         width='490'
         height='315'
-        src={videoLink}
+        src={youtubeLink.replace('watch?v=', 'embed/')}
         title='YouTube video player'
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
         allowFullScreen
