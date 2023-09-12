@@ -27,7 +27,14 @@ const useFetch = (page, keyword) => {
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
-      setList((prev) => [...prev, ...data.data]);
+      setList(
+        page === 1
+          ? (prev) => {
+              console.log(prev);
+              return data.data;
+            }
+          : (prev) => [...prev, ...data.data]
+      );
       setHasMore(data.data.length > 0);
       setIsLoading(false);
     } catch (e) {

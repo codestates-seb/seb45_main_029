@@ -38,6 +38,11 @@ export default function Modal({
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const videoIdx = videoId
+    ? list.findIndex((el) => el.videoId === listIndex)
+    : listIndex;
+
   return (
     <div>
       {isModalOpen && (
@@ -47,15 +52,7 @@ export default function Modal({
               <iframe
                 width='560'
                 height='315'
-                src={
-                  videoId === true
-                    ? list[
-                        list.findIndex(videoId) > 0
-                          ? list.findIndex(videoId)
-                          : 0
-                      ].youtubeLink.replace('watch?v=', 'embed/')
-                    : list[listIndex]?.youtubeLink.replace('watch?v=', 'embed/')
-                }
+                src={list[videoIdx]?.youtubeLink.replace('watch?v=', 'embed/')}
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 allowFullScreen
