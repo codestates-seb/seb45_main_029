@@ -104,16 +104,19 @@ export default function Carousel({
         videoDetailType2,
         userInfo
       );
-
-      const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'ngrok-skip-browser-warning': '69420',
-        },
-      });
-      setVideos(data.data);
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        setVideos(data.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     asyncFunction();
@@ -179,10 +182,7 @@ export default function Carousel({
                   return (
                     <div key={index}>
                       <VideoDetail
-                        thumb={elem.thumbnail.replace(
-                          'default.jpg',
-                          'maxresdefault.jpg'
-                        )}
+                        thumb={elem.thumbnail}
                         videoId={elem.videoId}
                         openModal={openModal}
                       />
@@ -196,10 +196,7 @@ export default function Carousel({
                     return (
                       <div key={index}>
                         <VideoDetail
-                          thumb={elem.thumbnail.replace(
-                            'default.jpg',
-                            'maxresdefault.jpg'
-                          )}
+                          thumb={elem.thumbnail}
                           videoId={elem.videoId}
                           openModal={openModal}
                         />
@@ -217,10 +214,7 @@ export default function Carousel({
                 return (
                   <div key={index}>
                     <VideoDetail
-                      thumb={elem.thumbnail.replace(
-                        'default.jpg',
-                        'maxresdefault.jpg'
-                      )}
+                      thumb={elem.thumbnail}
                       videoId={elem.videoId}
                       openModal={openModal}
                     />

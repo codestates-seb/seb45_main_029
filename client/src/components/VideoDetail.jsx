@@ -27,12 +27,16 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   const [pic, setPic] = useState('');
 
   useEffect(() => {
-    if (!thumb) {
-      console.log(thumb);
-      setPic(thumb.replace('maxresdefault.jpg', 'default.jpg'));
-    } else {
-      setPic(thumb);
-    }
+    const asyncFunction = async () => {
+      try {
+        await axios.get(thumb.replace('default.jpg', 'maxresdefault.jpg'));
+        setPic(thumb.replace('default.jpg', 'maxresdefault.jpg'));
+      } catch (error) {
+        console.log(error + '입니다');
+        setPic(thumb);
+      }
+    };
+    asyncFunction();
   }, []);
 
   const imgOnclickHandler = () => {
@@ -43,14 +47,11 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
       axios.delete(`${import.meta.env.SERVER_URL}/video/bookmark/${videoId}`);
     }
   };
-
-  useEffect(() => {}, []);
-
   return (
     <IframeContainer>
       <ImageFrame
         src={pic}
-        alt='watch'
+        alt='video'
         onClick={() => openModal(videoId)}
       ></ImageFrame>
       {bookmarkClick ? (

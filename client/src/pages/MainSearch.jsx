@@ -3,20 +3,28 @@ import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
 import useFetch from '../hooks/UseFetch';
 import styled from 'styled-components';
-import {
-  InputContainer,
-  InputDesign,
-  ImageDesign,
-  MainContainer,
-} from '../style/Main';
+import { InputContainer, InputDesign, ImageDesign } from '../style/Main';
 import Modal from '../components/Modal';
-import { VideoContainerFlexWrap } from '../style/MyPage';
 
 const ImgDesign = styled.img`
-  width: 15rem;
-  height: 15rem;
+  width: 25rem;
+  height: 25rem;
   cursor: pointer;
   margin: 3rem;
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+const VideoContainerFlexWrap = styled.div`
+  width: 95rem;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export default function MainSearch() {
@@ -29,6 +37,13 @@ export default function MainSearch() {
   const inputRef = useRef(null);
 
   const { list, hasMore, isLoading } = useFetch(pageNum, keyword); // 커스텀훅, list 서버에서 가져온 데이터
+
+  const handleError = (event) => {
+    event.target.src = list[listIndex].youtubeLink.replace(
+      'maxresdefault.jpg',
+      'default.jpg'
+    );
+  };
 
   const observer = (node) => {
     if (isLoading) return;
@@ -67,43 +82,50 @@ export default function MainSearch() {
   };
 
   return (
-    <MainContainer>
-      <Modal
-        isModalOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-        list={list}
-        listIndex={listIndex}
-        videoId={false}
-      />
-      <InputContainer>
-        <InputDesign
-          onKeyUp={onKeyUpHandler}
-          placeholder='검색하기'
-          ref={inputRef}
+    <>
+      <MainContainer>
+        <Modal
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen}
+          list={list}
+          listIndex={listIndex}
+          videoId={false}
         />
-        <ImageDesign
-          onClick={onClickSearchHandler}
-          src='/images/magnify.png'
-          alt='magnifier'
-        />
-      </InputContainer>
-      <VideoContainerFlexWrap>
-        {list?.map((elem, index) => {
-          return (
-            <div key={index}>
-              <ImgDesign
-                onClick={() => {
-                  openModal(index);
-                }}
-                src={elem.thumbnail}
-                alt='picture'
-              />
-            </div>
-          );
-        })}
-      </VideoContainerFlexWrap>
+        <InputContainer>
+          <InputDesign
+            onKeyUp={onKeyUpHandler}
+            placeholder='검색하기'
+            ref={inputRef}
+          />
+          <ImageDesign
+            onClick={onClickSearchHandler}
+            src='/images/magnify.png'
+            alt='magnifier'
+          />
+        </InputContainer>
+        <VideoContainerFlexWrap>
+          {list?.map((elem, index) => {
+            return (
+              <div key={index}>
+                <ImgDesign
+                  onClick={() => {
+                    openModal(index);
+                  }}
+                  src={elem.thumbnail.replace(
+                    'default.jpg',
+                    'maxresdefault.jpg'
+                  )}
+                  alt='picture'
+                  onError={handleError}
+                />
+              </div>
+            );
+          })}
+        </VideoContainerFlexWrap>
+
+        {isLoading && <Loading />}
+      </MainContainer>
       <div ref={observer} />
-      {isLoading && <Loading />}
-    </MainContainer>
+    </>
   );
 }
