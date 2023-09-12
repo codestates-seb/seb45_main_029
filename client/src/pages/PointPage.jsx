@@ -1,9 +1,9 @@
 import { useState , useEffect } from "react";
 import MotivationNav from "../components/MotivationNav";
 import PointProductList from "../components/PointProductList";
+import PointPagination from "../components/PointPagination"
 import { Container, ContainerSection, ProductList } from "../style/PointPage";
 import axios from "axios";
-
 
 const infotext = [
   {id : 1, text : "포인트로 구매하신 상품은 환불하실 수 없습니다.", num: 1},
@@ -12,7 +12,13 @@ const infotext = [
 ]
 
 function PointPage () {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);  // 리스트에 나타낼 아이템들
+  const [count, setCount] = useState(0); // 아이템 총 개수
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지. default 값으로 1
+  const [postPerPage] = useState(6); // 한 페이지에 보여질 아이템 수 
+  const [indexOfLastPost, setIndexOfLastPost] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
+  const [indexOfFirstPost, setIndexOfFirstPost] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
+  const [currentPosts, setCurrentPosts] = useState(0); // 현재 페이지에서 보여지는 아이템들
 
   useEffect(() => {
     axios.get('https://fakestoreapi.com/products')
@@ -22,7 +28,15 @@ function PointPage () {
     .catch(error => {
       console.error("에러 발생 : ", error);
     });
-  }, []);
+    setCount(products.length);
+    setIndexOfLastPost(currentPage * postPerPage);
+    setIndexOfFirstPost(indexOfLastPost - postPerPage);
+    setCurrentPosts(products.slice(indexOfFirstPost, indexOfLastPost));
+  }, [currentPage, indexOfLastPost, indexOfFirstPost, products, postPerPage]);
+
+  const setPage = (error) => {
+    setCurrentPage(error);
+  };
 
   return (
     <main className="point_section">
@@ -53,8 +67,9 @@ function PointPage () {
           </ContainerSection>
         </Container>
         <ProductList>
-          <PointProductList products={products}/>
+          <PointProductList products={products} currentPosts={currentPosts}/>
         </ProductList>
+        <PointPagination page={currentPage} count={count} setPage={setPage}   />
       </section>
     </main>
   )
