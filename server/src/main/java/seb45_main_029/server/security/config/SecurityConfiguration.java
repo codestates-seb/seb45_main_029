@@ -34,7 +34,7 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
 
                 .headers().frameOptions().sameOrigin()
@@ -53,21 +53,21 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())    // CustomFilterConfigurer 인스턴스 생성
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/users/signup").permitAll()         // 회원가입 전체 접근 가능
-                        .antMatchers(HttpMethod.PATCH, "/users/mypage/edit/**").hasRole("USER")  // 마이페이지 수정 -> 해당 user만
-                        .antMatchers(HttpMethod.GET, "/users").permitAll()     // userinfo (전체 회원 조회) -> 전체 접근 가능
-                        .antMatchers(HttpMethod.GET, "/users/mypage/**").hasAnyRole("USER", "ADMIN")  // mypage 역할 가진 사용자
-                        .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")  // user 삭제 page -> 해당 user 만
+                                .antMatchers(HttpMethod.POST, "/users/signup").permitAll()         // 회원가입 전체 접근 가능
+                                .antMatchers(HttpMethod.PATCH, "/users/mypage/edit/**").hasRole("USER")  // 마이페이지 수정 -> 해당 user만
+                                .antMatchers(HttpMethod.GET, "/users").permitAll()     // userinfo (전체 회원 조회) -> 전체 접근 가능
+                                .antMatchers(HttpMethod.GET, "/users/mypage/**").hasAnyRole("USER", "ADMIN")  // mypage 역할 가진 사용자
+                                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")  // user 삭제 page -> 해당 user 만
 
-                        .antMatchers(HttpMethod.POST, "/questions/ask").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
-                        .antMatchers(HttpMethod.PATCH, "/questions/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.GET, "/questions").permitAll()
-                        .antMatchers(HttpMethod.GET, "/guestions/**").permitAll()   // 질문 조회 -> 전체 접근 가능
-                        .antMatchers(HttpMethod.DELETE, "/questions/delete/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/question/").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
+                                .antMatchers(HttpMethod.PATCH, "/question/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/question/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.GET, "/question").permitAll()
+                                .antMatchers(HttpMethod.GET, "/guestions/**").permitAll()   // 질문 조회 -> 전체 접근 가능
 
-                        .antMatchers(HttpMethod.POST, "/questions/**/answers").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.PATCH, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
+                                .antMatchers(HttpMethod.POST, "/question/**/answers").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/question/**/answers/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/question/**/answers/**").hasAnyRole("USER", "ADMIN")
                 );
 
         return http.build();
@@ -91,7 +91,7 @@ public class SecurityConfiguration {
         configuration.addExposedHeader("*");
         // 지정한 HTTPMethod에 대한 통신 허용
         // "OPTIONS" : 프리플라이트 요청
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE" , "OPTION"));   // 지정한 HTTPMethod에 대한 통신 허용
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTION"));   // 지정한 HTTPMethod에 대한 통신 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 모든 엔드포인트에 구성한 CORS 적용
@@ -100,8 +100,8 @@ public class SecurityConfiguration {
     }
 
     /*
-      * JwtAuthenticationFilter 등록하는 CustomFilterConfigurer 클래스
-      *
+     * JwtAuthenticationFilter 등록하는 CustomFilterConfigurer 클래스
+     *
      */
     private class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
 
