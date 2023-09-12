@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import BoardNav from '../components/BoardNav';
 import QuestionList from '../components/QuestionList';
 import ReactPagination from 'react-paginate';
@@ -16,6 +16,7 @@ import {
 } from '../style/BoardPage';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
+import { useSelector } from 'react-redux';
 import SearchBoard from '../components/SearchBoard';
 import LatestInfo from '../components/LatestInfo';
 import QNAbtn from '../components/QNAbtn';
@@ -25,11 +26,13 @@ const BoardPage = (props) => {
   const [questions, setQuestions] = useState(
     props.questions ? props.questions : []
   );
-  const questionsPerPage = 6;
-  const [currentPage, setCurrentPage] = useState(0); // 현재페이지
+  const questionsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1); // 현재페이지
   const [currentQuestions, setCurrentQuestions] = useState([]); // 질문데이터 배열
   const pageCount = Math.ceil(questions.length / questionsPerPage);
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
 
   const goToQuestionPage = () => {
     navigate('/newquestion');
@@ -45,11 +48,12 @@ const BoardPage = (props) => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await api('/question/');
-
-      setQuestions(response.data);
+      const response = await api(`/question/${user.userId}`);
+      if (Array.isArray(response.data)) {
+        setQuestions(response.data);
+      }
     } catch (error) {
-      console.error('Error fetching questions:', error);
+      console.log(error);
     }
   };
 
@@ -113,9 +117,10 @@ const BoardPage = (props) => {
         </SecondContent>
         <Line />
         <QuestionListContainer>
-          {currentQuestions.map((question) => (
-            <QuestionList key={question.questionId} question={question} />
-          ))}
+          {Array.isArray(currentQuestions) &&
+            currentQuestions.map((questions) => (
+              <QuestionList key={questions.questionId} question={questions} />
+            ))}
         </QuestionListContainer>
         <BottomContent>
           <ReactPagination
@@ -125,7 +130,7 @@ const BoardPage = (props) => {
             previousLinkClassName={'page_num'}
             nextLinkClassName={'page_num'}
             onPageChange={handlePageChange}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={3}
             pageCount={pageCount}
             breakLabel='...'
             renderOnZeroPageCount={null}

@@ -20,7 +20,7 @@ export const Button = styled.button`
   cursor: pointer;
 
   ${(props) =>
-    props.$primay &&
+    props.primay &&
     css`
       border: none;
       background: rgba(12, 33, 57, 1);

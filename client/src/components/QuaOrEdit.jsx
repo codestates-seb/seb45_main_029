@@ -30,7 +30,7 @@ const QuaOrEdit = (props) => {
       setQuestion({ ...question, content: editedContent, title: editedTitle });
       setEditedContent('');
       try {
-        const response = await api(`/question/${props.questionId}`, 'patch', {
+        const response = await api(`/question/1/${props.questionId}`, 'patch', {
           editedContent,
           editedTitle,
         });
@@ -47,7 +47,7 @@ const QuaOrEdit = (props) => {
 
   const handleDeleteQuestion = async () => {
     try {
-      const response = await api(`question/${props.questionId}`, 'delete');
+      const response = await api(`question/1/${props.questionId}`, 'delete');
       if (response.success) {
         console.log(response.message);
       } else {
