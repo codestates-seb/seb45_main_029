@@ -24,19 +24,10 @@ const IframeContainer = styled.div`
 // @todo 서버 URI 연결
 export default function VideoDetail({ thumb, videoId, openModal }) {
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const [pic, setPic] = useState('');
+  const [pic, setPic] = useState(thumb);
 
   useEffect(() => {
-    const asyncFunction = async () => {
-      try {
-        await axios.get(thumb.replace('default.jpg', 'maxresdefault.jpg'));
-        setPic(thumb.replace('default.jpg', 'maxresdefault.jpg'));
-      } catch (error) {
-        console.log(error + '입니다');
-        setPic(thumb);
-      }
-    };
-    asyncFunction();
+    setPic(thumb.replace('default.jpg', 'maxresdefault.jpg'));
   }, []);
 
   const imgOnclickHandler = () => {
