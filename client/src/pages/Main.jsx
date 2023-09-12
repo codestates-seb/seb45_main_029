@@ -38,14 +38,24 @@ function Main() {
 
   const onClickHandlerDetail = (e) => {
     const data = e.target.innerText;
-    if (data === '경영·사무' || data === '연구·기술' || data === '보건·의료직')
-      setVideoDetailType('사무직');
-    else {
-      setVideoDetailType('현장직');
-    }
+    setVideoDetailType(data);
   };
 
   const onClickHandlerDetail2 = (e) => {
+    const data = e.target.innerText;
+    if (
+      data === '경영·사무' ||
+      data === '연구·기술' ||
+      data === '예술·디자인·방송' ||
+      data === '미용·여행·음식' ||
+      data === '영업·판매·운송'
+    )
+      setVideoDetailType2('사무직');
+    else if (data === '보건·의료직') {
+      setVideoDetailType2('사무직 및 현장직');
+    } else {
+      setVideoDetailType2('현장직');
+    }
     setVideoDetailType2(e.target.innerText);
   };
 

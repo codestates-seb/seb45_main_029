@@ -34,7 +34,7 @@ export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
   const [checkedList, setCheckedList] = useState([]);
   const [checkedListJob, setCheckedListJob] = useState('');
-  const [nickName, setNickName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState(false);
@@ -72,7 +72,7 @@ export default function MyPageInfo() {
   };
 
   const nickNameChangeHandler = (e) => {
-    setNickName(e.target.value);
+    setNickname(e.target.value);
     if (e.target.value.length > 0) {
       setNickNameIsValid(true);
     } else {
@@ -90,15 +90,25 @@ export default function MyPageInfo() {
   };
 
   const buttonOnclickHandler = () => {
-    // axios 또는 api 폴더에 있더라고? 거기서 넘겨주기
+    if (
+      !nickNameIsValid ||
+      !passwordIsValid ||
+      !mottoIsValid ||
+      checkedList.length === 0 ||
+      checkedListJob === ''
+    ) {
+      return;
+    }
+
     const data = {
-      nickName,
+      nickname,
       password,
       motto,
       painArea: checkedList,
-      job: checkBoxListJob,
+      job: checkedListJob,
       image: imgFile,
     };
+
     try {
       axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
@@ -112,12 +122,29 @@ export default function MyPageInfo() {
     }
   };
 
+  const jobChoose = (value) => {
+    const jobChoice = value;
+    if (
+      jobChoice === '경영·사무' ||
+      jobChoice === '연구·기술' ||
+      jobChoice === '예술·디자인·방송' ||
+      jobChoice === '미용·여행·음식' ||
+      jobChoice === '영업·판매·운송'
+    )
+      setCheckedListJob('사무직');
+    else if (jobChoice === '보건·의료직') {
+      setCheckedListJob('사무직 및 현장직');
+    } else {
+      setCheckedListJob('현장직');
+    }
+  };
+
   const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
       if (type === 'body') {
         setCheckedList((prev) => [...prev, value].sort());
       } else {
-        setCheckedListJob(value);
+        jobChoose(value);
       }
       return;
     }
@@ -125,8 +152,6 @@ export default function MyPageInfo() {
     if (!isChecked && checkedList.includes(value)) {
       if (type === 'body') {
         setCheckedList(checkedList.filter((item) => item !== value));
-      } else {
-        setCheckedListJob(checkBoxListJob);
       }
     }
   };
