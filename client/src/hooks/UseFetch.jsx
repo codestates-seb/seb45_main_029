@@ -5,7 +5,7 @@ const useFetch = (page, keyword) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false); //로딩 구현 시에만 필요
-
+  const [savedKeyword, SetSavedKeyword] = useState('');
   //@todo query API 요청 보내기
   const sendQuery = useCallback(async () => {
     try {
@@ -27,24 +27,21 @@ const useFetch = (page, keyword) => {
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
-      setList(
-        page === 1
-          ? (prev) => {
-              console.log(prev);
-              return data.data;
-            }
-          : (prev) => [...prev, ...data.data]
-      );
+      setList((prev) => [...prev, ...data.data]);
       setHasMore(data.data.length > 0);
       setIsLoading(false);
+      SetSavedKeyword(keyword);
     } catch (e) {
       throw new Error(`오류입니다. ${e.message}`);
     }
   }, [page, keyword]);
 
   useEffect(() => {
+    if (keyword !== savedKeyword) {
+      setList([]);
+    }
     sendQuery();
-  }, [sendQuery, page, keyword]);
+  }, [sendQuery, page, keyword, savedKeyword]);
 
   return { hasMore, list, isLoading };
 };
