@@ -60,6 +60,12 @@ const ProductList = styled.ul`
       color: var(--white);
     }
   }
+  .no_post{
+    font-size: 3.5rem;
+    padding: 6.25rem 0;
+    width: 100%;
+    text-align: center;
+  }
 `
 
 export default function PointProductList ({currentPosts, products }){
@@ -81,7 +87,7 @@ export default function PointProductList ({currentPosts, products }){
           )
       })
       ) : (
-        <div> No posts.</div>
+        <p className="no_post"> No posts.</p>
       )}
     </ProductList>
   )
