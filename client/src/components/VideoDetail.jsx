@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { setBookmark, deleteBookmark } from '../redux/userSlice';
-
-const IframeDesign = styled.iframe`
-  margin: 0.5em;
-`;
+import axios from 'axios';
 
 const ImageDesign = styled.img`
   width: 1rem;
   height: 1rem;
   cursor: pointer;
+`;
+
+const ImageFrame = styled.img`
+  width: 20rem;
+  height: 15rem;
 `;
 
 const IframeContainer = styled.div`
@@ -21,44 +21,24 @@ const IframeContainer = styled.div`
 `;
 
 // @todo 서버 URI 연결
-export default function VideoDetail({ youtubeLink, videoId }) {
-  const userInfo = useSelector((state) => state.user);
+export default function VideoDetail({ thumbnail, videoId }) {
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const dispatch = useDispatch();
 
   const imgOnclickHandler = () => {
     setBookmarkClick(!bookmarkClick);
     if (bookmarkClick) {
-      const bookmark = [...userInfo.bookmark, videoId];
-      dispatch(setBookmark(videoId));
-      //axios.patch('url', { bookmark });
+      console.log('hey');
+      axios.post(`${import.meta.env.SERVER_URL}/video/bookmark/${videoId}`, {});
     } else {
-      const bookmark = userInfo.bookmark.filter((el) => {
-        el !== videoId;
-      });
-      dispatch(deleteBookmark(videoId));
-      //axios.patch('url', { bookmark });
+      axios.delete(`${import.meta.env.SERVER_URL}/video/bookmark/${videoId}`);
     }
   };
 
-  useEffect(() => {
-    userInfo.bookmark.forEach((el) => {
-      if (el === videoId) {
-        setBookmarkClick(true);
-      }
-    });
-  }, [userInfo.bookmark, videoId]);
+  useEffect(() => {}, []);
 
   return (
     <IframeContainer>
-      <IframeDesign
-        width='490'
-        height='315'
-        src={youtubeLink.replace('watch?v=', 'embed/')}
-        title='YouTube video player'
-        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-        allowFullScreen
-      ></IframeDesign>
+      <ImageFrame src={thumbnail} alt='watch'></ImageFrame>
       {bookmarkClick ? (
         <ImageDesign
           onClick={imgOnclickHandler}

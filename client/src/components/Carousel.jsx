@@ -102,7 +102,7 @@ export default function Carousel({
                 return (
                   <VideoDetail
                     key={index}
-                    youtubeLink={elem.youtubeLink}
+                    thumb={elem.thumbnail}
                     videoId={elem.videoId}
                   />
                 );
@@ -116,7 +116,7 @@ export default function Carousel({
                 return (
                   <VideoDetail
                     key={index}
-                    youtubeLink={elem.youtubeLink}
+                    thumb={elem.thumbnail}
                     videoId={elem.videoId}
                   />
                 );
