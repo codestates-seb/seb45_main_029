@@ -2,11 +2,14 @@ package seb45_main_029.server.security.config;
 
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -27,7 +30,8 @@ import seb45_main_029.server.security.auth.utils.CustomAuthorityUtils;
 import java.util.Arrays;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
@@ -40,8 +44,8 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
+                .cors(Customizer.withDefaults())
+                .cors(configuration-> configuration.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 생성하지 않도록 설정
                 .and()
                 .formLogin().disable()
@@ -81,14 +85,15 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://localhost:5173","http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:80","http://localhost:8080","http://localhost:5173","http://localhost:5173"));
         // 모든 헤더 허용
-        configuration.addAllowedHeader("*");
+        configuration.addAllowedHeader("Authorization");
+        configuration.addAllowedHeader("Refresh");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용
         configuration.setAllowCredentials(true);
         // 허용할 출처 패턴 설정 -> 이전 버전으로 setAllowCredentials과 사용 가능
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+//        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         // 클라이언트에 노출할 헤더 설정
         configuration.setExposedHeaders(Arrays.asList("*"));
         // 지정한 HTTPMethod에 대한 통신 허용
