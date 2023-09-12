@@ -15,7 +15,6 @@ export const InputContainer = styled.div`
 `;
 
 export const InputDesign = styled.input`
-  display: inline-block;
   width: 40rem;
   height: 4rem;
   border-radius: 10px;
@@ -24,7 +23,7 @@ export const InputDesign = styled.input`
 export const ImageDesign = styled.img`
   right: 12%;
   position: absolute;
-  top: 30%;
+
   cursor: pointer;
 `;
 

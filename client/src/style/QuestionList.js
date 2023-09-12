@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const QuestionContainer = styled.div`
   box-sizing: border-box;
   width: 73.5rem;
-  height: 15.625rem;
+  height: 13rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -15,9 +15,9 @@ export const ContainerTitle = styled.title`
   color: #000;
   text-align: center;
   font-size: 1rem;
-  font-style: normal;
+
   font-weight: 600;
-  line-height: normal;
+
   margin-bottom: 1.37rem;
 `;
 
@@ -28,15 +28,14 @@ export const Line = styled.hr`
 export const ContentCard = styled.div`
   .question-message {
     display: flex;
-    flex-direction: row;
+
     align-items: flex-start;
     color: #000;
     text-align: center;
 
     font-size: 0.875rem;
-    font-style: normal;
+
     font-weight: 500;
-    line-height: normal;
   }
 `;
 
@@ -52,9 +51,9 @@ export const BottomContainer = styled.div`
       color: #000;
       text-align: center;
       font-size: 0.75rem;
-      font-style: normal;
+
       font-weight: 500;
-      line-height: normal;
+
       width: 2.125rem;
       height: 1rem;
     }

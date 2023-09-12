@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import BodyAndJobList from '../components/BodyAndJobList';
-import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import {
   SignBox,
@@ -12,9 +11,10 @@ import {
   Line,
   PainChoice,
 } from '../style/SignUp';
-import { Button } from '../components/Button';
+import { Button } from '../style/Button';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import Footer from '../components/Footer';
+import axios from 'axios';
 
 function SignUp() {
   const [id, setId] = useState('');
@@ -100,17 +100,17 @@ function SignUp() {
       nickNameIsValid &&
       mottoIsValid
     ) {
-      api('/signin', 'post', { id, password })
-        .then((response) => {
-          console.log(response.data.message);
-          if (response.data.success) {
+      await axios
+        .post('http://localhost:8080/users/signup', { id, password })
+        .then((res) => {
+          console.log(res.data.message);
+          if (res.status === 201) {
             alert('회원가입에 성공하셨습니다!');
             navigate('/signin');
           }
         })
         .catch((error) => {
-          console.log('failed to signUp');
-          console.error('Request error:', error);
+          console.log(error.message);
         });
     }
   };
@@ -262,7 +262,7 @@ function SignUp() {
             <Line />
           </article>
 
-          <Button primay onClick={signUp}>
+          <Button $primay onClick={signUp}>
             가입하기
           </Button>
         </SignBox>
