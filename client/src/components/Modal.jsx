@@ -28,7 +28,13 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 
-export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
+export default function Modal({
+  isModalOpen,
+  setModalOpen,
+  list,
+  listIndex,
+  videoId,
+}) {
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -41,7 +47,15 @@ export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
               <iframe
                 width='560'
                 height='315'
-                src={list[listIndex]?.youtubeLink.replace('watch?v=', 'embed/')}
+                src={
+                  videoId === true
+                    ? list[
+                        list.findIndex(videoId) > 0
+                          ? list.findIndex(videoId)
+                          : 0
+                      ].youtubeLink.replace('watch?v=', 'embed/')
+                    : list[listIndex]?.youtubeLink.replace('watch?v=', 'embed/')
+                }
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 allowFullScreen

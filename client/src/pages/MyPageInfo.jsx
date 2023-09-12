@@ -29,6 +29,7 @@ import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../redux/userSlice';
+import { jobChoose } from '../assets/variousFunctions';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -122,29 +123,12 @@ export default function MyPageInfo() {
     }
   };
 
-  const jobChoose = (value) => {
-    const jobChoice = value;
-    if (
-      jobChoice === '경영·사무' ||
-      jobChoice === '연구·기술' ||
-      jobChoice === '예술·디자인·방송' ||
-      jobChoice === '미용·여행·음식' ||
-      jobChoice === '영업·판매·운송'
-    )
-      setCheckedListJob('사무직');
-    else if (jobChoice === '보건·의료직') {
-      setCheckedListJob('사무직 및 현장직');
-    } else {
-      setCheckedListJob('현장직');
-    }
-  };
-
   const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
       if (type === 'body') {
         setCheckedList((prev) => [...prev, value].sort());
       } else {
-        jobChoose(value);
+        jobChoose(value, setCheckedListJob);
       }
       return;
     }

@@ -74,18 +74,21 @@ export default function MyPage() {
           slideRef={slideRef}
           setCurrentSlide={setCurrentSlide}
           currentSlide={currentSlide}
+          bookmark={true}
         />
         <Carousel
           message='부위별'
           slideRef={slideRefBody}
           setCurrentSlide={setCurrentSlideBody}
           currentSlide={currentSlideBody}
+          bookmark={true}
         />
         <Carousel
           message='직업별'
           slideRef={slideRefJob}
           setCurrentSlide={setCurrentSlideJob}
           currentSlide={currentSlideJob}
+          bookmark={true}
         />
         <hr></hr>
         <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>

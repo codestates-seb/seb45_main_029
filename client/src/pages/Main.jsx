@@ -6,6 +6,7 @@ import {
   ImageDesign,
 } from '../style/Main';
 import ToggleContainer from '../components/ToggleContainer';
+
 import {
   typeOfVideo,
   checkBoxListBody,
@@ -82,14 +83,12 @@ function Main() {
     <MainContainer>
       <InputContainer>
         <InputDesign onKeyUp={onKeyUpHandler} placeholder='검색하기' />
-        {/* 검색하기 */}
         <ImageDesign
           onClick={onClickSearchHandler}
           src='/images/magnify.png'
           alt='magnifier'
         />
       </InputContainer>
-      {/* 로그인 시, 따로 맞춤추천영상이 떠야함, 리덕스 스토어에 저장된 isLoggedIn을 이용해서 조건부로 하면 될 거 같음 */}
       {userInfo.loggedIn === false ? (
         <>
           <p>로그인하여 여러분들만의 </p>
@@ -101,6 +100,7 @@ function Main() {
           slideRef={slideRefRecommend}
           setCurrentSlide={setCurrentSlideRecommend}
           currentSlide={currentSlideRecommend}
+          bookmark={false}
         />
       )}
       <Carousel
@@ -108,6 +108,7 @@ function Main() {
         slideRef={slideRefTop5}
         setCurrentSlide={setCurrentSlideTop5}
         currentSlide={currentSlideTop5}
+        bookmark={false}
       />
       <p>{videoType} 운동 확인하기</p>
       <ToggleContainer
@@ -142,6 +143,7 @@ function Main() {
         videoType={videoType}
         videoDetailType={videoDetailType}
         videoDetailType2={videoDetailType2}
+        bookmark={false}
       />
     </MainContainer>
   );
