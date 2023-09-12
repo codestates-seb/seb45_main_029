@@ -21,9 +21,7 @@ public enum ExceptionCode {
 
     BOOKMARK_VIDEO_NOT_FOUND(404,"Bookmark Video Not found"),
 
-    POST_NOT_FOUND(404,"Post Not found"),
-
-    COMMENT_NOT_FOUND(404,"Comment Not found");
+    POST_NOT_FOUND(404,"Post Not found");
 
     @Getter
     private int status;
