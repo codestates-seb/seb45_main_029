@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const useFetch = (page, keyword) => {
+const useFetch = (page, keyword, setPageNum) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false); //로딩 구현 시에만 필요
@@ -39,6 +39,7 @@ const useFetch = (page, keyword) => {
   useEffect(() => {
     if (keyword !== savedKeyword) {
       setList([]);
+      setPageNum(1);
     }
     sendQuery();
   }, [sendQuery, page, keyword, savedKeyword]);

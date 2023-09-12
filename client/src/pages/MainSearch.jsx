@@ -36,7 +36,7 @@ export default function MainSearch() {
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const { list, hasMore, isLoading } = useFetch(pageNum, keyword); // 커스텀훅, list 서버에서 가져온 데이터
+  const { list, hasMore, isLoading } = useFetch(pageNum, keyword, setPageNum); // 커스텀훅, list 서버에서 가져온 데이터
 
   const handleError = (event) => {
     event.target.src = list[listIndex].youtubeLink.replace(
