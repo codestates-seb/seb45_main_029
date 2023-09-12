@@ -104,6 +104,7 @@ export const VideoAndButtonContainer = styled.div`
 export const VideoContainerFlexWrap = styled.div`
   /* margin-left: 22rem; */
   width: 95rem;
+  height: 34.2rem;
   display: flex;
   flex-wrap: wrap;
 `;

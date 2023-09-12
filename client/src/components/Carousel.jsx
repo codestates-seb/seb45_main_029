@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import Slide from './Slide';
+import { useEffect, useState } from 'react';
+import VideoDetail from './VideoDetail';
 import {
   VideoTitle,
   TitleFontSpanBlack,
@@ -11,15 +11,47 @@ import {
   VideoAndButtonContainerFlexWrap,
   VideoContainerFlexWrap,
 } from '../style/MyPage';
+import axios from 'axios';
+import Modal from './Modal';
+import { useSelector } from 'react-redux';
+import { jobChoose } from '../assets/variousFunctions';
+import styled from 'styled-components';
 
-const VideoLinks = [
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/0ComdmFhE4k?si=5seAdHWRKVawSpKD',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-  'https://www.youtube.com/embed/GqRammbyk4M?si=Ff_mMyjPL2zu9Ez8',
-];
+const DivFlexMovie1 = styled.div`
+  display: flex;
+`;
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const typeChecker = (
+  bookmark,
+  message,
+  videoType,
+  videoDetailType,
+  videoDetailType2,
+  userInfo
+) => {
+  let type = '';
+  if (bookmark) {
+    type = 'bookmark/?page=1&size=30';
+    jobChoose(userInfo.job, null);
+  }
+  if (message === 'TOP5 재활운동') {
+    type = 'popular?page=1&size=10';
+  } else if (message === '직업별') {
+    type = 'job?page=1&size=10';
+  } else if (message === 'My 맞춤운동') {
+    type = 'recommended?page=1&size=10';
+  }
+  if (videoType === '전체') {
+    type = `keyword?page=1&size=30&keyword=`;
+  } else if (videoType === '부위별') {
+    type = `keyword?page=1&size=30&keyword=${videoDetailType}`;
+  } else if (videoType === '직업별') {
+    type = `keyword?page=1&size=30&keyword=${videoDetailType2}`;
+  }
+  return type;
+};
 
 export default function Carousel({
   message,
@@ -27,37 +59,113 @@ export default function Carousel({
   slideRef,
   setCurrentSlide,
   flexWrap,
+  videoType,
+  videoDetailType,
+  videoDetailType2,
+  bookmark,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
+  const [videos, setVideos] = useState([]);
+  const [upperVideos, setUpperVideos] = useState([]);
+  const [lowerVideos, setLowerVideos] = useState([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [listIndex, setListIndex] = useState(0);
+  const [total, setTotal] = useState(0);
+  const userInfo = useSelector((state) => state.user);
 
-  const TOTAL_SLIDES = flexWrap
-    ? parseInt(VideoLinks.length / 6) - 1
-    : parseInt(VideoLinks.length / 3) - 1;
+  const openModal = (index) => {
+    setModalOpen(true);
+    setListIndex(index);
+  };
 
   const NextSlide = () => {
-    if (currentSlide >= TOTAL_SLIDES) {
-      // 더 이상 넘어갈 슬라이드가 없으면
-      setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
+    if (currentSlide >= total) {
+      setCurrentSlide(0);
     } else {
       setCurrentSlide(currentSlide + 1);
     }
   };
-  // Prev 버튼 클릭 시
+
   const PrevSlide = () => {
     if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+      setCurrentSlide(total);
     } else {
       setCurrentSlide(currentSlide - 1);
     }
   };
 
   useEffect(() => {
+    const asyncFunction = async () => {
+      const type = typeChecker(
+        bookmark,
+        message,
+        videoType,
+        videoDetailType,
+        videoDetailType2,
+        userInfo
+      );
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'ngrok-skip-browser-warning': '69420',
+          },
+        });
+        setVideos(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    asyncFunction();
+  }, [
+    videoType,
+    videoDetailType,
+    videoDetailType2,
+    message,
+    bookmark,
+    userInfo,
+  ]);
+
+  useEffect(() => {
+    setLowerVideos(
+      videos.filter((el, idx) => {
+        return idx % 2 === 0;
+      })
+    );
+    setUpperVideos(
+      videos.filter((el, idx) => {
+        return idx % 2 === 1;
+      })
+    );
+  }, [videos]);
+
+  useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
-    slideRef.current.style.transform = `translateX(${-currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  }, [currentSlide]);
+    slideRef.current.style.transform = `translateX(${-currentSlide}00%)`;
+  }, [currentSlide, slideRef]);
+
+  useEffect(() => {
+    const upper =
+      videos.length % 3 === 0 ? videos.length / 3 - 1 : videos.length / 3;
+    const lower =
+      videos.length % 6 === 0 ? videos.length / 6 - 1 : videos.length / 6;
+    const TOTAL_SLIDES = flexWrap ? parseInt(lower) : parseInt(upper);
+
+    setTotal(TOTAL_SLIDES);
+  }, [videos, flexWrap]);
 
   return (
     <>
+      <Modal
+        isModalOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+        list={videos}
+        listIndex={listIndex}
+        videoId={true}
+      />
       <VideoTitle>
         <TitleFontSpanBlack>{message}</TitleFontSpanBlack>
         <hr></hr>
@@ -69,16 +177,49 @@ export default function Carousel({
         {flexWrap ? (
           <VideoAndButtonContainerFlexWrap>
             <VideoContainerFlexWrap ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
-              })}
+              <DivFlexMovie1>
+                {upperVideos.map((elem, index) => {
+                  return (
+                    <div key={index}>
+                      <VideoDetail
+                        thumb={elem.thumbnail}
+                        videoId={elem.videoId}
+                        openModal={openModal}
+                      />
+                    </div>
+                  );
+                })}
+              </DivFlexMovie1>
+              <DivFlexMovie1>
+                <DivFlexMovie1>
+                  {lowerVideos.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem.videoId}
+                          openModal={openModal}
+                        />
+                      </div>
+                    );
+                  })}
+                </DivFlexMovie1>
+              </DivFlexMovie1>
             </VideoContainerFlexWrap>
           </VideoAndButtonContainerFlexWrap>
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {VideoLinks.map((elem, index) => {
-                return <Slide key={index} videoLink={elem} />;
+              {videos.map((elem, index) => {
+                return (
+                  <div key={index}>
+                    <VideoDetail
+                      thumb={elem.thumbnail}
+                      videoId={elem.videoId}
+                      openModal={openModal}
+                    />
+                  </div>
+                );
               })}
             </VideoContainer>
           </VideoAndButtonContainer>

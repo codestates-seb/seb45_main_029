@@ -1,5 +1,4 @@
 import { VideoTypeClicked, VideoType } from '../style/Main';
-import PropTypes from 'prop-types';
 
 export default function Toggle({ type, videoType, onClickHandler }) {
   return (
@@ -12,9 +11,3 @@ export default function Toggle({ type, videoType, onClickHandler }) {
     </>
   );
 }
-
-Toggle.propTypes = {
-  videoType: PropTypes.string.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-};

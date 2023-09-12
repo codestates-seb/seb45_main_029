@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serverUrl = 'ec2-13-209-21-17.ap-northeast-2.compute.amazonaws.com:8080';
+const serverUrl = import.meta.env.SERVER_URL; // .env 파일에서 가져오게 했습니다!
 
 export const api = (uri, method, data) => {
   const config = {

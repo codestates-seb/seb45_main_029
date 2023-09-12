@@ -26,18 +26,25 @@ import {
   JobChoice,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../redux/userSlice';
+import { jobChoose } from '../assets/variousFunctions';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
   const [checkedList, setCheckedList] = useState([]);
   const [checkedListJob, setCheckedListJob] = useState('');
-  const [nickName, setNickName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
+
+  const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -66,7 +73,7 @@ export default function MyPageInfo() {
   };
 
   const nickNameChangeHandler = (e) => {
-    setNickName(e.target.value);
+    setNickname(e.target.value);
     if (e.target.value.length > 0) {
       setNickNameIsValid(true);
     } else {
@@ -84,15 +91,36 @@ export default function MyPageInfo() {
   };
 
   const buttonOnclickHandler = () => {
-    // axios 또는 api 폴더에 있더라고? 거기서 넘겨주기
+    if (
+      !nickNameIsValid ||
+      !passwordIsValid ||
+      !mottoIsValid ||
+      checkedList.length === 0 ||
+      checkedListJob === ''
+    ) {
+      return;
+    }
+
     const data = {
-      nickName,
+      nickname,
       password,
       motto,
-      checkedList,
-      checkBoxListJob,
+      painArea: checkedList,
+      job: checkedListJob,
+      image: imgFile,
     };
-    console.log(data);
+
+    try {
+      axios.patch(
+        `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
+          userInfo.memberId
+        }`,
+        data
+      );
+      dispatch(updateUser(data));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const checkedItemHandler = (value, isChecked, type) => {
@@ -100,7 +128,7 @@ export default function MyPageInfo() {
       if (type === 'body') {
         setCheckedList((prev) => [...prev, value].sort());
       } else {
-        setCheckedListJob(value);
+        jobChoose(value, setCheckedListJob);
       }
       return;
     }
@@ -108,8 +136,6 @@ export default function MyPageInfo() {
     if (!isChecked && checkedList.includes(value)) {
       if (type === 'body') {
         setCheckedList(checkedList.filter((item) => item !== value));
-      } else {
-        setCheckedListJob(checkBoxListJob);
       }
     }
   };

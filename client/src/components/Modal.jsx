@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const ModalBackground = styled.div`
@@ -28,25 +29,36 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 
-export default function Modal({ isModalOpen, setModalOpen, list, listIndex }) {
+export default function Modal({
+  isModalOpen,
+  setModalOpen,
+  list,
+  listIndex,
+  videoId,
+}) {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const videoIdx = videoId
+    ? list.findIndex((el) => el.videoId === listIndex)
+    : listIndex;
 
   return (
     <div>
       {isModalOpen && (
         <ModalBackground onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            {/* <iframe
-              width='560'
-              height='315'
-              src='https://www.youtube.com/embed/ZFCuBTyW0so?si=V44HsQjYHFXdiuiT'
-              title='YouTube video player'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-              allowFullScreen
-            ></iframe> */}
-            <img src={list[listIndex]} />
+            {
+              <iframe
+                width='560'
+                height='315'
+                src={list[videoIdx]?.youtubeLink.replace('watch?v=', 'embed/')}
+                title='YouTube video player'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                allowFullScreen
+              ></iframe>
+            }
           </ModalContent>
         </ModalBackground>
       )}
