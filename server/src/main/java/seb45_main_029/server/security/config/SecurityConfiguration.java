@@ -81,6 +81,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://localhost:5173","http://localhost:8080"));
         // 모든 헤더 허용
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용
