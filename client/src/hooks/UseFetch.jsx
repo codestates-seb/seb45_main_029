@@ -23,6 +23,7 @@ const useFetch = (page, keyword) => {
           },
         }
       );
+
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }

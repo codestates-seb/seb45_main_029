@@ -9,8 +9,9 @@ const ImageDesign = styled.img`
 `;
 
 const ImageFrame = styled.img`
-  width: 20rem;
+  width: 35rem;
   height: 15rem;
+  margin: 0.5rem;
 `;
 
 const IframeContainer = styled.div`
@@ -21,13 +22,22 @@ const IframeContainer = styled.div`
 `;
 
 // @todo 서버 URI 연결
-export default function VideoDetail({ thumbnail, videoId }) {
+export default function VideoDetail({ thumb, videoId, openModal }) {
   const [bookmarkClick, setBookmarkClick] = useState(false);
+  const [pic, setPic] = useState('');
+
+  useEffect(() => {
+    if (!thumb) {
+      console.log(thumb);
+      setPic(thumb.replace('maxresdefault.jpg', 'default.jpg'));
+    } else {
+      setPic(thumb);
+    }
+  }, []);
 
   const imgOnclickHandler = () => {
     setBookmarkClick(!bookmarkClick);
     if (bookmarkClick) {
-      console.log('hey');
       axios.post(`${import.meta.env.SERVER_URL}/video/bookmark/${videoId}`, {});
     } else {
       axios.delete(`${import.meta.env.SERVER_URL}/video/bookmark/${videoId}`);
@@ -38,7 +48,11 @@ export default function VideoDetail({ thumbnail, videoId }) {
 
   return (
     <IframeContainer>
-      <ImageFrame src={thumbnail} alt='watch'></ImageFrame>
+      <ImageFrame
+        src={pic}
+        alt='watch'
+        onClick={() => openModal(videoId)}
+      ></ImageFrame>
       {bookmarkClick ? (
         <ImageDesign
           onClick={imgOnclickHandler}
