@@ -5,11 +5,16 @@ import lombok.Getter;
 @Getter
 public enum PainArea {
 
-    머리,
     가슴,
-    허리,
-    어깨,
+    다리,
     등,
+    머리,
+    무릎,
+    발,
+    손,
+    어깨,
+    팔,
+    허리,
     UNKNOWN;
 
 }
