@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import seb45_main_029.server.exception.BusinessLogicException;
+import seb45_main_029.server.exception.ExceptionCode;
 import seb45_main_029.server.question.dto.QuestionPostDto;
 import seb45_main_029.server.question.dto.QuestionUpdateDto;
 import seb45_main_029.server.question.entity.Question;
@@ -50,9 +52,25 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity getPosts(@RequestParam int page,
-                                   @RequestParam int size) {
-        Page<Question> answerPage = questionService.getQuestions(page - 1, size);
+    public ResponseEntity getAllPosts(@RequestParam int page,
+                                      @RequestParam int size,
+                                      @RequestParam int type) {
+
+        Page<Question> answerPage = null;
+
+//        All
+        if (type == 1) {
+            answerPage = questionService.getAllQuestions(page - 1, size);
+        }
+//        Not Resolve
+        else if (type == 2) {
+            answerPage = questionService.getNotResolvedQuestions(page - 1, size);
+        }
+//        Resolve
+        else if (type == 3) {
+            answerPage = questionService.getResolvedQuestions(page - 1, size);
+        } else throw new BusinessLogicException(ExceptionCode.VIDEO_NOT_FOUND);
+
         List<Question> questionList = answerPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(questionMapper.questionToQuestionResponseDtos(questionList), answerPage), HttpStatus.OK);
