@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb45_main_029.server.exception.BusinessLogicException;
 import seb45_main_029.server.exception.ExceptionCode;
+import seb45_main_029.server.point.entity.Point;
 import seb45_main_029.server.security.auth.utils.AuthUserUtils;
 import seb45_main_029.server.security.auth.utils.CustomAuthorityUtils;
 import seb45_main_029.server.security.help.UserRegistrationApplicationEvent;
@@ -30,9 +31,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
-    /*private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;*/
-
     // 회원 가입에 대한 메서드//
     public User createUser(User user, String confirmPassword) {
 
@@ -42,19 +40,18 @@ public class UserService {
         if(!user.getPassword().equals(confirmPassword)){
             throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);//예외처리
         }
-        //현재시간 받아오기
-        LocalDateTime currentTime = LocalDateTime.now();
 
         // Password 단방향 암호화
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
-        //현재시간
-        user.setCreatedAt(currentTime);
-
         // DB에 등록하는 User 의 Role 정보를 생성하고 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
+
+        Point point = new Point();
+        point.setUser(user);
+        user.setPoint(point);
 
         User savedUser = userRepository.save(user);
 
@@ -107,44 +104,8 @@ public class UserService {
     public User getUser(Long userId) {
         User user = getVerifiedUser(userId);
 
-        /*List<Question> questions = getUserQuestionByUserId(userId);
-        List<Question> userQuestionList = new ArrayList<>();
-
-        for (Question question : questions) {
-            Question userQuestion = new Question();
-            userQuestion.setQuestionId(question.getQuestionId());
-            userQuestion.setTitle(question.getTitle());
-            userQuestion.setContent(question.getContent());
-            userQuestion.setCreatedAt(question.getCreatedAt());
-            userQuestionList.add(userQuestion);
-        }
-
-        List<Answer> answers = getUserAnswerByUserId(userId);
-        List<Answer> userAnswerList = new ArrayList<>();
-
-        for(Answer answer : answers) {
-            Answer userAnswer = new Answer();
-            userAnswer.setAnswerId(answer.getAnswerId());
-            userAnswer.setContent(answer.getContent());
-            userAnswer.setCreatedAt(answer.getCreatedAt());
-            userAnswerList.add(userAnswer);
-        }
-
-        user.setQuestions(userQuestionList);
-        user.setAnswers(userAnswerList);
-*/
         return user;
     }
-
-    /*private List<Question> getUserQuestionByUserId(Long userId) {
-        return questionRepository.findAllByUserId(userId);
-    }
-
-    private List<Answer> getUserAnswerByUserId(Long userId) {
-        return answerRepository.findAllByUserId(userId);
-    }*/
-
-
 
     public void deleteUser(Long userId) {
         User getUser = getVerifiedUser(userId);
