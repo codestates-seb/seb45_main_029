@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
 import useFetch from '../hooks/UseFetch';
@@ -29,6 +29,11 @@ const VideoContainerFlexWrap = styled.div`
   flex-wrap: wrap;
 `;
 
+const NotFoundDiv = styled.div`
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+`;
+
 export default function MainSearch() {
   const location = useLocation();
   const [keyword, setKeyword] = useState(location.state.value);
@@ -55,6 +60,10 @@ export default function MainSearch() {
     setModalOpen(true);
     setListIndex(index);
   };
+
+  useEffect(() => {
+    inputRef.current.value = keyword;
+  }, []);
 
   const onClickSearchHandler = (e) => {
     const content = e.target.previousSibling.value;
@@ -98,24 +107,26 @@ export default function MainSearch() {
             alt='magnifier'
           />
         </InputContainer>
-        <VideoContainerFlexWrap>
-          {list?.map((elem, index) => {
-            return (
-              <div key={index}>
-                <ImgDesign
-                  onClick={() => {
-                    openModal(index);
-                  }}
-                  src={elem.thumbnail.replace(
-                    'default.jpg',
-                    'maxresdefault.jpg'
-                  )}
-                  alt='picture'
-                />
-              </div>
-            );
-          })}
-        </VideoContainerFlexWrap>
+        {list?.length === 0 ? (
+          <NotFoundDiv>찾으시는 정보가 없습니다</NotFoundDiv>
+        ) : (
+          <VideoContainerFlexWrap>
+            {list?.map((elem, index) => {
+              return (
+                <div key={index}>
+                  <ImgDesign
+                    onClick={() => {
+                      openModal(index);
+                    }}
+                    src={elem.thumbnail.replace('default.jpg', '0.jpg')}
+                    alt='picture'
+                  />
+                </div>
+              );
+            })}
+          </VideoContainerFlexWrap>
+        )}
+
         {isLoading && <Loading />}
       </MainContainer>
       <div ref={observer} />

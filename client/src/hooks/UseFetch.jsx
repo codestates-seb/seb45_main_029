@@ -6,7 +6,7 @@ const useFetch = (page, keyword, setPageNum) => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [savedKeyword, SetSavedKeyword] = useState('');
-
+  const [currentPage, setCurrentPage] = useState(-1);
   const sendQuery = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -31,6 +31,7 @@ const useFetch = (page, keyword, setPageNum) => {
       setHasMore(data.data.length > 0);
       setIsLoading(false);
       SetSavedKeyword(keyword);
+      setCurrentPage(page);
     } catch (e) {
       throw new Error(`오류입니다. ${e.message}`);
     }
@@ -41,8 +42,11 @@ const useFetch = (page, keyword, setPageNum) => {
       setList([]);
       setPageNum(1);
     }
+    if (list.length !== 0 && page === currentPage) {
+      return;
+    }
     sendQuery();
-  }, [sendQuery, page, keyword, setPageNum, savedKeyword]);
+  }, [sendQuery, page, keyword, setPageNum, savedKeyword, currentPage]);
 
   return { hasMore, list, isLoading };
 };
