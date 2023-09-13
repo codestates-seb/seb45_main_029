@@ -1,5 +1,6 @@
 package seb45_main_029.server.question.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestionResponseDtoWithAnswers {
     private long questionId;
     private long userId;
@@ -19,6 +21,7 @@ public class QuestionResponseDtoWithAnswers {
     private String content;
     private int likeCount;
     private int viewCount;
+    private boolean status;
     private List<AnswerResponseDto> answers;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

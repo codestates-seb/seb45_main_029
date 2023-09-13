@@ -19,10 +19,10 @@ public class UserPatchDto {
             message = "비밀번호는 8자리 이상 숫자, 문자, 특수문자 조합으로 입력해야 합니다.")
     private String password;
 
-    @NotBlank(message = "닉네임은 필수값입니다.")
+//    @NotBlank(message = "닉네임은 필수값입니다.")
     private String nickname;
 
-    @NotBlank(message = "좌우명은 필수값입니다.")
+//    @NotBlank(message = "좌우명은 필수값입니다.")
     private String motto;
 
     //    @NotBlank(message = "건강상태는 필수값입니다.")

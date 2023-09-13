@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
-public class UserPostDto extends Auditable {
+public class UserPostDto {
 
 
     @NotBlank(message = "이메일은 필수값입니다.")
@@ -36,10 +36,10 @@ public class UserPostDto extends Auditable {
     @NotBlank(message = "좌우명은 필수값입니다.")
     private String motto;
 
-//    @NotBlank(message = "건강상태는 필수값입니다.")
+    //    @NotBlank(message = "건강상태는 필수값입니다.")
     private PainArea painArea;
 
-//    @NotBlank(message = "직업은 필수입니다.")
+    //    @NotBlank(message = "직업은 필수입니다.")
     private Job job;
 
 

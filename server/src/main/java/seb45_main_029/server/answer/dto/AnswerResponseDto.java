@@ -15,7 +15,6 @@ public class AnswerResponseDto {
     private long questionId;
     private String nickname;
     private String content;
-    private int likeCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }
