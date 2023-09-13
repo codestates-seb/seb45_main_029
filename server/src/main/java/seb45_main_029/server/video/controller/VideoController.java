@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.response.MultiResponseDto;
 import seb45_main_029.server.response.SingleResponseDto;
@@ -74,9 +75,10 @@ public class VideoController {
     //    직업별 운동 영상 리스트
     @GetMapping("/job")
     public ResponseEntity getJobVideos(@RequestParam int page,
-                                       @RequestParam int size) {
+                                       @RequestParam int size,
+                                       @RequestParam Job job) {
 
-        Page<Video> videoPage = videoService.getJobVideos(page - 1, size);
+        Page<Video> videoPage = videoService.getJobVideos(page - 1, size,job);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);

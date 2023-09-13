@@ -55,10 +55,7 @@ public class VideoService {
 
     //        직업별 운동영상 리스트 조회
     @Transactional(readOnly = true)
-    public Page<Video> getJobVideos(int page, int size) {
-
-        User getLoginUser = userService.getLoginUser();
-        Job job = getLoginUser.getJob();
+    public Page<Video> getJobVideos(int page, int size, Job job) {
 
         Job jobType = null;
 
