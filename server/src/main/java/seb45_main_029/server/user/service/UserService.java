@@ -3,7 +3,9 @@ package seb45_main_029.server.user.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb45_main_029.server.exception.BusinessLogicException;
@@ -14,21 +16,23 @@ import seb45_main_029.server.security.help.UserRegistrationApplicationEvent;
 import seb45_main_029.server.user.entity.User;
 import seb45_main_029.server.user.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
-@Service
 @AllArgsConstructor
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
     // 내부에서 발생하는 사건을 다른 곳에 알릴 수 있음
     private final ApplicationEventPublisher publisher;
-
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
+
+
 
     /*private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;*/
@@ -155,6 +159,14 @@ public class UserService {
 
         userRepository.delete(getUser);
     }
+
+    //로그아웃
+    public void logout(HttpServletRequest request) {
+        // HttpServletRequest를 사용하여 로그아웃 처리
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, null, SecurityContextHolder.getContext().getAuthentication());
+    }
+
 
     // 있는 user인지 확인하기 -> 없으면 예외 던지기("없는 회원 입니다.")
     // 🔔 Question & Comment 쓸 때 로그인 안 되어 있으면 해당 메서드 사용 해야 함

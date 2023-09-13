@@ -15,6 +15,7 @@ import seb45_main_029.server.user.mapper.UserMapper;
 import seb45_main_029.server.user.service.UserService;
 import seb45_main_029.server.user.uri.UriCreator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
@@ -49,6 +50,14 @@ public class UserController {
             // 비밀번호 확인 예외 처리
             return ResponseEntity.badRequest().body("비밀번호와 확인 비밀번호가 일치하지 않습니다.");
         }
+    }
+
+    //로그아웃
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request){
+        userService.logout(request);
+        return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 
 
