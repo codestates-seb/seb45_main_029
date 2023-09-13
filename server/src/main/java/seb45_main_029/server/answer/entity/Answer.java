@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.question.entity.Question;
+import seb45_main_029.server.user.entity.User;
 
 import javax.persistence.*;
 
@@ -20,20 +21,20 @@ public class Answer extends Auditable {
     private long answerId;
 
     @Column
-    private long userId;
-
-    @Column
     private String nickname;
 
     @Column
     private String content;
 
     @Column
-    private int likeCount;
+    private boolean isDeleted;
 
 //    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

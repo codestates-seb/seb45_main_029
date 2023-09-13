@@ -23,11 +23,10 @@ public interface AnswerMapper {
         AnswerResponseDto answerResponseDto = new AnswerResponseDto();
 
         answerResponseDto.setAnswerId(answer.getAnswerId());
-        answerResponseDto.setUserId(answer.getUserId());
+        answerResponseDto.setUserId(answer.getUser().getUserId());
         answerResponseDto.setNickname(answer.getNickname());
         answerResponseDto.setContent(answer.getContent());
         answerResponseDto.setQuestionId(answer.getQuestion().getQuestionId());
-        answerResponseDto.setLikeCount(answer.getLikeCount());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
 

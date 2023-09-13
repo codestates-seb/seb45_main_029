@@ -26,7 +26,7 @@ public class QuestionService {
 
         User loginUser = userService.getLoginUser();
 
-        question.setUserId(loginUser.getUserId());
+        question.setUser(loginUser);
         question.setNickname(loginUser.getNickname());
 
         return questionRepository.save(question);
@@ -37,7 +37,7 @@ public class QuestionService {
 
         Question findQuestion = findQuestion(question.getQuestionId());
 
-        if (findQuestion.getUserId() == loginUserId) {
+        if (findQuestion.getUser().getUserId() == loginUserId) {
 
             Optional.ofNullable(question.getTitle()).ifPresent(title -> findQuestion.setTitle(title));
             Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
@@ -48,9 +48,17 @@ public class QuestionService {
         } else throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
     }
 
-    public Page<Question> getQuestions(int page, int size) {
+    public Page<Question> getAllQuestions(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("questionId").descending());
         return questionRepository.findAll(pageRequest);
+    }
+    public Page<Question> getNotResolvedQuestions(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("questionId").descending());
+        return questionRepository.findByStatusIsFalse(pageRequest);
+    }
+    public Page<Question> getResolvedQuestions(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("questionId").descending());
+        return questionRepository.findByStatusIsTrue(pageRequest);
     }
 
     public Question getQuestion(long questionId) {
@@ -68,12 +76,15 @@ public class QuestionService {
 
         Question findQuestion = findQuestion(questionId);
 
-        if (findQuestion.getUserId() == loginUserId) {
-            questionRepository.delete(findQuestion);
+        if (findQuestion.getUser().getUserId() == loginUserId) {
+
+            findQuestion.setDeleted(true);
+            questionRepository.save(findQuestion);
+
         } else throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
     }
 
     public Question findQuestion(long questionId) {
-        return questionRepository.findById(questionId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        return questionRepository.findByQuestionId(questionId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
     }
 }

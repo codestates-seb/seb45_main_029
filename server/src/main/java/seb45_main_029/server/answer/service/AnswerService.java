@@ -29,14 +29,15 @@ public class AnswerService {
     public Answer post(Answer answer, long questionId) {
 
         User loginUser = userService.getLoginUser();
-        long loginUserId = loginUser.getUserId();
 
         Question question = questionService.findQuestion(questionId);
 
-        answer.setUserId(loginUserId);
+        answer.setUser(loginUser);
         answer.setNickname(loginUser.getNickname());
         answer.setQuestion(question);
         question.getAnswers().add(answer);
+
+        if(!question.isStatus()) question.setStatus(true);
 
         questionRepository.save(question);
 
@@ -48,7 +49,7 @@ public class AnswerService {
         long loginUserId = userService.getLoginUser().getUserId();
         Answer findAnswer = findAnswer(answer.getAnswerId());
 
-        if (findAnswer.getUserId() == loginUserId) {
+        if (findAnswer.getUser().getUserId() == loginUserId) {
 
             Optional.ofNullable(answer.getContent()).ifPresent(content -> findAnswer.setContent(content));
             Optional.ofNullable(answer.getModifiedAt()).ifPresent(localDateTime -> findAnswer.setModifiedAt(LocalDateTime.now()));
@@ -67,8 +68,9 @@ public class AnswerService {
         long loginUserId = userService.getLoginUser().getUserId();
         Answer findAnswer = findAnswer(questionId);
 
-        if (findAnswer.getUserId() == loginUserId) {
-            answerRepository.delete(findAnswer);
+        if (findAnswer.getUser().getUserId() == loginUserId) {
+            findAnswer.setDeleted(true);
+            answerRepository.save(findAnswer);
         } else throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
     }
 

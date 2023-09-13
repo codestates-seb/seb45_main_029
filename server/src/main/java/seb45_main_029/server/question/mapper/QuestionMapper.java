@@ -26,13 +26,14 @@ public interface QuestionMapper {
         QuestionResponseDtoWithAnswers questionResponseDto = new QuestionResponseDtoWithAnswers();
 
         questionResponseDto.setQuestionId(question.getQuestionId());
-        questionResponseDto.setUserId(question.getUserId());
+        questionResponseDto.setUserId(question.getUser().getUserId());
         questionResponseDto.setNickname(question.getNickname());
         questionResponseDto.setTitle(question.getTitle());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setLikeCount(question.getLikeCount());
         questionResponseDto.setViewCount(question.getViewCount());
         questionResponseDto.setAnswers(answerListToAnswerResponseDtoList(question.getAnswers()));
+        questionResponseDto.setStatus(question.isStatus());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
 
@@ -48,10 +49,9 @@ public interface QuestionMapper {
 
         answerResponseDto.setAnswerId(answer.getAnswerId());
         answerResponseDto.setQuestionId(answer.getQuestion().getQuestionId());
-        answerResponseDto.setUserId(answer.getUserId());
+        answerResponseDto.setUserId(answer.getUser().getUserId());
         answerResponseDto.setNickname(answer.getQuestion().getNickname());
         answerResponseDto.setContent(answer.getContent());
-        answerResponseDto.setLikeCount(answer.getLikeCount());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
 
