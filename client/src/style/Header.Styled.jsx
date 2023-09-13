@@ -7,6 +7,7 @@ export const HeaderContainer = styled.header`
     position: sticky;
     top: 0;
     background-color: var(--navy);
+    z-index: 999;
 `
 
 export const HeaderSection = styled.section`
