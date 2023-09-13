@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-// @todo : 중복 발생
-
 const useFetch = (page, keyword, setPageNum) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
@@ -26,12 +24,6 @@ const useFetch = (page, keyword, setPageNum) => {
         }
       );
 
-      console.log(
-        `${
-          import.meta.env.VITE_SERVER_URL
-        }/video/keyword?page=${page}&size=1&keyword=${keyword}`
-      );
-
       if (!data) {
         throw new Error(`서버에 오류가 있습니다.`);
       }
@@ -50,7 +42,7 @@ const useFetch = (page, keyword, setPageNum) => {
       setPageNum(1);
     }
     sendQuery();
-  }, [sendQuery, page, keyword, setPageNum]);
+  }, [sendQuery, page, keyword, setPageNum, savedKeyword]);
 
   return { hasMore, list, isLoading };
 };

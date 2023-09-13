@@ -21,14 +21,18 @@ const IframeContainer = styled.div`
   align-items: end;
 `;
 
-// @todo 서버 URI 연결
 export default function VideoDetail({ thumb, videoId, openModal }) {
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const link = thumb.replace('default.jpg', 'maxresdefault.jpg');
+  const link = thumb;
   const imgRef = useRef(null);
 
+  // @todo : 원하는 이미지가 없을 경우, 이전 해상도를 제공한다. hqdefault를 시도해볼 수도 있음 ( 고품질이기는 한데, 과연 유저경험이 어떨지는 지켜봐야 )
   useEffect(() => {
-    imgRef.current.src = '새로운 이미지 URL';
+    try {
+      imgRef.current.src = thumb.replace('default.jpg', 'maxresdefault.jpg'); // 만약 img src를 바꿨을 때, 404 에러를 잡아낼 수 있다면
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const imgOnclickHandler = () => {
