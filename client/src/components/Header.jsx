@@ -23,19 +23,16 @@ function Header () {
     }
     return (
         <HeaderContainer>
-       
-            <LogoContainer onClick={Main}>
-                <div>
+        <LogoContainer onClick={Main}>
+            <div>
                 <div className="title">Rehabilitation</div>
-                    <img src="/images/removebg.png" alt="LOGO" />
-                    </div>
-                    </LogoContainer>
-            <HGruop>
-                <HButton onClick={boardpage}>동기부여</HButton>
-                <HButton onClick={signin}>로그인</HButton>
-                <HButton onClick={signup}>회원가입</HButton>
-            
-            
+                <img src="/images/removebg.png" alt="LOGO" />
+            </div>
+        </LogoContainer>
+        <HGruop>
+            <HButton onClick={boardpage}>동기부여</HButton>
+            <HButton onClick={signin}>로그인</HButton>
+            <HButton onClick={signup}>회원가입</HButton>
         </HGruop>
         </HeaderContainer>
     );

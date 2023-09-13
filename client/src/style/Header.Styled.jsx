@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import  styled  from 'styled-components';
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.header`
 display: grid;
 grid-auto-flow: column;
 grid-template-columns: 1fr;
@@ -31,7 +31,7 @@ background:url("/images/removebg.png"),50% / cover no-repeat;
     width: 4.375rem;
     color: #FFF;
 font-family: Nanum Pen Script;
-font-size: 0.875rem;
+font-size: .875rem;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
@@ -58,7 +58,7 @@ export const HButton = styled.button`
 background-color:transparent; 
 text-align: center;
 font-family: Pretendard;
-font-size: 0.875rem;
+font-size: .875rem;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
