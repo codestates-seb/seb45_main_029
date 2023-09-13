@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { InputContainer, InputDesign, ImageDesign } from '../style/Main';
 import Modal from '../components/Modal';
 
+// @todo : 혹시나 자동완성 기능? ㅋㅋㅋ
+
 const ImgDesign = styled.img`
   width: 25rem;
   height: 25rem;
@@ -37,13 +39,6 @@ export default function MainSearch() {
   const inputRef = useRef(null);
 
   const { list, hasMore, isLoading } = useFetch(pageNum, keyword, setPageNum); // 커스텀훅, list 서버에서 가져온 데이터
-
-  const handleError = (event) => {
-    event.target.src = list[listIndex].youtubeLink.replace(
-      'maxresdefault.jpg',
-      'default.jpg'
-    );
-  };
 
   const observer = (node) => {
     if (isLoading) return;
@@ -116,13 +111,11 @@ export default function MainSearch() {
                     'maxresdefault.jpg'
                   )}
                   alt='picture'
-                  onError={handleError}
                 />
               </div>
             );
           })}
         </VideoContainerFlexWrap>
-
         {isLoading && <Loading />}
       </MainContainer>
       <div ref={observer} />

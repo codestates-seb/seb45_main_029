@@ -28,8 +28,8 @@ const typeChecker = (
   message,
   videoType,
   videoDetailType,
-  videoDetailType2,
-  userInfo
+  userInfo,
+  changedDetail2
 ) => {
   let type = '';
   if (bookmark) {
@@ -48,8 +48,9 @@ const typeChecker = (
   } else if (videoType === '부위별') {
     type = `keyword?page=1&size=30&keyword=${videoDetailType}`;
   } else if (videoType === '직업별') {
-    type = `keyword?page=1&size=30&keyword=${videoDetailType2}`;
+    type = `keyword?page=1&size=30&keyword=${changedDetail2}`;
   }
+
   return type;
 };
 
@@ -63,6 +64,7 @@ export default function Carousel({
   videoDetailType,
   videoDetailType2,
   bookmark,
+  changedDetail2,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
@@ -101,8 +103,8 @@ export default function Carousel({
         message,
         videoType,
         videoDetailType,
-        videoDetailType2,
-        userInfo
+        userInfo,
+        changedDetail2
       );
       try {
         const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
@@ -128,6 +130,7 @@ export default function Carousel({
     message,
     bookmark,
     userInfo,
+    changedDetail2,
   ]);
 
   useEffect(() => {
