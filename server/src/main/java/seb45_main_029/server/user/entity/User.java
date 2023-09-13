@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import seb45_main_029.server.answer.entity.Answer;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
+import seb45_main_029.server.point.entity.Point;
+import seb45_main_029.server.question.entity.Question;
 import seb45_main_029.server.video.entity.Bookmark;
 
 import javax.persistence.*;
@@ -60,77 +63,19 @@ public class User extends Auditable {
     private PainArea painArea;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Bookmark> bookmarks = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Point point;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Question> question;
 
-    //유튜브링크??
-    //questions
-    //answers
-
-
-
-
-    /*@JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Question> questions = new ArrayList<>();
-
-//     questionInfo에서 가지고 올 data
-    public List<UserQuestionInfo> getUserQuestionInfo() {
-        List<UserQuestionInfo> userQuestionInfos = new ArrayList<>();
-
-        for(Question question : questions) {
-            UserQuestionInfo userQuestionInfo = new UserQuestionInfo();
-
-            userQuestionInfo.setQuestionId(question.getQuestionId());
-            userQuestionInfo.setTitle(question.getTitle());
-//            userQuestionInfo.setContent(question.getContent());
-            userQuestionInfo.setCreated_At(question.getCreatedAt());
-
-            userQuestionInfos.add(userQuestionInfo);
-        }
-        return userQuestionInfos;
-    }
-
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Answer> answers = new ArrayList<>();
-
-    public List<UserAnswerInfo> getUserAnswerInfo() {
-        List<UserAnswerInfo> userAnswerInfos = new ArrayList<>();
-
-        for(Answer answer : answers) {
-            UserAnswerInfo userAnswerInfo = new UserAnswerInfo();
-
-            userAnswerInfo.setAnswerId(answer.getAnswerId());
-            userAnswerInfo.setContent(answer.getContent());
-            userAnswerInfo.setCreatedAt(answer.getCreatedAt());
-
-            userAnswerInfos.add(userAnswerInfo);
-        }
-        return userAnswerInfos;
-    }*/
-
-
-    /*@ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
-
-    public void setQuestion(Question question) {
-        questions.add(question);
-        if (question.getUser() != this) {
-            question.setUser(this);
-        }
-    }*/
-
-    /*public void setAnswer(Answer answer) {
-        answers.add(answer);
-        if(answer.getUser() != this) {
-            answer.setUser(this);
-        }
-    }*/
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Answer> answers;
 
 }
