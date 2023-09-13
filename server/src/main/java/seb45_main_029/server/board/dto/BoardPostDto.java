@@ -1,0 +1,21 @@
+package seb45_main_029.server.board.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Getter
+@AllArgsConstructor
+public class BoardPostDto {
+    @NotBlank
+    private long id;
+
+    @NotBlank
+    @Size(max = 100)
+    private String title;
+
+    @NotBlank
+    private String body;
+}
