@@ -118,7 +118,7 @@ function SignIn() {
         </section>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
-          <Button primary onClick={signIn}>
+          <Button onClick={signIn}>
             로그인
           </Button>
           <MyCustomButton onClick={() => login()}>
