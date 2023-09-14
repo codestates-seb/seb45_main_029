@@ -14,7 +14,6 @@ import {
 import axios from 'axios';
 import Modal from './Modal';
 import { useSelector } from 'react-redux';
-import { jobChoose } from '../assets/variousFunctions';
 import styled from 'styled-components';
 
 const DivFlexMovie1 = styled.div`
@@ -34,7 +33,6 @@ const typeChecker = (
   let type = '';
   if (bookmark) {
     type = 'bookmark/?page=1&size=30';
-    jobChoose(userInfo.job, null);
   }
   if (message === 'TOP5 재활운동') {
     type = 'popular?page=1&size=10';
@@ -112,7 +110,7 @@ export default function Carousel({
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'ngrok-skip-browser-warning': '69420',
+            Authorization: `Bearer ${userInfo.accessToken}` || '',
           },
         });
         setVideos(data.data);

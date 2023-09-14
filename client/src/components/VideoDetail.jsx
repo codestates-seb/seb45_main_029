@@ -33,7 +33,10 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   const imgRef = useRef(null);
   // @todo : 원하는 이미지가 없을 경우, 이전 해상도를 제공한다. hqdefault를 시도해볼 수도 있음 ( 고품질이기는 한데, 과연 유저경험이 어떨지는 지켜봐야 )
   useEffect(() => {
-    imgRef.current.src = thumb.replace('default.jpg', '0.jpg');
+    imgRef.current.src = thumb?.replace('default.jpg', '0.jpg');
+    if (userInfo.bookmark.includes(videoId)) {
+      setBookmarkClick(true);
+    }
   }, []);
 
   const imgOnclickHandler = async () => {
@@ -43,8 +46,10 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
     if (newBookmarkState) {
       const data = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
+        {},
         {
           headers: {
+            'Access-Control-Allow-Origin': '*',
             Authorization: `Bearer ${userInfo.accessToken}`,
           },
         }
@@ -55,11 +60,12 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
         {
           headers: {
+            'Access-Control-Allow-Origin': '*',
             Authorization: `Bearer ${userInfo.accessToken}`,
           },
         }
       );
-      dispatch(deleteBookmark());
+      dispatch(deleteBookmark(videoId));
     }
   };
 

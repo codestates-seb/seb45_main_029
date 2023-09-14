@@ -5,15 +5,8 @@ import useFetch from '../hooks/UseFetch';
 import styled from 'styled-components';
 import { InputContainer, InputDesign, ImageDesign } from '../style/Main';
 import Modal from '../components/Modal';
-
+import VideoDetail from '../components/VideoDetail';
 // @todo : 혹시나 자동완성 기능? ㅋㅋㅋ
-
-const ImgDesign = styled.img`
-  width: 25rem;
-  height: 25rem;
-  cursor: pointer;
-  margin: 3rem;
-`;
 
 const MainContainer = styled.div`
   display: flex;
@@ -114,12 +107,10 @@ export default function MainSearch() {
             {list?.map((elem, index) => {
               return (
                 <div key={index}>
-                  <ImgDesign
-                    onClick={() => {
-                      openModal(index);
-                    }}
-                    src={elem.thumbnail.replace('default.jpg', '0.jpg')}
-                    alt='picture'
+                  <VideoDetail
+                    thumb={elem.thumbnail}
+                    videoId={elem.videoId}
+                    openModal={openModal}
                   />
                 </div>
               );

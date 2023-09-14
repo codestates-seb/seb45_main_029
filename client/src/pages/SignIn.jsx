@@ -41,7 +41,8 @@ function SignIn() {
       api('/users/login', 'post', { password, email: id })
         .then((response) => {
           console.log(response.data.message);
-          if (response.data.success) {
+          if (response.data) {
+            window.localStorage.setItem('info', response.data);
             dispatch(setUser(response.data));
           }
         })

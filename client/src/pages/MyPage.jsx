@@ -22,28 +22,45 @@ import { useSelector } from 'react-redux';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
+// @todo : myPage에서 carousel에게 userInfo를 props로 전달할 것인가
 export default function MyPage() {
-  const { userId, image, loggedIn } = useSelector((state) => state.user);
+  const reduxInfo = useSelector((state) => state.user);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
   const [userInfo, setUserInfo] = useState({});
+  const [login, setLogin] = useState(false);
+
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
 
   useEffect(() => {
+    const info = window.localStorage.getItem('info');
+    if (info) {
+      setLogin(true);
+    }
     const getData = async () => {
-      const data = await axios.get(`${SERVER_URL}/${userId}`);
+      const data = await axios.get(
+        `${SERVER_URL}/users/mypage/${info.userId}`,
+        {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${info.accessToken}` || '',
+          },
+        }
+      );
       setUserInfo(data.data);
     };
     getData();
-    console.log(userInfo);
   }, []);
 
   return (
     <>
-      {!loggedIn ? (
+      {!login ? (
         <div>로그인해주세요</div>
       ) : (
         <NavAndContent>
@@ -55,11 +72,15 @@ export default function MyPage() {
               <InfoContainer>
                 <header>
                   <div>
-                    <span>나의</span>{' '}
+                    <span>나의</span>
                     <TitleFontSpanPink>정보</TitleFontSpanPink>
                   </div>
                   <UserImg
-                    src={image === '' ? '/images/person.jpg' : image}
+                    src={
+                      userInfo.image === ''
+                        ? '/images/person.jpg'
+                        : userInfo.image
+                    }
                     alt='myImage'
                   />
                 </header>
