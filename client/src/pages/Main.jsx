@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   MainContainer,
   InputContainer,
@@ -15,26 +15,32 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
-import { useSelector } from 'react-redux';
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
   const [videoDetailType, setVideoDetailType] = useState('가슴');
   const [videoDetailType2, setVideoDetailType2] = useState('경영·사무');
+  const [changedDetail2, setChangedDetail2] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
   const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
+  const [login, setLogin] = useState(false);
 
-  const userInfo = useSelector((state) => state.user);
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
   const slideRefRecommend = useRef(null);
 
   const navigate = useNavigate();
 
+  const gopage = () => {
+    navigate('/mypage');
+  };
+  const deleteButton = () => {
+    window.localStorage.removeItem('info');
+  };
+
   const onClickHandler = (e) => {
     setVideoType(e.target.innerText);
-    // 데이터 보내주기
   };
 
   const onClickHandlerDetail = (e) => {
@@ -51,11 +57,11 @@ function Main() {
       data === '미용·여행·음식' ||
       data === '영업·판매·운송'
     )
-      setVideoDetailType2('사무직');
+      setChangedDetail2('사무직');
     else if (data === '보건·의료직') {
-      setVideoDetailType2('사무직 및 현장직');
+      setChangedDetail2('사무직 및 현장직');
     } else {
-      setVideoDetailType2('현장직');
+      setChangedDetail2('현장직');
     }
     setVideoDetailType2(e.target.innerText);
   };
@@ -65,7 +71,7 @@ function Main() {
     if (content === '' || content.replaceAll(' ', '').length === 0) {
       return;
     }
-    navigate('/search', { state: { value: content } }); // 검색 페이지로 이동
+    navigate('/search', { state: { value: content } });
   };
 
   const onKeyUpHandler = (e) => {
@@ -74,10 +80,16 @@ function Main() {
       return;
     }
     if (e.keyCode === 13) {
-      // input enter 누를 시
-      navigate('/search', { state: { value: content } }); // 검색 페이지로 이동
+      navigate('/search', { state: { value: content } });
     }
   };
+
+  useEffect(() => {
+    const isLoggedIn = window.localStorage.getItem('info');
+    if (isLoggedIn) {
+      setLogin(true);
+    }
+  }, []);
 
   return (
     <MainContainer>
@@ -89,7 +101,7 @@ function Main() {
           alt='magnifier'
         />
       </InputContainer>
-      {userInfo.loggedIn === false ? (
+      {login === false ? (
         <>
           <p>로그인하여 여러분들만의 </p>
           <p>맞춤 운동 동영상을 확인해보세요</p>
@@ -144,7 +156,10 @@ function Main() {
         videoDetailType={videoDetailType}
         videoDetailType2={videoDetailType2}
         bookmark={false}
+        changedDetail2={changedDetail2}
       />
+      <button onClick={gopage}>마이페이지</button>
+      <button onClick={deleteButton}>로그아웃</button>
     </MainContainer>
   );
 }

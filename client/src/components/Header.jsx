@@ -1,44 +1,57 @@
-
-
-import { useNavigate } from "react-router-dom";
-import {HeaderContainer,LogoContainer,HGruop,HButton } from '../style/Header.Styled';
+import { Link, NavLink } from 'react-router-dom';
+import logo from '../assets/logo.svg';
+import { HeaderContainer, HeaderSection, HdNav } from '../style/Header.Styled';
+import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 
+const headerBtn = [
+  { id: 1, text: '동기부여', path: '/point' },
+  { id: 2, text: '로그인', path: '/signin' },
+  { id: 3, text: '회원가입', path: '/signup' },
+];
 
-function Header () {
-    const navigate = useNavigate();
+const loginHeaderBtn = [
+  { id: 1, text: '동기부여', path: '/point' },
+  { id: 2, text: '로그아웃', path: '/' },
+  { id: 3, text: '마이페이지', path: '/mypage' },
+];
 
-    const Main = () => {
-        navigate('/');
+function Header() {
+  const [btn, setBtn] = useState([]);
+  useEffect(() => {
+    if (window.localStorage.getItem('info')) {
+      setBtn(loginHeaderBtn);
+    } else {
+      setBtn(headerBtn);
     }
-   
-    const boardpage = () => {
-        navigate('/boardpage');
-    }
-    const signup = () => {
-        navigate('/signup');
-    }
-    const signin = () => {
-        navigate('/signin');
-    }
-    return (
-        <HeaderContainer>
-       
-            <LogoContainer onClick={Main}>
-                <div>
-                <div className="title">Rehabilitation</div>
-                    <img src="/images/removebg.png" alt="LOGO" />
-                    </div>
-                    </LogoContainer>
-            <HGruop>
-                <HButton onClick={boardpage}>동기부여</HButton>
-                <HButton onClick={signin}>로그인</HButton>
-                <HButton onClick={signup}>회원가입</HButton>
-            
-            
-        </HGruop>
-        </HeaderContainer>
-    );
+  }, []);
+
+  return (
+    <HeaderContainer>
+      <HeaderSection className='container_wt'>
+        <h1>
+          <Link to='/'><img src={logo} alt='LOGO' /></Link>
+        </h1>
+        <HdNav>
+          <ul className='hd_nav'>
+            {btn.map((list) => {
+              const { id, text, path } = list;
+              return (
+                <li key={id}>
+                  <NavLink
+                    to={path}
+                    className={({ isActive }) => (isActive ? 'active' : '')}
+                  >
+                    {text}
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
+        </HdNav>
+      </HeaderSection>
+    </HeaderContainer>
+  );
 }
 
 export default Header;

@@ -1,17 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Loading from '../components/Loading';
 import { useLocation } from 'react-router-dom';
 import useFetch from '../hooks/UseFetch';
 import styled from 'styled-components';
 import { InputContainer, InputDesign, ImageDesign } from '../style/Main';
 import Modal from '../components/Modal';
-
-const ImgDesign = styled.img`
-  width: 25rem;
-  height: 25rem;
-  cursor: pointer;
-  margin: 3rem;
-`;
+import VideoDetail from '../components/VideoDetail';
+// @todo : 혹시나 자동완성 기능? ㅋㅋㅋ
 
 const MainContainer = styled.div`
   display: flex;
@@ -27,6 +22,11 @@ const VideoContainerFlexWrap = styled.div`
   flex-wrap: wrap;
 `;
 
+const NotFoundDiv = styled.div`
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+`;
+
 export default function MainSearch() {
   const location = useLocation();
   const [keyword, setKeyword] = useState(location.state.value);
@@ -36,14 +36,7 @@ export default function MainSearch() {
   const observerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const { list, hasMore, isLoading } = useFetch(pageNum, keyword); // 커스텀훅, list 서버에서 가져온 데이터
-
-  const handleError = (event) => {
-    event.target.src = list[listIndex].youtubeLink.replace(
-      'maxresdefault.jpg',
-      'default.jpg'
-    );
-  };
+  const { list, hasMore, isLoading } = useFetch(pageNum, keyword, setPageNum); // 커스텀훅, list 서버에서 가져온 데이터
 
   const observer = (node) => {
     if (isLoading) return;
@@ -60,6 +53,10 @@ export default function MainSearch() {
     setModalOpen(true);
     setListIndex(index);
   };
+
+  useEffect(() => {
+    inputRef.current.value = keyword;
+  }, []);
 
   const onClickSearchHandler = (e) => {
     const content = e.target.previousSibling.value;
@@ -103,25 +100,23 @@ export default function MainSearch() {
             alt='magnifier'
           />
         </InputContainer>
-        <VideoContainerFlexWrap>
-          {list?.map((elem, index) => {
-            return (
-              <div key={index}>
-                <ImgDesign
-                  onClick={() => {
-                    openModal(index);
-                  }}
-                  src={elem.thumbnail.replace(
-                    'default.jpg',
-                    'maxresdefault.jpg'
-                  )}
-                  alt='picture'
-                  onError={handleError}
-                />
-              </div>
-            );
-          })}
-        </VideoContainerFlexWrap>
+        {list?.length === 0 ? (
+          <NotFoundDiv>찾으시는 정보가 없습니다</NotFoundDiv>
+        ) : (
+          <VideoContainerFlexWrap>
+            {list?.map((elem, index) => {
+              return (
+                <div key={index}>
+                  <VideoDetail
+                    thumb={elem.thumbnail}
+                    videoId={elem.videoId}
+                    openModal={openModal}
+                  />
+                </div>
+              );
+            })}
+          </VideoContainerFlexWrap>
+        )}
 
         {isLoading && <Loading />}
       </MainContainer>

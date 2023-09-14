@@ -10,18 +10,15 @@ export const userSlice = createSlice({
     bookmark: [],
     job: '',
     image: '',
-    recommendedVideosUrl: '',
+    accessToken: '',
   },
 
   reducers: {
     setUser: (state, action) => {
-      state.loggedIn = action.payload.loggedIn;
+      state.loggedIn = true;
       state.email = action.payload.email;
-      state.name = action.payload.name;
       state.userId = action.payload.userId;
-      state.bookmark = action.payload.bookmark;
-      state.job = action.payload.job;
-      state.image = action.payload.image;
+      state.accessToken = action.payload.accessToken;
       return state;
     },
     updateUser: (state, action) => {
@@ -39,15 +36,21 @@ export const userSlice = createSlice({
       state.bookmark = [];
       state.job = '';
       state.image = '';
+      state.accessToken = '';
+      return state;
+    },
+    loginUser: (state, action) => {
+      state.loggedIn = true;
+      console.log(state.loggedIn);
       return state;
     },
     setBookmark: (state, action) => {
-      state.bookmark = [...state.bookmark, action.payload.videoId];
+      state.bookmark = [...state.bookmark, action.payload];
       return state;
     },
     deleteBookmark: (state, action) => {
       state.bookmark = state.bookmark.filter((el) => {
-        return action.payload.videoId !== el;
+        return action.payload !== el;
       });
       return state;
     },
@@ -64,6 +67,6 @@ export const {
   deleteBookmark,
   updateUser,
   deleteUser,
-  setRecommendedVideosUrl,
+  loginUser,
 } = userSlice.actions;
 export default userSlice.reducer;

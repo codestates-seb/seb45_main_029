@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const useFetch = (page, keyword) => {
+const useFetch = (page, keyword, setPageNum) => {
   const [list, setList] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); //로딩 구현 시에만 필요
+  const [isLoading, setIsLoading] = useState(false);
   const [savedKeyword, SetSavedKeyword] = useState('');
-  //@todo query API 요청 보내기
+  const [currentPage, setCurrentPage] = useState(-1);
   const sendQuery = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -31,6 +31,7 @@ const useFetch = (page, keyword) => {
       setHasMore(data.data.length > 0);
       setIsLoading(false);
       SetSavedKeyword(keyword);
+      setCurrentPage(page);
     } catch (e) {
       throw new Error(`오류입니다. ${e.message}`);
     }
@@ -39,9 +40,13 @@ const useFetch = (page, keyword) => {
   useEffect(() => {
     if (keyword !== savedKeyword) {
       setList([]);
+      setPageNum(1);
+    }
+    if (list.length !== 0 && page === currentPage) {
+      return;
     }
     sendQuery();
-  }, [sendQuery, page, keyword, savedKeyword]);
+  }, [sendQuery, page, keyword, setPageNum, savedKeyword, currentPage]);
 
   return { hasMore, list, isLoading };
 };

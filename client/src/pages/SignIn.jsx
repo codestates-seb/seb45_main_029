@@ -4,9 +4,9 @@ import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, setRecommendedVideosUrl } from '../redux/userSlice';
-import Footer from '../components/Footer';
-import { LoginBox, Button, MyCustomButton } from '../style/SignIn';
+import {LoginContainer, LoginBox, Button, MyCustomButton } from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
+import GoogleIcon from "../assets/logos_google.svg"
 
 function SignIn() {
   const [id, setId] = useState('');
@@ -41,8 +41,9 @@ function SignIn() {
     if (idIsValid && passwordIsValid) {
       api('/users/login', 'post', { password, email: id })
         .then((response) => {
-          console.log(response.data);
-          if (response.data.success) {
+          console.log(response.data.message);
+          if (response.data) {
+            window.localStorage.setItem('info', response.data);
             dispatch(setUser(response.data));
           }
         })
@@ -73,8 +74,22 @@ function SignIn() {
   }, [loggedIn, navigate, dispatch]);
 
   return (
-    <>
+    <LoginContainer>
       <LoginBox>
+        <h2>로그인</h2>
+        <section className='input-container'>
+          <div className='input-box'>
+            <input
+              type='text'
+              onChange={onChangeHandlerId}
+              value={id}
+              placeholder='example@email.com'
+            ></input>
+            {!idIsValid ? (
+              <p className='error-message'>유효한 이메일을 입력 해주세요.</p>
+            ) : null}
+          </div>
+          <div className='input-box'>
         <h3>로그인</h3>
         <div className='input-container'>
           <input
@@ -96,24 +111,24 @@ function SignIn() {
               placeholder='password'
               autoComplete='on'
             />
-          </div>
-          {!passwordIsValid ? (
-            <div className='error-message'>비밀번호를 입력 해주세요.</div>
-          ) : null}
-        </form>
+            {!passwordIsValid ? (
+              <p className='error-message'>비밀번호를 입력 해주세요.</p>
+                ) : null}
+                </div>
+          </form>
+        </section>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
-          <Button primary onClick={signIn}>
+          <Button onClick={signIn}>
             로그인
           </Button>
           <MyCustomButton onClick={() => login()}>
-            Google 로그인 🚀
+            <span><img src={GoogleIcon} alt="GoogleIcon" /></span>
+            <span>로그인</span>
           </MyCustomButton>
-          ;
         </div>
       </LoginBox>
-      <Footer />
-    </>
+    </LoginContainer>
   );
 }
 export default SignIn;

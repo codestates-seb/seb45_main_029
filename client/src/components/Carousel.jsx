@@ -14,7 +14,6 @@ import {
 import axios from 'axios';
 import Modal from './Modal';
 import { useSelector } from 'react-redux';
-import { jobChoose } from '../assets/variousFunctions';
 import styled from 'styled-components';
 
 const DivFlexMovie1 = styled.div`
@@ -28,13 +27,12 @@ const typeChecker = (
   message,
   videoType,
   videoDetailType,
-  videoDetailType2,
-  userInfo
+  userInfo,
+  changedDetail2
 ) => {
   let type = '';
   if (bookmark) {
     type = 'bookmark/?page=1&size=30';
-    jobChoose(userInfo.job, null);
   }
   if (message === 'TOP5 재활운동') {
     type = 'popular?page=1&size=10';
@@ -48,8 +46,9 @@ const typeChecker = (
   } else if (videoType === '부위별') {
     type = `keyword?page=1&size=30&keyword=${videoDetailType}`;
   } else if (videoType === '직업별') {
-    type = `keyword?page=1&size=30&keyword=${videoDetailType2}`;
+    type = `keyword?page=1&size=30&keyword=${changedDetail2}`;
   }
+
   return type;
 };
 
@@ -63,6 +62,7 @@ export default function Carousel({
   videoDetailType,
   videoDetailType2,
   bookmark,
+  changedDetail2,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
@@ -101,8 +101,8 @@ export default function Carousel({
         message,
         videoType,
         videoDetailType,
-        videoDetailType2,
-        userInfo
+        userInfo,
+        changedDetail2
       );
       try {
         const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
@@ -110,7 +110,7 @@ export default function Carousel({
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'ngrok-skip-browser-warning': '69420',
+            Authorization: `Bearer ${userInfo.accessToken}` || '',
           },
         });
         setVideos(data.data);
@@ -127,6 +127,7 @@ export default function Carousel({
     message,
     bookmark,
     userInfo,
+    changedDetail2,
   ]);
 
   useEffect(() => {
