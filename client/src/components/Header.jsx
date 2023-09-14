@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-//import logo from "../assets/logo.svg"
+import logo from "../assets/logo.svg"
 import { HeaderContainer, HeaderSection, HdNav } from '../style/Header.Styled';
 // eslint-disable-next-line no-unused-vars
 
@@ -14,7 +14,7 @@ function Header() {
     <HeaderContainer>
       <HeaderSection className='container_wt'>
         <h1>
-          <Link to='/'>{/* <img src={logo} alt='LOGO' /> */}</Link>
+          <Link to='/'><img src={logo} alt='LOGO' /></Link>
         </h1>
         <HdNav>
           <ul className='hd_nav'>
