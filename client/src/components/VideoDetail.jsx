@@ -43,12 +43,21 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
     if (newBookmarkState) {
       const data = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
-        {}
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.accessToken}`,
+          },
+        }
       );
       dispatch(setBookmark(videoId));
     } else {
       const data = await axios.delete(
-        `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`
+        `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.accessToken}`,
+          },
+        }
       );
       dispatch(deleteBookmark());
     }

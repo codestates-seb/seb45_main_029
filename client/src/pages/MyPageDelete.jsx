@@ -27,7 +27,8 @@ export default function MyPageDelete() {
     if (e.target[0].value === '탈퇴하기') {
       console.log('hey');
       const data = await axios.delete(
-        `${import.meta.env.SERVER_URL}/users/${userInfo.userId}`
+        `${import.meta.env.SERVER_URL}/users/${userInfo.userId}`,
+        { headers: { Authorization: userInfo.accessToken } }
       );
       dispatch(deleteUser);
       console.log(data);
