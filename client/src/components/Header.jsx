@@ -3,6 +3,7 @@ import logo from '../assets/logo.svg';
 import { HeaderContainer, HeaderSection, HdNav } from '../style/Header.Styled';
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
+import { useSelector } from 'react-redux';
 
 const headerBtn = [
   { id: 1, text: '동기부여', path: '/point' },
@@ -17,7 +18,17 @@ const loginHeaderBtn = [
 ];
 
 function Header() {
+  const userInfo = useSelector((state) => state.user);
   const [btn, setBtn] = useState([]);
+
+  useEffect(() => {
+    if (userInfo.loggedIn) {
+      setBtn(loginHeaderBtn);
+    } else {
+      setBtn(headerBtn);
+    }
+  }, [userInfo]);
+
   useEffect(() => {
     if (window.localStorage.getItem('info')) {
       setBtn(loginHeaderBtn);
@@ -30,7 +41,9 @@ function Header() {
     <HeaderContainer>
       <HeaderSection className='container_wt'>
         <h1>
-          <Link to='/'><img src={logo} alt='LOGO' /></Link>
+          <Link to='/'>
+            <img src={logo} alt='LOGO' />
+          </Link>
         </h1>
         <HdNav>
           <ul className='hd_nav'>

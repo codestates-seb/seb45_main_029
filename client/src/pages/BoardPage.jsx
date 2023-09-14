@@ -16,7 +16,7 @@ import {
 } from '../style/BoardPage';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-import { useSelector } from 'react-redux';
+
 import SearchBoard from '../components/SearchBoard';
 import LatestInfo from '../components/LatestInfo';
 import QNAbtn from '../components/QNAbtn';
@@ -32,8 +32,6 @@ const BoardPage = (props) => {
   const pageCount = Math.ceil(questions.length / questionsPerPage);
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.user);
-
   const goToQuestionPage = () => {
     navigate('/newquestion');
   };
@@ -48,10 +46,9 @@ const BoardPage = (props) => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await api(`/question/${user.userId}`);
-      if (Array.isArray(response.data)) {
-        setQuestions(response.data);
-      }
+      const response = await api(`/question?page=1&size=10&type=1`);
+      setQuestions(response.data.data);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +58,8 @@ const BoardPage = (props) => {
     fetchQuestions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(questions);
 
   useEffect(() => {
     statusDatas === '전체'
@@ -73,7 +72,7 @@ const BoardPage = (props) => {
   useEffect(() => {
     const newStartIndex = (currentPage - 1) * questionsPerPage;
     const newEndIndex = newStartIndex + questionsPerPage;
-    console.log(newStartIndex, newEndIndex);
+    //console.log(newStartIndex, newEndIndex);
 
     setCurrentQuestions(questions.slice(newStartIndex, newEndIndex));
   }, [currentPage, questions]);
