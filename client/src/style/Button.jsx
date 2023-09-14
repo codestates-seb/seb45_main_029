@@ -1,10 +1,10 @@
 import { styled, css } from 'styled-components';
 
 export const Button = styled.button`
-  width: 200px;
-  height: 60px;
+  width: 12.5rem;
+  height: 3.75rem;
   border-radius: 15px;
-  background: #0c2139;
+  background: var(--navy);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,10 +14,14 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 400;
-
+  transition: .3s;
   cursor: pointer;
+
+  &:hover{
+    background-color: #032B58;
+  }
 
   ${(props) =>
     props.primay &&
