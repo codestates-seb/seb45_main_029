@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   MainContainer,
   InputContainer,
@@ -15,10 +15,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
-import { useSelector } from 'react-redux';
-
-//@todo:
-// 아래 선택 carousel이 작동을 안 함
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
@@ -28,13 +24,20 @@ function Main() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
   const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
+  const [login, setLogin] = useState(false);
 
-  const userInfo = useSelector((state) => state.user);
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
   const slideRefRecommend = useRef(null);
 
   const navigate = useNavigate();
+
+  const gopage = () => {
+    navigate('/mypage');
+  };
+  const deleteButton = () => {
+    window.localStorage.removeItem('info');
+  };
 
   const onClickHandler = (e) => {
     setVideoType(e.target.innerText);
@@ -81,6 +84,13 @@ function Main() {
     }
   };
 
+  useEffect(() => {
+    const isLoggedIn = window.localStorage.getItem('info');
+    if (isLoggedIn) {
+      setLogin(true);
+    }
+  }, []);
+
   return (
     <MainContainer>
       <InputContainer>
@@ -91,7 +101,7 @@ function Main() {
           alt='magnifier'
         />
       </InputContainer>
-      {userInfo.loggedIn === false ? (
+      {login === false ? (
         <>
           <p>로그인하여 여러분들만의 </p>
           <p>맞춤 운동 동영상을 확인해보세요</p>
@@ -148,6 +158,8 @@ function Main() {
         bookmark={false}
         changedDetail2={changedDetail2}
       />
+      <button onClick={gopage}>마이페이지</button>
+      <button onClick={deleteButton}>로그아웃</button>
     </MainContainer>
   );
 }

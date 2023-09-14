@@ -39,13 +39,18 @@ export const userSlice = createSlice({
       state.accessToken = '';
       return state;
     },
+    loginUser: (state, action) => {
+      state.loggedIn = true;
+      console.log(state.loggedIn);
+      return state;
+    },
     setBookmark: (state, action) => {
-      state.bookmark = [...state.bookmark, action.payload.videoId];
+      state.bookmark = [...state.bookmark, action.payload];
       return state;
     },
     deleteBookmark: (state, action) => {
       state.bookmark = state.bookmark.filter((el) => {
-        return action.payload.videoId !== el;
+        return action.payload !== el;
       });
       return state;
     },
@@ -53,6 +58,12 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBookmark, deleteBookmark, updateUser, deleteUser } =
-  userSlice.actions;
+export const {
+  setUser,
+  setBookmark,
+  deleteBookmark,
+  updateUser,
+  deleteUser,
+  loginUser,
+} = userSlice.actions;
 export default userSlice.reducer;
