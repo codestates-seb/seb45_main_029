@@ -8,8 +8,8 @@ import {
   PainSpan,
   JobChoice,
   PainListContainer,
-  Line,
   PainChoice,
+  ArticleList,
 } from '../style/SignUp';
 import { Button } from '../style/Button';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
@@ -139,44 +139,46 @@ function SignUp() {
 
   return (
     <>
-      <Container>
+      <Container className='content_pd'>
         <SignBox>
-          <section>
-            <h1>회원가입</h1>
+          <section className='info-container'>
+            <h2>회원가입</h2>
             <div>
               <div className='input-container'>
-                <div className='title'>이름 :</div>
+                <h3 className='title'>이름 :</h3>
                 <input
                   type='text'
                   onChange={onChangeHandlerName}
                   value={username}
-                  placeholder='설미선'
+                  placeholder='홍길동'
                 ></input>
               </div>
               {!usernameIsValid ? (
-                <div className='error-message'>이름을 입력 해주세요</div>
+                <p className='error-message'>이름을 입력 해주세요</p>
               ) : null}
             </div>
             <div>
               <div className='input-container'>
-                <div className='title'>이메일 :</div>
-                <input
-                  type='text'
-                  onChange={onChangeHandlerId}
-                  value={id}
-                  placeholder='example@email.com'
-                ></input>
-                <button className='btn'>확인</button>
+                <h3 className='title'>이메일 :</h3>
+                <div className="email-check-container">
+                  <input
+                    type='text'
+                    onChange={onChangeHandlerId}
+                    value={id}
+                    placeholder='example@email.com'
+                  ></input>
+                  <button className='btn'>확인</button>
+                </div>
               </div>
               {!idIsValid ? (
-                <div className='error-message'>
+                <p className='error-message'>
                   유효한 이메일을 입력 해주세요.
-                </div>
+                </p>
               ) : null}
             </div>
             <div>
               <div className='input-container'>
-                <div className='title'>닉네임 :</div>
+                <h3 className='title'>닉네임 :</h3>
                 <input
                   type='text'
                   onChange={onChangeHandlerNickName}
@@ -187,7 +189,7 @@ function SignUp() {
             </div>
             <div>
               <div className='input-container'>
-                <div className='title'>비밀번호 :</div>
+                <h3 className='title'>비밀번호 :</h3>
                 <input
                   type='password'
                   onChange={onChangeHandlerPassword}
@@ -196,14 +198,14 @@ function SignUp() {
                 ></input>
               </div>
               {!passwordIsValid ? (
-                <div className='error-message'>
+                <p className='error-message'>
                   최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!
-                </div>
+                </p>
               ) : null}
             </div>
             <div>
               <div className='input-container'>
-                <div className='title'>비밀번호 확인 :</div>
+                <h3 className='title'>비밀번호 확인 :</h3>
                 <input
                   type='password'
                   onChange={onChangeHandlerPassword2}
@@ -212,25 +214,25 @@ function SignUp() {
                 ></input>
               </div>
               {!password2IsValid ? (
-                <div className='error-message'>
+                <p className='error-message'>
                   비밀번호가 일치하지 않습니다.
-                </div>
+                </p>
               ) : null}
             </div>
             <div>
               <div className='input-container'>
-                <div className='title'>좌우명 :</div>
+                <h3 className='title'>좌우명 :</h3>
                 <input
                   type='text'
                   onChange={onChangeHandlerMotto}
                   value={motto}
-                  placeholder='행동하라'
+                  placeholder='행동하라 즐겨라'
                 ></input>
               </div>
             </div>
           </section>
-          <article>
-            <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
+          <ArticleList>
+            <PainSpan>직업 분류 : <span className='job-list'>{checkedListJob}</span></PainSpan>
             <JobChoice>
               <BodyAndJobList
                 list={checkBoxListJob}
@@ -249,7 +251,6 @@ function SignUp() {
                 <></>
               )}
             </PainListContainer>
-            <Line />
             <PainChoice>
               <BodyAndJobList
                 list={checkBoxListBody}
@@ -258,9 +259,7 @@ function SignUp() {
                 checkHandler={checkHandler}
               />
             </PainChoice>
-            <Line />
-          </article>
-
+          </ArticleList>
           <Button $primay onClick={signUp}>
             가입하기
           </Button>

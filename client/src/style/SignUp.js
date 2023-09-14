@@ -1,107 +1,161 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
+export const Container = styled.main`
+  width: 100%;
   height: 100%;
+  min-height: 85vh;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
-export const SignBox = styled.div`
+
+export const SignBox = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  margin-right: 600px;
-  gap: 30px;
-  width: 900px;
-  height: 1000px;
+  padding: 2.1875rem 3.125rem 1.25rem;
+  width: 56.25rem;
   border-radius: 35px;
-  border: 1px solid #000;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  h1 {
+  border: 1px solid #404040;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+  .info-container{
+    width: 100%;
+  }
+
+  .info-container > div{
+    margin: .9375rem 0 0;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: 800;
+    font-size: 2rem;
+    padding-bottom: .625rem;
+    border-bottom: 1px solid #404040;
+    margin: 0 0 1.875rem;
+  }
+
+  .title {
+    font-size: 1.125rem;
+    margin: 0 0 .625rem;
+  }
+
+  .input-container input{
+    width: 90%;
+    height: 3.125rem;
+    padding: .625rem;
+    border-radius: 10px;
+    border: 1px solid #404040;
+    font-size: 1rem;
+  }
+
+  .email-check-container{
     display: flex;
     align-items: center;
-    color: #000;
-    font-family: Pretendard;
-    font-size: 2rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    position: relative;
+    justify-content: space-between;
+  }
 
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 1px;
-      border-bottom: 2px solid black;
+  .btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.125rem;
+    font-family: var(--nanum);
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    transition: .3s;
+    
+    &:hover{
+      background-color: #6187FF;
     }
   }
-  .title {
-    color: #000;
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-  input[type='text'],
-  input[type='password'] {
-    width: 734px;
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid #000;
-  }
-  .btn {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    background-color: rgba(133, 157, 232, 1);
-    color: rgba(255, 255, 255, 1);
-    border-radius: 50%;
-    margin-left: 26px;
-  }
+
   .error-message {
-    width: 370px;
-    color: #f00;
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    color: #F56565;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: .625rem 0 0;
   }
 `;
 
-export const PainChoice = styled.div`
+export const ArticleList = styled.article`
+  margin: 1.5625rem 0 0;
+  width: 100%;
+`
+
+export const PainSpan = styled.p`
+  font-size: 1.125rem;
+  margin: 0 0 .625rem;
+  font-weight: 600;
   display: flex;
-  height: 4rem;
+  align-items: center;
+  gap: .625rem;
+
+  .job-list{
+    color: var(--navy);
+    font-size: 1.25rem;
+  }
 `;
 
 export const JobChoice = styled.div`
+  width: 100%;
+  
+  >ul{
+    display: flex;
+    justify-content: space-between;
+    gap: .625rem;
+    padding: .9375rem 0;
+    border-top: 1px solid #404040;
+    border-bottom: 1px solid #404040;
+  }
+  >ul li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .625rem;
+  }
+  >ul li input{
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    accent-color: rgb(187, 68, 185);
+  }
+  >ul li label{
+    font-size: .875rem;
+  }
+`;
+
+export const PainListContainer = styled.p`
   display: flex;
-  height: 4rem;
-  font-size: 0.5rem;
+  margin: 1.875rem 0 0;
 `;
 
-export const PainLabel = styled.label`
-  margin-right: 1rem;
-`;
-
-export const Line = styled.hr`
-  width: 40rem;
-`;
-
-export const PainListContainer = styled.div`
-  display: flex;
-`;
-
-export const PainSpan = styled.span`
-  margin-top: 1em;
-  margin-bottom: 1em;
-  color: blue;
+export const PainChoice = styled.div`
+  width: 100%;
+  margin: 0 0 5.9375rem;
+  
+  > ul{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5625rem 0;
+    border-top: 1px solid #404040;
+    border-bottom: 1px solid #404040;
+  }
+  > ul li {
+    display: flex;
+    align-items: center;
+    gap: .3125rem;
+  }
+  > ul li label{
+    font-size: 1.125rem;
+  }
+  > ul li input{
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: rgb(187, 68, 185);
+  }
 `;
