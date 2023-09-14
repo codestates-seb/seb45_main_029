@@ -49,6 +49,9 @@ export const userSlice = createSlice({
       state.loggedIn = true;
       return state;
     },
+    logoutUser: (state, action) => {
+      state.loggedIn = false;
+    },
     setBookmark: (state, action) => {
       state.bookmark = [...state.bookmark, action.payload];
       return state;
@@ -71,5 +74,6 @@ export const {
   deleteUser,
   loginUser,
   refresh,
+  logoutUser,
 } = userSlice.actions;
 export default userSlice.reducer;

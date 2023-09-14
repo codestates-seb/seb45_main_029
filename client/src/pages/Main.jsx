@@ -15,6 +15,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
@@ -25,6 +26,8 @@ function Main() {
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
   const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
   const [login, setLogin] = useState(false);
+
+  const userInfo = useSelector((state) => state.user);
 
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
@@ -79,7 +82,7 @@ function Main() {
 
   useEffect(() => {
     const isLoggedIn = window.localStorage.getItem('info');
-    if (isLoggedIn) {
+    if (userInfo.loggedIn) {
       setLogin(true);
     }
   }, []);

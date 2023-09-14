@@ -18,14 +18,11 @@ import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 // @todo : myPage에서 carousel에게 userInfo를 props로 전달할 것인가
 export default function MyPage() {
-  const reduxInfo = useSelector((state) => state.user);
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
@@ -38,9 +35,11 @@ export default function MyPage() {
 
   useEffect(() => {
     const info = window.localStorage.getItem('info');
+
     if (info) {
       setLogin(true);
     }
+
     const getData = async () => {
       const data = await axios.get(
         `${SERVER_URL}/users/mypage/${info.userId}`,
