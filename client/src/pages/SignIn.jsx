@@ -4,8 +4,9 @@ import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
-import { LoginBox, Button, MyCustomButton } from '../style/SignIn';
+import {LoginContainer, LoginBox, Button, MyCustomButton } from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
+import GoogleIcon from "../assets/logos_google.svg"
 
 function SignIn() {
   const [id, setId] = useState('');
@@ -88,45 +89,45 @@ function SignIn() {
   }, [loggedIn, navigate]);
 
   return (
-    <>
+    <LoginContainer>
       <LoginBox>
-        <h3>로그인</h3>
-        <div className='input-container'>
-          <input
-            type='text'
-            onChange={onChangeHandlerId}
-            value={id}
-            placeholder='example@email.com'
-          ></input>
-        </div>
-        {!idIsValid ? (
-          <div className='error-message'>유효한 이메일을 입력 해주세요.</div>
-        ) : null}
-        <div>
-          <div className='input-container'>
+        <h2>로그인</h2>
+        <section className='input-container'>
+          <div className='input-box'>
+            <input
+              type='text'
+              onChange={onChangeHandlerId}
+              value={id}
+              placeholder='example@email.com'
+            ></input>
+            {!idIsValid ? (
+              <p className='error-message'>유효한 이메일을 입력 해주세요.</p>
+            ) : null}
+          </div>
+          <div className='input-box'>
             <input
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
               placeholder='password'
             ></input>
+            {!passwordIsValid ? (
+              <p className='error-message'>비밀번호를 입력 해주세요.</p>
+            ) : null}
           </div>
-          {!passwordIsValid ? (
-            <div className='error-message'>비밀번호를 입력 해주세요.</div>
-          ) : null}
-        </div>
+        </section>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
           <Button primary onClick={signIn}>
             로그인
           </Button>
           <MyCustomButton onClick={() => login()}>
-            Google 로그인 🚀
+            <span><img src={GoogleIcon} alt="GoogleIcon" /></span>
+            <span>로그인</span>
           </MyCustomButton>
-          ;
         </div>
       </LoginBox>
-    </>
+    </LoginContainer>
   );
 }
 export default SignIn;
