@@ -30,9 +30,7 @@ function Header() {
     <HeaderContainer>
       <HeaderSection className='container_wt'>
         <h1>
-          <Link to='/'>
-            <img src={logo} alt='LOGO' />
-          </Link>
+          <Link to='/'><img src={logo} alt='LOGO' /></Link>
         </h1>
         <HdNav>
           <ul className='hd_nav'>
