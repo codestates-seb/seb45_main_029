@@ -1,26 +1,14 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
-const SectionDesignJob = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin-right: 1rem;
-  align-items: center;
-  justify-content: center;
-`;
-
-const SectionDesignBody = styled.section`
-  margin-right: 1rem;
-`;
 
 export default function BodyAndJobList({ list, name, checkHandler, type }) {
   return (
-    <>
+    <ul>
       {list.map((elem, index) => {
         return (
-          <div key={index}>
+          <li key={index} className={name == 'job' ? 'job-li' : 'body-li'}>
             {name === 'job' ? (
-              <SectionDesignJob>
+              <>
                 <input
                   name={name}
                   type={type}
@@ -28,9 +16,9 @@ export default function BodyAndJobList({ list, name, checkHandler, type }) {
                   onChange={(e) => checkHandler(e, elem, name)}
                 />
                 <label htmlFor={elem}>{elem}</label>
-              </SectionDesignJob>
+              </>
             ) : (
-              <SectionDesignBody>
+              <>
                 <label htmlFor={elem}>{elem}</label>
                 <input
                   name={name}
@@ -38,12 +26,12 @@ export default function BodyAndJobList({ list, name, checkHandler, type }) {
                   id={elem}
                   onChange={(e) => checkHandler(e, elem, name)}
                 />
-              </SectionDesignBody>
+              </>
             )}
-          </div>
+          </li>
         );
       })}
-    </>
+    </ul>
   );
 }
 
