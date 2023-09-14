@@ -101,7 +101,6 @@ const QuestionDetail = (props) => {
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
               />
-              {/* 수정된 답변을 저장하는 버튼 */}
             </div>
           ) : (
             <div className='title'>{question.title}</div>
