@@ -46,9 +46,9 @@ export default function MotivationNav(){
           const {id, text, path} = link;
           return(
             <li key={id}>
-            <NavLink to={path} className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>
-              {text}
-            </NavLink>
+              <NavLink to={path} className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>
+                {text}
+              </NavLink>
             </li>
           )
         })}
