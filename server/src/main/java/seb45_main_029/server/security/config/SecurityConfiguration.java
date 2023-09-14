@@ -100,7 +100,7 @@ public class SecurityConfiguration {
         configuration.setExposedHeaders(Arrays.asList("*"));
         // 지정한 HTTPMethod에 대한 통신 허용
         // "OPTIONS" : 프리플라이트 요청
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE", "OPTIONS"));   // 지정한 HTTPMethod에 대한 통신 허용
+        configuration.setAllowedMethods(Arrays.asList("*"));   // 지정한 HTTPMethod에 대한 통신 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 모든 엔드포인트에 구성한 CORS 적용
