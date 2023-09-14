@@ -47,7 +47,13 @@ function SignIn() {
       api('/users/login', 'post', { password, email: id })
         .then((response) => {
           if (response.data) {
-            window.localStorage.setItem('info', response.data);
+            window.localStorage.setItem(
+              'info',
+              JSON.stringify({
+                userId: response.data.userId,
+                accessToken: response.data.accessToken,
+              })
+            );
             dispatch(setUser(response.data));
           }
         })

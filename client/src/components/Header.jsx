@@ -32,20 +32,13 @@ function Header() {
   };
 
   useEffect(() => {
-    if (userInfo.loggedIn) {
+    const info = window.localStorage.getItem('info');
+    if (userInfo.loggedIn || info) {
       setBtn(loginHeaderBtn);
     } else {
       setBtn(headerBtn);
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    if (window.localStorage.getItem('info')) {
-      setBtn(loginHeaderBtn);
-    } else {
-      setBtn(headerBtn);
-    }
-  }, []);
 
   return (
     <HeaderContainer>

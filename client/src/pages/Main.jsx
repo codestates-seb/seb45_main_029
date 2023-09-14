@@ -81,11 +81,13 @@ function Main() {
   };
 
   useEffect(() => {
-    const isLoggedIn = window.localStorage.getItem('info');
-    if (userInfo.loggedIn) {
+    const info = window.localStorage.getItem('info');
+    if (userInfo.loggedIn || info) {
       setLogin(true);
+    } else {
+      setLogin(false);
     }
-  }, []);
+  }, [userInfo]);
 
   return (
     <MainContainer>

@@ -27,7 +27,6 @@ const typeChecker = (
   message,
   videoType,
   videoDetailType,
-  userInfo,
   changedDetail2
 ) => {
   let type = '';
@@ -101,7 +100,6 @@ export default function Carousel({
         message,
         videoType,
         videoDetailType,
-        userInfo,
         changedDetail2
       );
       try {
