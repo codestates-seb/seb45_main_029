@@ -4,7 +4,6 @@ import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
-import Footer from '../components/Footer';
 import { LoginBox, Button, MyCustomButton } from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
 
@@ -127,7 +126,6 @@ function SignIn() {
           ;
         </div>
       </LoginBox>
-      <Footer />
     </>
   );
 }
