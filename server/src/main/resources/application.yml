@@ -1,4 +1,11 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 169762653752-0dj76a7v6g8d7q5alfbn6e0irt4pd3lr.apps.googleusercontent.com
+            client-secret: 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
   cors:
     allowed-origins:
       - http://localhost:5173  # 프론트엔드 도메인 주소
