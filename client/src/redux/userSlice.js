@@ -39,9 +39,14 @@ export const userSlice = createSlice({
       state.accessToken = '';
       return state;
     },
+    refresh: (state, action) => {
+      state.userId = action.payload.userId;
+      state.email = action.payload.email;
+      state.accessToken = action.payload.accessToken;
+    },
+
     loginUser: (state, action) => {
       state.loggedIn = true;
-      console.log(state.loggedIn);
       return state;
     },
     setBookmark: (state, action) => {
@@ -65,5 +70,6 @@ export const {
   updateUser,
   deleteUser,
   loginUser,
+  refresh,
 } = userSlice.actions;
 export default userSlice.reducer;

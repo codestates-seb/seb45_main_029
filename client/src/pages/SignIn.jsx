@@ -4,9 +4,14 @@ import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
-import {LoginContainer, LoginBox, Button, MyCustomButton } from '../style/SignIn';
+import {
+  LoginContainer,
+  LoginBox,
+  Button,
+  MyCustomButton,
+} from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
-import GoogleIcon from "../assets/logos_google.svg"
+import GoogleIcon from '../assets/logos_google.svg';
 
 function SignIn() {
   const [id, setId] = useState('');
@@ -41,7 +46,6 @@ function SignIn() {
     if (idIsValid && passwordIsValid) {
       api('/users/login', 'post', { password, email: id })
         .then((response) => {
-          console.log(response.data.message);
           if (response.data) {
             window.localStorage.setItem('info', response.data);
             dispatch(setUser(response.data));
@@ -101,9 +105,9 @@ function SignIn() {
               value={id}
               placeholder='example@email.com'
             ></input>
-            {!idIsValid ? (
+            {!idIsValid && (
               <p className='error-message'>유효한 이메일을 입력 해주세요.</p>
-            ) : null}
+            )}
           </div>
           <div className='input-box'>
             <input
@@ -112,18 +116,18 @@ function SignIn() {
               value={password}
               placeholder='password'
             ></input>
-            {!passwordIsValid ? (
+            {!passwordIsValid && (
               <p className='error-message'>비밀번호를 입력 해주세요.</p>
-            ) : null}
+            )}
           </div>
         </section>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
-          <Button onClick={signIn}>
-            로그인
-          </Button>
+          <Button onClick={signIn}>로그인</Button>
           <MyCustomButton onClick={() => login()}>
-            <span><img src={GoogleIcon} alt="GoogleIcon" /></span>
+            <span>
+              <img src={GoogleIcon} alt='GoogleIcon' />
+            </span>
             <span>로그인</span>
           </MyCustomButton>
         </div>

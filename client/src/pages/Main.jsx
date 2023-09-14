@@ -32,13 +32,6 @@ function Main() {
 
   const navigate = useNavigate();
 
-  const gopage = () => {
-    navigate('/mypage');
-  };
-  const deleteButton = () => {
-    window.localStorage.removeItem('info');
-  };
-
   const onClickHandler = (e) => {
     setVideoType(e.target.innerText);
   };
@@ -158,8 +151,6 @@ function Main() {
         bookmark={false}
         changedDetail2={changedDetail2}
       />
-      <button onClick={gopage}>마이페이지</button>
-      <button onClick={deleteButton}>로그아웃</button>
     </MainContainer>
   );
 }

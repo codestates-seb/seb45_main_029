@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import Like from './Like';
 import Comments from './Comments';
 
-function QuestionList({ props }) {
+function QuestionList(props) {
+  console.log(props);
   const navigate = useNavigate();
 
   const questiondetail = () => {

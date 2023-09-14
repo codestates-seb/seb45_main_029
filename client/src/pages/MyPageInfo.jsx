@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MyPageNav from '../components/MyPageNav';
 import WarningMessage from '../components/WarningMessage';
 import BodyAndJobList from '../components/BodyAndJobList';
@@ -30,6 +30,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../redux/userSlice';
 import { jobChoose } from '../assets/variousFunctions';
+import { refresh } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -45,6 +46,10 @@ export default function MyPageInfo() {
 
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refresh(window.localStorage.getItem('info')));
+  }, []);
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
