@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     bookmark: [],
     job: '',
     image: '',
+    recommendedVideosUrl: '',
   },
 
   reducers: {
@@ -50,10 +51,19 @@ export const userSlice = createSlice({
       });
       return state;
     },
+    setRecommendedVideosUrl: (state, action) => {
+      state.recommendedVideosUrl = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setBookmark, deleteBookmark, updateUser, deleteUser } =
-  userSlice.actions;
+export const {
+  setUser,
+  setBookmark,
+  deleteBookmark,
+  updateUser,
+  deleteUser,
+  setRecommendedVideosUrl,
+} = userSlice.actions;
 export default userSlice.reducer;

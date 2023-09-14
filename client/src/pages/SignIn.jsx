@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../redux/userSlice';
+import { setUser, setRecommendedVideosUrl } from '../redux/userSlice';
 import Footer from '../components/Footer';
 import { LoginBox, Button, MyCustomButton } from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -41,7 +41,7 @@ function SignIn() {
     if (idIsValid && passwordIsValid) {
       api('/users/login', 'post', { password, email: id })
         .then((response) => {
-          console.log(response.data.message);
+          console.log(response.data);
           if (response.data.success) {
             dispatch(setUser(response.data));
           }
@@ -55,28 +55,11 @@ function SignIn() {
       navigate('/');
     }
   };
+
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => console.log(codeResponse),
     flow: 'auth-code',
   });
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: async (res) => {
-  //     console.log(res.access_token);
-  //     await axios({
-  //       method: "post",
-  //       url: "서버 주소",
-  //       data: { access_token: res.access_token },
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //         })
-  //         .catch((e) => console.log(e));
-  //   }
-  // })
-
-  // const signUp = () => {
-  //     navigate('/signup');
-  // };
 
   useEffect(() => {
     setLoggedIn(user.loggedIn);
@@ -84,9 +67,10 @@ function SignIn() {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate(-1);
+      navigate(-1); // 나비효과
+      dispatch(setRecommendedVideosUrl('/video/recommended'));
     }
-  }, [loggedIn, navigate]);
+  }, [loggedIn, navigate, dispatch]);
 
   return (
     <>
@@ -98,24 +82,25 @@ function SignIn() {
             onChange={onChangeHandlerId}
             value={id}
             placeholder='example@email.com'
-          ></input>
+          />
         </div>
         {!idIsValid ? (
           <div className='error-message'>유효한 이메일을 입력 해주세요.</div>
         ) : null}
-        <div>
+        <form>
           <div className='input-container'>
             <input
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
               placeholder='password'
-            ></input>
+              autoComplete='on'
+            />
           </div>
           {!passwordIsValid ? (
             <div className='error-message'>비밀번호를 입력 해주세요.</div>
           ) : null}
-        </div>
+        </form>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
           <Button primary onClick={signIn}>

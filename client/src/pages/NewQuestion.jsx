@@ -3,7 +3,8 @@ import React, { useState, useRef } from 'react';
 import WebEditor from '../webEditor/WebEditor';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { api } from '../api/api';
+import axios from 'axios';
+
 const NewquestionContainer = styled.div`
   width: 43.89rem;
   height: 36rem;
@@ -66,20 +67,13 @@ const Newquestion = () => {
       content,
     };
 
-    api('/question', 'post', data).then((res) => console.log(res));
+    axios
+      .post(
+        'http://ec2-15-164-225-251.ap-northeast-2.compute.amazonaws.com:8080/question',
+        data
+      )
+      .then((res) => console.log(res));
     console.log('hey');
-
-    // axios
-    //   .post('https://22e3-125-191-229-170.ngrok-free.app/question', data)
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       navigate('/boardpage', { replace: true });
-    //       return;
-    //     } else {
-    //       alert('업로드 실패.');
-    //       return;
-    //     }
-    //   });
   };
   return (
     // eslint-disable-next-line react/jsx-no-undef
