@@ -44,8 +44,10 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(Customizer.withDefaults())
-                .cors(configuration-> configuration.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+                .cors()
+                .and()
+//                .cors(Customizer.withDefaults())
+//                .cors(configuration-> configuration.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 생성하지 않도록 설정
                 .and()
                 .formLogin().disable()
@@ -85,7 +87,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://127.0.0.1:5173","http://http://seb45main029.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://127.0.0.1:5173","http://seb45main029.s3-website.ap-northeast-2.amazonaws.com"));
         // 모든 헤더 허용
         configuration.addAllowedHeader("Authorization");
         configuration.addAllowedHeader("Refresh");
