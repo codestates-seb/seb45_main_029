@@ -1,12 +1,16 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, setRecommendedVideosUrl } from '../redux/userSlice';
-import {LoginContainer, LoginBox, Button, MyCustomButton } from '../style/SignIn';
+import { setUser } from '../redux/userSlice';
+import {
+  LoginContainer,
+  LoginBox,
+  Button,
+  MyCustomButton,
+} from '../style/SignIn';
 import { useGoogleLogin } from '@react-oauth/google';
-import GoogleIcon from "../assets/logos_google.svg"
+import GoogleIcon from '../assets/logos_google.svg';
 
 function SignIn() {
   const [id, setId] = useState('');
@@ -56,7 +60,6 @@ function SignIn() {
       navigate('/');
     }
   };
-
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => console.log(codeResponse),
     flow: 'auth-code',
@@ -68,10 +71,9 @@ function SignIn() {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate(-1); // 나비효과
-      dispatch(setRecommendedVideosUrl('/video/recommended'));
+      navigate(-1);
     }
-  }, [loggedIn, navigate, dispatch]);
+  }, [loggedIn, navigate]);
 
   return (
     <LoginContainer>
@@ -90,40 +92,24 @@ function SignIn() {
             ) : null}
           </div>
           <div className='input-box'>
-        <h3>로그인</h3>
-        <div className='input-container'>
-          <input
-            type='text'
-            onChange={onChangeHandlerId}
-            value={id}
-            placeholder='example@email.com'
-          />
-        </div>
-        {!idIsValid ? (
-          <div className='error-message'>유효한 이메일을 입력 해주세요.</div>
-        ) : null}
-        <form>
-          <div className='input-container'>
             <input
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
               placeholder='password'
-              autoComplete='on'
-            />
+            ></input>
             {!passwordIsValid ? (
               <p className='error-message'>비밀번호를 입력 해주세요.</p>
-                ) : null}
-                </div>
-          </form>
+            ) : null}
+          </div>
         </section>
         <div className='buttons'>
           {/* <Button onClick={signUp}>Sign Up</Button> */}
-          <Button onClick={signIn}>
-            로그인
-          </Button>
+          <Button onClick={signIn}>로그인</Button>
           <MyCustomButton onClick={() => login()}>
-            <span><img src={GoogleIcon} alt="GoogleIcon" /></span>
+            <span>
+              <img src={GoogleIcon} alt='GoogleIcon' />
+            </span>
             <span>로그인</span>
           </MyCustomButton>
         </div>
