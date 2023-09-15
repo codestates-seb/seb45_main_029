@@ -13,8 +13,9 @@ import {
 } from '../style/MyPage';
 import axios from 'axios';
 import Modal from './Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { setUser } from '../redux/userSlice';
 
 const DivFlexMovie1 = styled.div`
   display: flex;
@@ -27,12 +28,12 @@ const typeChecker = (
   message,
   videoType,
   videoDetailType,
-  userInfo,
   changedDetail2
 ) => {
   let type = '';
   if (bookmark) {
     type = 'bookmark/?page=1&size=30';
+    return type;
   }
   if (message === 'TOP5 재활운동') {
     type = 'popular?page=1&size=10';
@@ -71,7 +72,10 @@ export default function Carousel({
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
   const [total, setTotal] = useState(0);
+
   const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const openModal = (index) => {
     setModalOpen(true);
@@ -95,21 +99,21 @@ export default function Carousel({
   };
 
   useEffect(() => {
+    if (info) dispatch(setUser(info));
+  }, [info, dispatch]);
+
+  useEffect(() => {
     const asyncFunction = async () => {
       const type = typeChecker(
         bookmark,
         message,
         videoType,
         videoDetailType,
-        userInfo,
         changedDetail2
       );
       try {
         const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
           headers: {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
             Authorization: `Bearer ${userInfo.accessToken}` || '',
           },
         });
@@ -126,7 +130,6 @@ export default function Carousel({
     videoDetailType2,
     message,
     bookmark,
-    userInfo,
     changedDetail2,
   ]);
 

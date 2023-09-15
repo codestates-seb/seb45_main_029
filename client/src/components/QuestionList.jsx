@@ -10,6 +10,7 @@ import Like from './Like';
 import Comments from './Comments';
 
 function QuestionList({ question }) {
+
   const navigate = useNavigate();
 
   const questiondetail = () => {

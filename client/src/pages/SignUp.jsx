@@ -153,14 +153,14 @@ function SignUp() {
                   placeholder='홍길동'
                 ></input>
               </div>
-              {!usernameIsValid ? (
-                <p className='error-message'>이름을 입력 해주세요</p>
-              ) : null}
+              {!usernameIsValid && (
+                <p className='error-message'>이름을 입력 해주세요</p> // && 연산자를 쓰도록 하자!
+              )}
             </div>
             <div>
               <div className='input-container'>
                 <h3 className='title'>이메일 :</h3>
-                <div className="email-check-container">
+                <div className='email-check-container'>
                   <input
                     type='text'
                     onChange={onChangeHandlerId}
@@ -170,11 +170,9 @@ function SignUp() {
                   <button className='btn'>확인</button>
                 </div>
               </div>
-              {!idIsValid ? (
-                <p className='error-message'>
-                  유효한 이메일을 입력 해주세요.
-                </p>
-              ) : null}
+              {!idIsValid && (
+                <p className='error-message'>유효한 이메일을 입력 해주세요.</p>
+              )}
             </div>
             <div>
               <div className='input-container'>
@@ -213,11 +211,9 @@ function SignUp() {
                   placeholder='password'
                 ></input>
               </div>
-              {!password2IsValid ? (
-                <p className='error-message'>
-                  비밀번호가 일치하지 않습니다.
-                </p>
-              ) : null}
+              {!password2IsValid && (
+                <p className='error-message'>비밀번호가 일치하지 않습니다.</p>
+              )}
             </div>
             <div>
               <div className='input-container'>
@@ -232,7 +228,9 @@ function SignUp() {
             </div>
           </section>
           <ArticleList>
-            <PainSpan>직업 분류 : <span className='job-list'>{checkedListJob}</span></PainSpan>
+            <PainSpan>
+              직업 분류 : <span className='job-list'>{checkedListJob}</span>
+            </PainSpan>
             <JobChoice>
               <BodyAndJobList
                 list={checkBoxListJob}

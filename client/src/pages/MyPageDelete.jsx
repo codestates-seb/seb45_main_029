@@ -17,21 +17,31 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { deleteUser } from '../redux/userSlice';
+import { useEffect, useState } from 'react';
 
 export default function MyPageDelete() {
+  const [id, setId] = useState(-1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
+
+  useEffect(() => {
+    setId(window.localStorage.getItem('info').userId);
+  }, []);
+
   const onSubmitDelete = async (e) => {
     e.preventDefault();
     if (e.target[0].value === '탈퇴하기') {
-      console.log('hey');
-      const data = await axios.delete(
-        `${import.meta.env.SERVER_URL}/users/${userInfo.userId}`,
-        { headers: { Authorization: userInfo.accessToken } }
-      );
+      try {
+        const data = await axios.delete(
+          `${import.meta.env.SERVER_URL}/users/${id}`,
+          { headers: { Authorization: userInfo.accessToken } }
+        );
+      } catch (error) {
+        console.log(error);
+      }
       dispatch(deleteUser);
-      console.log(data);
+      window.localStorage.removeItem('info');
       navigate('/');
     }
   };

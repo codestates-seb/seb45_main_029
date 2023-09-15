@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteBookmark, setBookmark } from '../redux/userSlice';
+import { deleteBookmark, setBookmark, setUser } from '../redux/userSlice';
 
 const ImageDesign = styled.img`
   width: 1rem;
@@ -31,7 +31,6 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   const dispatch = useDispatch();
 
   const imgRef = useRef(null);
-  // @todo : 원하는 이미지가 없을 경우, 이전 해상도를 제공한다. hqdefault를 시도해볼 수도 있음 ( 고품질이기는 한데, 과연 유저경험이 어떨지는 지켜봐야 )
   useEffect(() => {
     imgRef.current.src = thumb?.replace('default.jpg', '0.jpg');
     if (userInfo.bookmark.includes(videoId)) {
@@ -42,6 +41,8 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   const imgOnclickHandler = async () => {
     const newBookmarkState = !bookmarkClick;
     setBookmarkClick(newBookmarkState);
+
+    console.log(userInfo);
 
     if (newBookmarkState) {
       const data = await axios.post(

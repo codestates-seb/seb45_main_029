@@ -3,7 +3,13 @@ import React, { useState, useRef } from 'react';
 import WebEditor from '../webEditor/WebEditor';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import axios from 'axios';
+
+
+import { api } from '../api/api';
+
+import { useSelector } from 'react-redux';
 
 const NewquestionContainer = styled.div`
   width: 43.89rem;
@@ -52,7 +58,7 @@ const Newquestion = () => {
   const [title, setTitle] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [content, setContent] = useState('');
-
+  const userInfo = useSelector((state) => state.user);
   const navigate = useNavigate();
   const titleRef = useRef();
 
@@ -67,13 +73,25 @@ const Newquestion = () => {
       content,
     };
 
-    axios
-      .post(
-        'http://ec2-15-164-225-251.ap-northeast-2.compute.amazonaws.com:8080/question',
-        data
-      )
-      .then((res) => console.log(res));
-    console.log('hey');
+
+    //api('/question', 'post', data).then((res) => console.log(res));
+    console.log('hasdfgasdfasdf' + userInfo.accessToken);
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/question`, data, {
+      headers: { Authorization: `Bearer ${userInfo.accessToken}` },
+    });
+
+    // axios
+    //   .post('https://22e3-125-191-229-170.ngrok-free.app/question', data)
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       navigate('/boardpage', { replace: true });
+    //       return;
+    //     } else {
+    //       alert('업로드 실패.');
+    //       return;
+    //     }
+    //   });
+
   };
   return (
     // eslint-disable-next-line react/jsx-no-undef
