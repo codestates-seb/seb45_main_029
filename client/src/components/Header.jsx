@@ -8,14 +8,14 @@ import { logoutUser } from '../redux/userSlice';
 
 const headerBtn = [
   { id: 1, text: '동기부여', path: '/point' },
-  { id: 2, text: '로그인', path: '/signin' },
-  { id: 3, text: '회원가입', path: '/signup' },
+  { id: 2, text: '회원가입', path: '/signup' },
+  { id: 3, text: '로그인', path: '/signin' },
 ];
 
 const loginHeaderBtn = [
   { id: 4, text: '동기부여', path: '/point' },
-  { id: 5, text: '로그아웃', path: '/' },
-  { id: 6, text: '마이페이지', path: '/mypage' },
+  { id: 5, text: '마이페이지', path: '/mypage' },
+  { id: 6, text: '로그아웃', path: '/' },
 ];
 
 function Header() {
@@ -25,7 +25,7 @@ function Header() {
   const info = window.localStorage.getItem('info');
 
   const logout = (id) => {
-    if (id === 5) {
+    if (id === 6) {
       dispatch(logoutUser());
       setBtn(headerBtn);
       window.localStorage.removeItem('info');
