@@ -32,6 +32,7 @@ function Main() {
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
   const slideRefRecommend = useRef(null);
+  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const navigate = useNavigate();
 
@@ -81,13 +82,12 @@ function Main() {
   };
 
   useEffect(() => {
-    const info = window.localStorage.getItem('info');
     if (userInfo.loggedIn || info) {
       setLogin(true);
     } else {
       setLogin(false);
     }
-  }, [userInfo]);
+  }, [userInfo, info]);
 
   return (
     <MainContainer>

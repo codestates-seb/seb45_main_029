@@ -26,16 +26,31 @@ const IframeContainer = styled.div`
 export default function VideoDetail({ thumb, videoId, openModal }) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
-
+  const info = JSON.parse(window.localStorage.getItem('info'));
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const imgRef = useRef(null);
+
   useEffect(() => {
-    imgRef.current.src = thumb?.replace('default.jpg', '0.jpg');
-    if (userInfo.bookmark.includes(videoId)) {
-      setBookmarkClick(true);
-    }
+    const asyncFunction = async () => {
+      const data = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/video/bookmark?page=1&size=10`,
+        {},
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${userInfo.accessToken || info.accessToken}`,
+          },
+        }
+      );
+      console.log(data);
+      imgRef.current.src = thumb?.replace('default.jpg', '0.jpg');
+      if (userInfo.bookmark.includes(videoId) || data.includes(videoId)) {
+        setBookmarkClick(true);
+      }
+    };
+    asyncFunction();
   }, []);
 
   const imgOnclickHandler = async () => {
