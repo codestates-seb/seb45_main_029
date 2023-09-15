@@ -22,6 +22,7 @@ function Header() {
   const userInfo = useSelector((state) => state.user);
   const [btn, setBtn] = useState(headerBtn);
   const dispatch = useDispatch();
+  const info = window.localStorage.getItem('info');
 
   const logout = (id) => {
     if (id === 5) {
@@ -32,13 +33,12 @@ function Header() {
   };
 
   useEffect(() => {
-    const info = window.localStorage.getItem('info');
     if (userInfo.loggedIn || info) {
       setBtn(loginHeaderBtn);
     } else {
       setBtn(headerBtn);
     }
-  }, [userInfo]);
+  }, [userInfo, info]);
 
   return (
     <HeaderContainer>
