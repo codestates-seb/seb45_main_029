@@ -15,6 +15,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
@@ -26,18 +27,13 @@ function Main() {
   const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
   const [login, setLogin] = useState(false);
 
+  const userInfo = useSelector((state) => state.user);
+
   const slideRef = useRef(null);
   const slideRefTop5 = useRef(null);
   const slideRefRecommend = useRef(null);
 
   const navigate = useNavigate();
-
-  const gopage = () => {
-    navigate('/mypage');
-  };
-  const deleteButton = () => {
-    window.localStorage.removeItem('info');
-  };
 
   const onClickHandler = (e) => {
     setVideoType(e.target.innerText);
@@ -85,11 +81,13 @@ function Main() {
   };
 
   useEffect(() => {
-    const isLoggedIn = window.localStorage.getItem('info');
-    if (isLoggedIn) {
+    const info = window.localStorage.getItem('info');
+    if (userInfo.loggedIn || info) {
       setLogin(true);
+    } else {
+      setLogin(false);
     }
-  }, []);
+  }, [userInfo]);
 
   return (
     <MainContainer>
@@ -158,8 +156,6 @@ function Main() {
         bookmark={false}
         changedDetail2={changedDetail2}
       />
-      <button onClick={gopage}>마이페이지</button>
-      <button onClick={deleteButton}>로그아웃</button>
     </MainContainer>
   );
 }

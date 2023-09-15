@@ -13,6 +13,7 @@ import {
   SecondContent,
 } from '../style/BoardPage';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../api/api';
 import { useSelector } from 'react-redux';
 import SearchBoard from '../components/SearchBoard';
 import LatestInfo from '../components/LatestInfo';
@@ -36,8 +37,6 @@ const BoardPage = (props) => {
 
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-  const user = useSelector((state) => state.user);
-
   const goToQuestionPage = () => {
     navigate('/newquestion');
   };
@@ -46,8 +45,18 @@ const BoardPage = (props) => {
     if (e.key === 'Enter') goToQuestionPage();
   };
 
-  const setPage = (event) => {
-    setCurrentPage(event.target + 1);
+  const handlePageChange = (e) => {
+    setCurrentPage(e.selected + 1);
+  };
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await api(`/question?page=1&size=10&type=1`);
+      setQuestions(response.data.data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -61,6 +70,8 @@ const BoardPage = (props) => {
     };
     getData();
   }, []);
+
+  console.log(questions);
 
   useEffect(() => {
     statusDatas === '전체'

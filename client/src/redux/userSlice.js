@@ -39,10 +39,18 @@ export const userSlice = createSlice({
       state.accessToken = '';
       return state;
     },
+    refresh: (state, action) => {
+      state.userId = action.payload.userId;
+      state.email = action.payload.email;
+      state.accessToken = action.payload.accessToken;
+    },
+
     loginUser: (state, action) => {
       state.loggedIn = true;
-      console.log(state.loggedIn);
       return state;
+    },
+    logoutUser: (state, action) => {
+      state.loggedIn = false;
     },
     setBookmark: (state, action) => {
       state.bookmark = [...state.bookmark, action.payload];
@@ -68,5 +76,7 @@ export const {
   updateUser,
   deleteUser,
   loginUser,
+  refresh,
+  logoutUser,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -24,8 +24,6 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 // @todo : myPage에서 carousel에게 userInfo를 props로 전달할 것인가
 export default function MyPage() {
-  const reduxInfo = useSelector((state) => state.user);
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideJob, setCurrentSlideJob] = useState(0);
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
@@ -35,28 +33,34 @@ export default function MyPage() {
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
+  const userInfoRedux = useSelector((state) => state.user);
 
   useEffect(() => {
-    const info = window.localStorage.getItem('info');
-    if (info) {
+    const info = JSON.parse(window.localStorage.getItem('info'));
+
+    if (info || userInfoRedux.loggedIn) {
       setLogin(true);
     }
+
     const getData = async () => {
-      const data = await axios.get(
-        `${SERVER_URL}/users/mypage/${info.userId}`,
-        {
-          headers: {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            Authorization: `Bearer ${info.accessToken}` || '',
-          },
-        }
-      );
-      setUserInfo(data.data);
+      try {
+        const data = await axios.get(
+          `${SERVER_URL}/users/mypage/${userInfoRedux.userId || info.userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${info.accessToken}`,
+            },
+          }
+        );
+        setUserInfo(data.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getData();
   }, []);
+
+  console.log(userInfo);
 
   return (
     <>
@@ -76,11 +80,7 @@ export default function MyPage() {
                     <TitleFontSpanPink>정보</TitleFontSpanPink>
                   </div>
                   <UserImg
-                    src={
-                      userInfo.image === ''
-                        ? '/images/person.jpg'
-                        : userInfo.image
-                    }
+                    src={userInfo.image ? userInfo.image : '/images/person.jpg'}
                     alt='myImage'
                   />
                 </header>
@@ -122,11 +122,11 @@ export default function MyPage() {
             <BoardCotainer>
               <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
               {userInfo.questions?.map((el) => {
-                return el;
+                return el.title;
               })}
               <div>내가 한 답변</div>
               {userInfo.answers?.map((el) => {
-                return el;
+                return el.title;
               })}
             </BoardCotainer>
           </div>

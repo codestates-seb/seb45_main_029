@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Like from './Like';
 import Comments from './Comments';
 
-function QuestionList({ question }) {
+function QuestionList({ props }) {
   const navigate = useNavigate();
 
   const questiondetail = () => {
