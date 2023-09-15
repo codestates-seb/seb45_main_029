@@ -18,7 +18,8 @@ import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -29,25 +30,30 @@ export default function MyPage() {
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
   const [userInfo, setUserInfo] = useState({});
   const [login, setLogin] = useState(false);
-  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
   const userInfoRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (info || userInfoRedux.loggedIn) {
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    dispatch(setUser(info));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userInfoRedux.loggedIn) {
       setLogin(true);
     }
 
     const getData = async () => {
       try {
         const data = await axios.get(
-          `${SERVER_URL}/users/mypage/${userInfoRedux.userId || info.userId}`,
+          `${SERVER_URL}/users/mypage/${userInfoRedux.userId}`,
           {
             headers: {
-              Authorization: `Bearer ${info.accessToken}`,
+              Authorization: `Bearer ${userInfoRedux.accessToken}`,
             },
           }
         );
@@ -56,8 +62,8 @@ export default function MyPage() {
         console.log(error);
       }
     };
-    getData();
-  }, [info]);
+    if (userInfoRedux.accessToken) getData();
+  }, [userInfoRedux]);
 
   return (
     <>

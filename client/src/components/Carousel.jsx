@@ -32,7 +32,7 @@ const typeChecker = (
 ) => {
   let type = '';
   if (bookmark) {
-    type = 'bookmark?page=1&size=30';
+    type = 'bookmark/?page=1&size=30';
     return type;
   }
   if (message === 'TOP5 재활운동') {
@@ -100,7 +100,7 @@ export default function Carousel({
 
   useEffect(() => {
     if (info) dispatch(setUser(info));
-  }, [info, dispatch]);
+  }, []);
 
   useEffect(() => {
     const asyncFunction = async () => {
@@ -122,7 +122,6 @@ export default function Carousel({
         console.log(error);
       }
     };
-
     asyncFunction();
   }, [
     videoType,
@@ -131,6 +130,7 @@ export default function Carousel({
     message,
     bookmark,
     changedDetail2,
+    userInfo.accessToken,
   ]);
 
   useEffect(() => {

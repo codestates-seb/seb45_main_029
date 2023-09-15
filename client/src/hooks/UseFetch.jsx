@@ -16,10 +16,7 @@ const useFetch = (page, keyword, setPageNum) => {
         }/video/keyword?page=${page}&size=1&keyword=${keyword}`,
         {
           headers: {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'ngrok-skip-browser-warning': '69420',
           },
         }
       );

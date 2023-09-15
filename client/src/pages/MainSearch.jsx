@@ -86,7 +86,7 @@ export default function MainSearch() {
           setModalOpen={setModalOpen}
           list={list}
           listIndex={listIndex}
-          videoId={false}
+          videoId={true}
         />
         <InputContainer>
           <InputDesign

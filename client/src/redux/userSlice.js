@@ -19,6 +19,7 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.userId = action.payload.userId;
       state.accessToken = action.payload.accessToken;
+      state.bookmark = action.payload.bookmark || [];
       return state;
     },
     updateUser: (state, action) => {
@@ -53,12 +54,12 @@ export const userSlice = createSlice({
       state.loggedIn = false;
     },
     setBookmark: (state, action) => {
-      state.bookmark = [...state.bookmark, action.payload];
+      state.bookmark = [...state.bookmark, ...action.payload.data];
       return state;
     },
     deleteBookmark: (state, action) => {
       state.bookmark = state.bookmark.filter((el) => {
-        return action.payload !== el;
+        return action.payload.videoId !== el;
       });
       return state;
     },
