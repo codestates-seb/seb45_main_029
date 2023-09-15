@@ -21,7 +21,7 @@ import LatestInfo from '../components/LatestInfo';
 import QNAbtn from '../components/QNAbtn';
 import axios from 'axios';
 
-const BoardPage = (props) => {
+export default function BoardPage(props) {
   const [statusDatas, setStatusDatas] = useState('전체');
   const [questions, setQuestions] = useState(
     props.questions ? props.questions : []
@@ -40,7 +40,6 @@ const BoardPage = (props) => {
 
   const user = useSelector((state) => state.user);
 
-
   const goToQuestionPage = () => {
     navigate('/newquestion');
   };
@@ -49,9 +48,9 @@ const BoardPage = (props) => {
     if (e.key === 'Enter') goToQuestionPage();
   };
 
-
   const setPage = (event) => {
     setCurrentPage(event.target + 1);
+  };
 
   const handlePageChange = (e) => {
     setCurrentPage(e.selected + 1);
@@ -65,7 +64,6 @@ const BoardPage = (props) => {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   useEffect(() => {
@@ -91,16 +89,14 @@ const BoardPage = (props) => {
   }, [questions, statusDatas]);
 
   useEffect(() => {
-
     setCount(questions.length);
     setIndexOfLastQuestions(currentPage * questionsPerPage);
     setIndexOfFirstQuestions(indexOfLastQuestions - questionsPerPage);
   }, [currentPage, questions, indexOfLastQuestions, questionsPerPage]);
 
-    const newStartIndex = (currentPage - 1) * questionsPerPage;
-    const newEndIndex = newStartIndex + questionsPerPage;
-    //console.log(newStartIndex, newEndIndex);
-
+  const newStartIndex = (currentPage - 1) * questionsPerPage;
+  const newEndIndex = newStartIndex + questionsPerPage;
+  //console.log(newStartIndex, newEndIndex);
 
   useEffect(() => {
     setCurrentQuestions(
@@ -160,5 +156,4 @@ const BoardPage = (props) => {
       </BoardPageContainer>
     </BoardMainContent>
   );
-};
-export default BoardPage;
+}
