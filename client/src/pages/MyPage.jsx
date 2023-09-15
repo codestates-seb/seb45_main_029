@@ -29,6 +29,7 @@ export default function MyPage() {
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
   const [userInfo, setUserInfo] = useState({});
   const [login, setLogin] = useState(false);
+  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
@@ -36,8 +37,6 @@ export default function MyPage() {
   const userInfoRedux = useSelector((state) => state.user);
 
   useEffect(() => {
-    const info = JSON.parse(window.localStorage.getItem('info'));
-
     if (info || userInfoRedux.loggedIn) {
       setLogin(true);
     }
@@ -58,7 +57,7 @@ export default function MyPage() {
       }
     };
     getData();
-  }, []);
+  }, [info]);
 
   return (
     <>
