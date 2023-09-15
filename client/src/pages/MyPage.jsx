@@ -60,8 +60,6 @@ export default function MyPage() {
     getData();
   }, []);
 
-  console.log(userInfo);
-
   return (
     <>
       {!login ? (

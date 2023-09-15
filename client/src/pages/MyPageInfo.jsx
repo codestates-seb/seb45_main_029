@@ -44,12 +44,13 @@ export default function MyPageInfo() {
   const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
 
+  const info = JSON.parse(window.localStorage.getItem('info'));
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(refresh(window.localStorage.getItem('info')));
-  }, []);
+    if (info) dispatch(refresh(info));
+  }, [info, dispatch]);
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -120,7 +121,8 @@ export default function MyPageInfo() {
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
           userInfo.memberId
         }`,
-        data
+        data,
+        { headers: { Authorization: userInfo.accessToken } }
       );
       dispatch(updateUser(data));
     } catch (err) {
