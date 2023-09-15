@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 import {
   QuestionContainer,
   ContentCard,
@@ -11,14 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import Like from './Like';
 import Comments from './Comments';
 
-function QuestionList(props) {
-  console.log(props);
+function QuestionList({ question }) {
+
   const navigate = useNavigate();
 
   const questiondetail = () => {
     navigate('/questionDetail');
   };
-  const parsedDate = new Date(props.createdAt).toLocaleDateString('ko-kr', {
+  const parsedDate = new Date(question.createdAt).toLocaleDateString('ko-kr', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -31,13 +29,13 @@ function QuestionList(props) {
   return (
     <>
       <QuestionContainer>
-        <ContainerTitle>{props.title}</ContainerTitle>
-        <ContentCard onClick={questiondetail} key={props.questionId}>
-          <div className='question-message'>{props.content}</div>
+        <ContainerTitle>{question.title}</ContainerTitle>
+        <ContentCard onClick={questiondetail}>
+          <div className='question-message'>{question.content}</div>
         </ContentCard>
         <BottomContainer>
           <div className='wrapper'>
-            <span className='question-author'>{props.author} </span>
+            <span className='question-author'>{question.author} </span>
 
             <span className='question-createdAt'>{parsedDate}</span>
           </div>
@@ -45,17 +43,17 @@ function QuestionList(props) {
           <div className='icon-count'>
             <div>
               <Like
-                likes_count={props.likes_count}
-                questionId={props.questionId}
-                user_has_liked={props.user_has_liked}
+                likes_count={question.likes_count}
+                questionId={question.questionId}
+                user_has_liked={question.user_has_liked}
               ></Like>
             </div>
 
             <div>
               <Comments
-                comments_count={props.comments_count}
-                answerId={props.answerId}
-                user_has_commented={props.user_has_commented}
+                comments_count={question.comments_count}
+                answerId={question.answerId}
+                user_has_commented={question.user_has_commented}
               ></Comments>
             </div>
           </div>

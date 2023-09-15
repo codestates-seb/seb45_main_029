@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BoardNav from '../components/BoardNav';
 import QuestionList from '../components/QuestionList';
-import ReactPagination from 'react-paginate';
+import PointPagination from '../components/PointPagination';
 import {
   BoardMainContent,
   NavContainer,
@@ -11,26 +10,36 @@ import {
   QuestionButton,
   Line,
   Topcontent,
-  BottomContent,
   SecondContent,
 } from '../style/BoardPage';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { api } from '../api/api';
 
 import SearchBoard from '../components/SearchBoard';
 import LatestInfo from '../components/LatestInfo';
 import QNAbtn from '../components/QNAbtn';
+import axios from 'axios';
 
 const BoardPage = (props) => {
   const [statusDatas, setStatusDatas] = useState('전체');
   const [questions, setQuestions] = useState(
     props.questions ? props.questions : []
   );
-  const questionsPerPage = 3;
+
   const [currentPage, setCurrentPage] = useState(1); // 현재페이지
-  const [currentQuestions, setCurrentQuestions] = useState([]); // 질문데이터 배열
-  const pageCount = Math.ceil(questions.length / questionsPerPage);
+  const [questionsPerPage] = useState(3);
+  const [indexOfLastQuestions, setIndexOfLastQuestions] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
+  const [indexOfFirstQuestions, setIndexOfFirstQuestions] = useState(0);
+  const [currentQuestions, setCurrentQuestions] = useState([]);
+  const [count, setCount] = useState(0);
+
   const navigate = useNavigate();
+
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+  const user = useSelector((state) => state.user);
+
 
   const goToQuestionPage = () => {
     navigate('/newquestion');
@@ -39,6 +48,10 @@ const BoardPage = (props) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') goToQuestionPage();
   };
+
+
+  const setPage = (event) => {
+    setCurrentPage(event.target + 1);
 
   const handlePageChange = (e) => {
     setCurrentPage(e.selected + 1);
@@ -52,11 +65,19 @@ const BoardPage = (props) => {
     } catch (error) {
       console.log(error);
     }
+
   };
 
   useEffect(() => {
-    fetchQuestions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getData = async () => {
+      try {
+        const data = await axios.get(`${SERVER_URL}/question/${user.userId}`);
+        setCurrentQuestions(data.data);
+      } catch (error) {
+        console.log('데이터가져오기 실패:', error);
+      }
+    };
+    getData();
   }, []);
 
   console.log(questions);
@@ -70,12 +91,22 @@ const BoardPage = (props) => {
   }, [questions, statusDatas]);
 
   useEffect(() => {
+
+    setCount(questions.length);
+    setIndexOfLastQuestions(currentPage * questionsPerPage);
+    setIndexOfFirstQuestions(indexOfLastQuestions - questionsPerPage);
+  }, [currentPage, questions, indexOfLastQuestions, questionsPerPage]);
+
     const newStartIndex = (currentPage - 1) * questionsPerPage;
     const newEndIndex = newStartIndex + questionsPerPage;
     //console.log(newStartIndex, newEndIndex);
 
-    setCurrentQuestions(questions.slice(newStartIndex, newEndIndex));
-  }, [currentPage, questions]);
+
+  useEffect(() => {
+    setCurrentQuestions(
+      questions.slice(indexOfFirstQuestions, indexOfLastQuestions)
+    );
+  }, [indexOfFirstQuestions, indexOfLastQuestions, questions]);
 
   return (
     <BoardMainContent>
@@ -116,27 +147,16 @@ const BoardPage = (props) => {
         </SecondContent>
         <Line />
         <QuestionListContainer>
-          {Array.isArray(currentQuestions) &&
-            currentQuestions.map((questions) => (
-              <QuestionList key={questions.questionId} question={questions} />
-            ))}
+          {currentQuestions.length > 0 ? (
+            currentQuestions.map((question) => (
+              <QuestionList key={question.questionId} question={question} />
+            ))
+          ) : (
+            <p>No questions available.</p>
+          )}
         </QuestionListContainer>
-        <BottomContent>
-          <ReactPagination
-            containerClassName={'pagination'}
-            activeLinkClassName={'active'}
-            pageLinkClassName={'page_num'}
-            previousLinkClassName={'page_num'}
-            nextLinkClassName={'page_num'}
-            onPageChange={handlePageChange}
-            pageRangeDisplayed={3}
-            pageCount={pageCount}
-            breakLabel='...'
-            renderOnZeroPageCount={null}
-            nextLabel='>'
-            previousLabel='<'
-          />
-        </BottomContent>
+
+        <PointPagination page={currentPage} count={count} setPage={setPage} />
       </BoardPageContainer>
     </BoardMainContent>
   );

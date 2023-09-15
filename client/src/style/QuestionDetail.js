@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
+export const DetailMainContent = styled.div`
+  display: flex;
+  margin-left: 10.75rem;
+`;
+
 export const Line = styled.hr`
-  width: 73.4375rem;
+  width: 73.5rem;
   height: 0.0625rem;
   background: #828080;
 `;
@@ -15,17 +20,59 @@ export const NavContainer = styled.div`
   margin-top: 5rem;
   margin-right: 5rem;
 `;
-export const QuestionDetailContainer = styled.div`
+
+export const DetailContainer = styled.div`
   display: flex;
-`;
-export const DetailContent = styled.div`
+  flex-direction: column;
+  margin-top: 5.3rem;
   width: 73.5rem;
   height: 56.25rem;
+`;
+
+export const TitleContainer = styled.title`
   display: flex;
   flex-direction: column;
   margin-top: 5.33rem;
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 73.5rem;
+    height: 5.5rem;
+  }
 `;
 
+export const ContentBox = styled.div`
+  display: flex;
+  width: 73.5rem;
+  height: 10rem;
+  .author-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 73.5rem;
+
+    &.author-time {
+      display: flex;
+      flex-direction: row;
+      width: 15rem;
+      height: 1rem;
+      align-items: flex-start;
+      font-size: 0.875rem;
+      color: #828080;
+      margin-bottom: 0.56rem;
+    }
+  }
+  .btn1 {
+    display: flex;
+    justify-content: flex-end;
+    float: right;
+    margin-top: 1.5rem;
+  }
+  .btn2 {
+    margin-left: 0.5rem;
+  }
+`;
 export const SmallButton = styled.button`
   box-sizing: border-box;
   display: flex;

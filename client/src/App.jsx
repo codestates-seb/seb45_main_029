@@ -5,7 +5,6 @@ import MyPage from './pages/MyPage';
 import BoardPage from './pages/BoardPage';
 import NewQuestion from './pages/NewQuestion';
 import QuestionDetail from './pages/QuestionDetail';
-import MyAnswer from './pages/MyAnswer';
 import SignUp from './pages/SignUp';
 import PointPage from './pages/PointPage';
 
@@ -34,7 +33,6 @@ function App() {
           <Route path='/mypageInfo' element={<MyPageInfo />}></Route>
           <Route path='/newquestion' element={<NewQuestion />} />
           <Route path='/questionDetail' element={<QuestionDetail />} />
-          <Route path='/myanswer' element={<MyAnswer />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/point' element={<PointPage />} />

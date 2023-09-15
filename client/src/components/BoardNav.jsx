@@ -38,7 +38,7 @@ export default function MyPageNav({ color }) {
         나의 다짐
       </ColorLink2>
       <LineHR></LineHR>
-      <ColorLink3 color={color} to='/myanswer'>
+      <ColorLink3 color={color} to='/questionDetail'>
         질문 답변
       </ColorLink3>
       <LineHR></LineHR>

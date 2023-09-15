@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { api } from '../api/api';
 import { styled } from 'styled-components';
 const Wrapper = styled.div`
@@ -20,8 +19,8 @@ export default function Like({
   const handleClick = () => {
     method = liked ? 'delete' : 'post';
     uri =
-      `/questions/${questionId}` +
-      (answerId ? `/answers/${answerId}/likes` : `/likes`);
+      `/question/1/${questionId}` +
+      (answerId ? `/answer/1/${answerId}/likeCount` : `/likeCount`);
     console.log(method, uri);
     api(uri, method)
       .then((response) => {

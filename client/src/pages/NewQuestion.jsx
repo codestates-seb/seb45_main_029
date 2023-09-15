@@ -3,9 +3,14 @@ import React, { useState, useRef } from 'react';
 import WebEditor from '../webEditor/WebEditor';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { api } from '../api/api';
+
 import axios from 'axios';
+
+
+import { api } from '../api/api';
+
 import { useSelector } from 'react-redux';
+
 const NewquestionContainer = styled.div`
   width: 43.89rem;
   height: 36rem;
@@ -68,6 +73,7 @@ const Newquestion = () => {
       content,
     };
 
+
     //api('/question', 'post', data).then((res) => console.log(res));
     console.log('hasdfgasdfasdf' + userInfo.accessToken);
     axios.post(`${import.meta.env.VITE_SERVER_URL}/question`, data, {
@@ -85,6 +91,7 @@ const Newquestion = () => {
     //       return;
     //     }
     //   });
+
   };
   return (
     // eslint-disable-next-line react/jsx-no-undef

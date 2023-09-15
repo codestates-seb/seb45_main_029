@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -70,24 +69,6 @@ function SignIn() {
     onSuccess: (codeResponse) => console.log(codeResponse),
     flow: 'auth-code',
   });
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: async (res) => {
-  //     console.log(res.access_token);
-  //     await axios({
-  //       method: "post",
-  //       url: "서버 주소",
-  //       data: { access_token: res.access_token },
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //         })
-  //         .catch((e) => console.log(e));
-  //   }
-  // })
-
-  // const signUp = () => {
-  //     navigate('/signup');
-  // };
 
   useEffect(() => {
     setLoggedIn(user.loggedIn);

@@ -62,6 +62,9 @@ export const userSlice = createSlice({
       });
       return state;
     },
+    setRecommendedVideosUrl: (state, action) => {
+      state.recommendedVideosUrl = action.payload;
+    },
   },
 });
 
