@@ -22,9 +22,9 @@ function Header() {
   const userInfo = useSelector((state) => state.user);
   const [btn, setBtn] = useState(headerBtn);
   const dispatch = useDispatch();
-  const info = window.localStorage.getItem('info');
 
   useEffect(() => {
+    const info = window.localStorage.getItem('info');
     if (info) {
       dispatch(setUser(info));
     }
@@ -39,12 +39,12 @@ function Header() {
   };
 
   useEffect(() => {
-    if (userInfo.loggedIn || info) {
+    if (userInfo.loggedIn) {
       setBtn(loginHeaderBtn);
     } else {
       setBtn(headerBtn);
     }
-  }, [userInfo, info]);
+  }, [userInfo]);
 
   return (
     <HeaderContainer>

@@ -28,9 +28,8 @@ import {
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../redux/userSlice';
+import { setUser, updateUser } from '../redux/userSlice';
 import { jobChoose } from '../assets/variousFunctions';
-import { refresh } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -43,14 +42,13 @@ export default function MyPageInfo() {
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
-
-  const info = JSON.parse(window.localStorage.getItem('info'));
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (info) dispatch(refresh(info));
-  }, [info, dispatch]);
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    if (info) dispatch(setUser(info));
+  }, [dispatch]);
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -96,7 +94,7 @@ export default function MyPageInfo() {
     }
   };
 
-  const buttonOnclickHandler = () => {
+  const buttonOnclickHandler = async () => {
     if (
       !nickNameIsValid ||
       !passwordIsValid ||
@@ -117,9 +115,9 @@ export default function MyPageInfo() {
     };
 
     try {
-      axios.patch(
+      await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
-          userInfo.memberId
+          userInfo.userId
         }`,
         data,
         { headers: { Authorization: userInfo.accessToken } }
@@ -188,6 +186,7 @@ export default function MyPageInfo() {
               />
               <WarningMessage
                 inputName='비밀번호:'
+                password='password'
                 changeHandler={passwordChangeHandler}
                 valid={passwordIsValid}
                 message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'

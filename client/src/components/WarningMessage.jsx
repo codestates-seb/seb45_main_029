@@ -7,11 +7,12 @@ export default function WarningMessage({
   message,
   changeHandler,
   inputName,
+  password,
 }) {
   return (
     <div>
       <p>{inputName}</p>
-      {<InputDesign onChange={changeHandler} />}
+      {<InputDesign type={password || ''} onChange={changeHandler} />}
       {!valid ? <WarningP>{message}</WarningP> : null}
     </div>
   );
