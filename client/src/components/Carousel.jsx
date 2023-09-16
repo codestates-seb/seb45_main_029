@@ -75,7 +75,6 @@ export default function Carousel({
 
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const openModal = (index) => {
     setModalOpen(true);
@@ -99,6 +98,8 @@ export default function Carousel({
   };
 
   useEffect(() => {
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    s;
     if (info) dispatch(setUser(info));
   }, []);
 

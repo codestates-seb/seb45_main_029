@@ -35,7 +35,7 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   useEffect(() => {
     const asyncFunction = async () => {
       const data = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/video/bookmark?page=1&size=10`,
+        `${import.meta.env.VITE_SERVER_URL}/video/bookmark?page=1&size=30`,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -43,7 +43,6 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
           },
         }
       );
-
       dispatch(setBookmark({ data: data.data.data }));
     };
     if (thumb) imgRef.current.src = thumb.replace('default.jpg', '0.jpg');
@@ -57,7 +56,7 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
     if (filterd > 0) {
       setBookmarkClick(true);
     }
-  }, [userInfo]);
+  }, [userInfo, videoId]);
 
   useEffect(() => {
     const info = JSON.parse(window.localStorage.getItem('info'));

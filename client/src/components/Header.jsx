@@ -27,6 +27,8 @@ function Header() {
     const info = window.localStorage.getItem('info');
     if (info) {
       dispatch(setUser(info));
+    } else {
+      dispatch(setUser({ loggedIn: false }));
     }
   }, []);
 
@@ -39,7 +41,7 @@ function Header() {
   };
 
   useEffect(() => {
-    if (userInfo.loggedIn) {
+    if (userInfo.loggedIn === true) {
       setBtn(loginHeaderBtn);
     } else {
       setBtn(headerBtn);

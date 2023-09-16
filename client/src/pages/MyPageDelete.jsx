@@ -40,8 +40,8 @@ export default function MyPageDelete() {
             headers: { Authorization: `Bearer ${userInfo.accessToken}` },
           }
         );
-        dispatch(deleteUser);
         window.localStorage.removeItem('info');
+        dispatch(deleteUser);
         navigate('/');
       } catch (error) {
         console.log(error);

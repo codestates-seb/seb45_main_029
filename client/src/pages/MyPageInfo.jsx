@@ -120,7 +120,7 @@ export default function MyPageInfo() {
           userInfo.userId
         }`,
         data,
-        { headers: { Authorization: userInfo.accessToken } }
+        { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
       );
       dispatch(updateUser(data));
     } catch (err) {
