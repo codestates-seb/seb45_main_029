@@ -71,7 +71,39 @@ public interface QuestionMapper {
         return list1;
     }
 
-    List<QuestionResponseDtoWithoutAnswers> questionToQuestionResponseDtos(List<Question> questions);
+    default List<QuestionResponseDtoWithoutAnswers> questionToQuestionResponseDtos(List<Question> questions){
+        if ( questions == null ) {
+            return null;
+        }
+
+        List<QuestionResponseDtoWithoutAnswers> list = new ArrayList<QuestionResponseDtoWithoutAnswers>( questions.size() );
+        for ( Question question : questions ) {
+            list.add( questionToQuestionResponseDtoWithoutAnswers( question ) );
+        }
+
+        return list;
+    }
+
+    default QuestionResponseDtoWithoutAnswers questionToQuestionResponseDtoWithoutAnswers(Question question) {
+        if ( question == null ) {
+            return null;
+        }
+
+        QuestionResponseDtoWithoutAnswers questionResponseDtoWithoutAnswers = new QuestionResponseDtoWithoutAnswers();
+
+        questionResponseDtoWithoutAnswers.setQuestionId( question.getQuestionId() );
+        questionResponseDtoWithoutAnswers.setUserId(question.getUser().getUserId());
+        questionResponseDtoWithoutAnswers.setNickname( question.getNickname() );
+        questionResponseDtoWithoutAnswers.setTitle( question.getTitle() );
+        questionResponseDtoWithoutAnswers.setContent( question.getContent() );
+        questionResponseDtoWithoutAnswers.setLikeCount( question.getLikeCount() );
+        questionResponseDtoWithoutAnswers.setViewCount( question.getViewCount() );
+        questionResponseDtoWithoutAnswers.setStatus( question.isStatus() );
+        questionResponseDtoWithoutAnswers.setCreatedAt( question.getCreatedAt() );
+        questionResponseDtoWithoutAnswers.setModifiedAt( question.getModifiedAt() );
+
+        return questionResponseDtoWithoutAnswers;
+    }
 }
 
 
