@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { InputContainer, InputDesign, ImageDesign } from '../style/Main';
 import Modal from '../components/Modal';
 import VideoDetail from '../components/VideoDetail';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 // @todo : 혹시나 자동완성 기능? ㅋㅋㅋ
 
 const MainContainer = styled.div`
@@ -27,14 +30,21 @@ const NotFoundDiv = styled.div`
   margin-bottom: 3rem;
 `;
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 export default function MainSearch() {
   const location = useLocation();
   const [keyword, setKeyword] = useState(location.state.value);
   const [pageNum, setPageNum] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
+  const [videoIds, setVideoIds] = useState([]);
+
   const observerRef = useRef(null);
   const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
 
   const { list, hasMore, isLoading } = useFetch(pageNum, keyword, setPageNum); // 커스텀훅, list 서버에서 가져온 데이터
 
@@ -48,6 +58,26 @@ export default function MainSearch() {
     });
     node && observerRef.current.observe(node);
   };
+
+  useEffect(() => {
+    // 새로고침 시 정보 받아오기
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    dispatch(setUser(info));
+  }, [dispatch]);
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const data = await axios.get(
+        `${SERVER_URL}/video/bookmark/?page=1&size=30`,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.accessToken}` || '',
+          },
+        }
+      );
+      setVideoIds(data.data.data.map((el) => el.videoId));
+    };
+    if (userInfo.accessToken) asyncFunction();
+  }, [userInfo]);
 
   const openModal = (index) => {
     setModalOpen(true);
@@ -86,7 +116,7 @@ export default function MainSearch() {
           setModalOpen={setModalOpen}
           list={list}
           listIndex={listIndex}
-          videoId={false}
+          videoId={true}
         />
         <InputContainer>
           <InputDesign
@@ -111,6 +141,7 @@ export default function MainSearch() {
                     thumb={elem.thumbnail}
                     videoId={elem.videoId}
                     openModal={openModal}
+                    videoIds={videoIds}
                   />
                 </div>
               );

@@ -4,7 +4,7 @@ import { HeaderContainer, HeaderSection, HdNav } from '../style/Header.Styled';
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../redux/userSlice';
+import { logoutUser, setUser } from '../redux/userSlice';
 
 const headerBtn = [
   { id: 1, text: '동기부여', path: '/point' },
@@ -22,7 +22,15 @@ function Header() {
   const userInfo = useSelector((state) => state.user);
   const [btn, setBtn] = useState(headerBtn);
   const dispatch = useDispatch();
-  const info = window.localStorage.getItem('info');
+
+  useEffect(() => {
+    const info = window.localStorage.getItem('info');
+    if (info) {
+      dispatch(setUser(info));
+    } else {
+      dispatch(logoutUser());
+    }
+  }, []);
 
   const logout = (id) => {
     if (id === 6) {
@@ -33,12 +41,12 @@ function Header() {
   };
 
   useEffect(() => {
-    if (userInfo.loggedIn || info) {
+    if (userInfo.loggedIn === true) {
       setBtn(loginHeaderBtn);
     } else {
       setBtn(headerBtn);
     }
-  }, [userInfo, info]);
+  }, [userInfo]);
 
   return (
     <HeaderContainer>

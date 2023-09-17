@@ -6,7 +6,7 @@ import {
   ImageDesign,
 } from '../style/Main';
 import ToggleContainer from '../components/ToggleContainer';
-
+import axios from 'axios';
 import {
   typeOfVideo,
   checkBoxListBody,
@@ -15,7 +15,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBookmark } from '../redux/userSlice';
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
@@ -26,6 +29,7 @@ function Main() {
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
   const [currentSlideRecommend, setCurrentSlideRecommend] = useState(0);
   const [login, setLogin] = useState(false);
+  const [videoIds, setVideoIds] = useState([]);
 
   const userInfo = useSelector((state) => state.user);
 
@@ -34,6 +38,7 @@ function Main() {
   const slideRefRecommend = useRef(null);
   const info = JSON.parse(window.localStorage.getItem('info'));
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onClickHandler = (e) => {
@@ -89,6 +94,28 @@ function Main() {
     }
   }, [userInfo, info]);
 
+  useEffect(() => {
+    // 첫 렌더링시 북마크 목록 가져오기
+    const getData = async () => {
+      try {
+        const data = await axios.get(
+          `${SERVER_URL}/video/bookmark/?page=1&size=30`,
+          {
+            headers: {
+              Authorization: `Bearer ${userInfo.accessToken}`,
+            },
+          }
+        );
+        dispatch(setBookmark({ data: data.data.data.map((el) => el.videoId) }));
+        setVideoIds(data.data.data.map((el) => el.videoId));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (userInfo.accessToken) getData();
+  }, [userInfo.accessToken]);
+
   return (
     <MainContainer>
       <InputContainer>
@@ -111,6 +138,8 @@ function Main() {
           setCurrentSlide={setCurrentSlideRecommend}
           currentSlide={currentSlideRecommend}
           bookmark={false}
+          videoIds={videoIds}
+          setVideoIds={setVideoIds}
         />
       )}
       <Carousel
@@ -119,6 +148,8 @@ function Main() {
         setCurrentSlide={setCurrentSlideTop5}
         currentSlide={currentSlideTop5}
         bookmark={false}
+        videoIds={videoIds}
+        setVideoIds={setVideoIds}
       />
       <p>{videoType} 운동 확인하기</p>
       <ToggleContainer
@@ -155,6 +186,8 @@ function Main() {
         videoDetailType2={videoDetailType2}
         bookmark={false}
         changedDetail2={changedDetail2}
+        videoIds={videoIds}
+        setVideoIds={setVideoIds}
       />
     </MainContainer>
   );

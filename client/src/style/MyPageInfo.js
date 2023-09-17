@@ -45,6 +45,10 @@ export const OuterContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
+export const ArticleList = styled.div`
+  display: flex;
+`;
+
 export const UserInfoInnerContainer = styled.div`
   display: flex;
   flex-direction: column;

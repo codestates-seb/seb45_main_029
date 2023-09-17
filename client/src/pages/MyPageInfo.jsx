@@ -24,13 +24,12 @@ import {
   WarningP,
   InputDesign,
   JobChoice,
+  ArticleList,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../redux/userSlice';
-import { jobChoose } from '../assets/variousFunctions';
-import { refresh } from '../redux/userSlice';
+import { setUser, updateUser } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -43,14 +42,13 @@ export default function MyPageInfo() {
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
   const imgRef = useRef();
-
-  const info = JSON.parse(window.localStorage.getItem('info'));
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (info) dispatch(refresh(info));
-  }, [info, dispatch]);
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    if (info) dispatch(setUser(info));
+  }, [dispatch]);
 
   const saveImgFile = () => {
     const file = imgRef.current.files[0];
@@ -96,7 +94,7 @@ export default function MyPageInfo() {
     }
   };
 
-  const buttonOnclickHandler = () => {
+  const buttonOnclickHandler = async () => {
     if (
       !nickNameIsValid ||
       !passwordIsValid ||
@@ -111,18 +109,19 @@ export default function MyPageInfo() {
       nickname,
       password,
       motto,
-      painArea: checkedList,
-      job: checkedListJob,
+      painArea: checkedList[0],
+      job: checkedListJob.replaceAll('·', '_'),
       image: imgFile,
     };
 
+    console.log(data);
     try {
-      axios.patch(
+      await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
-          userInfo.memberId
+          userInfo.userId
         }`,
         data,
-        { headers: { Authorization: userInfo.accessToken } }
+        { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
       );
       dispatch(updateUser(data));
     } catch (err) {
@@ -135,7 +134,7 @@ export default function MyPageInfo() {
       if (type === 'body') {
         setCheckedList((prev) => [...prev, value].sort());
       } else {
-        jobChoose(value, setCheckedListJob);
+        setCheckedListJob(value);
       }
       return;
     }
@@ -188,6 +187,7 @@ export default function MyPageInfo() {
               />
               <WarningMessage
                 inputName='비밀번호:'
+                password='password'
                 changeHandler={passwordChangeHandler}
                 valid={passwordIsValid}
                 message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'
@@ -198,34 +198,37 @@ export default function MyPageInfo() {
                 valid={mottoIsValid}
                 message='최소 1글자 이상 입력해주세요!'
               />
-              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
-              <JobChoice>
-                <BodyAndJobList
-                  list={checkBoxListJob}
-                  name='job'
-                  type='radio'
-                  checkHandler={checkHandler}
-                />
-              </JobChoice>
-              <PainListContainer>
-                <PainSpan>통증 부위 : &nbsp; </PainSpan>
-                {checkedList.length > 0 ? (
-                  checkedList.map((elem, index) => {
-                    return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                  })
-                ) : (
-                  <></>
-                )}
-              </PainListContainer>
-              <Line />
-              <PainChoice>
-                <BodyAndJobList
-                  list={checkBoxListBody}
-                  name='body'
-                  type='checkbox'
-                  checkHandler={checkHandler}
-                />
-              </PainChoice>
+              <ArticleList>
+                <PainSpan>
+                  직업 분류 : <span className='job-list'>{checkedListJob}</span>
+                </PainSpan>
+                <JobChoice>
+                  <BodyAndJobList
+                    list={checkBoxListJob}
+                    name='job'
+                    type='radio'
+                    checkHandler={checkHandler}
+                  />
+                </JobChoice>
+                <PainListContainer>
+                  <PainSpan>통증 부위 : &nbsp; </PainSpan>
+                  {checkedList.length > 0 ? (
+                    checkedList.map((elem, index) => {
+                      return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
+                    })
+                  ) : (
+                    <></>
+                  )}
+                </PainListContainer>
+                <PainChoice>
+                  <BodyAndJobList
+                    list={checkBoxListBody}
+                    name='body'
+                    type='checkbox'
+                    checkHandler={checkHandler}
+                  />
+                </PainChoice>
+              </ArticleList>
               <Line />
               <EditButtonContainer>
                 <EditButton onClick={buttonOnclickHandler}>수정하기</EditButton>

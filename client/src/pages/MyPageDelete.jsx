@@ -16,33 +16,35 @@ import {
 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { deleteUser } from '../redux/userSlice';
-import { useEffect, useState } from 'react';
+import { deleteUser, setUser } from '../redux/userSlice';
+import { useEffect } from 'react';
 
 export default function MyPageDelete() {
-  const [id, setId] = useState(-1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
 
   useEffect(() => {
-    setId(window.localStorage.getItem('info').userId);
-  }, []);
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    if (info) dispatch(setUser(info));
+  }, [dispatch]);
 
   const onSubmitDelete = async (e) => {
     e.preventDefault();
     if (e.target[0].value === '탈퇴하기') {
       try {
-        const data = await axios.delete(
-          `${import.meta.env.SERVER_URL}/users/${id}`,
-          { headers: { Authorization: userInfo.accessToken } }
+        await axios.delete(
+          `${import.meta.env.VITE_SERVER_URL}/users/${userInfo.userId}`,
+          {
+            headers: { Authorization: `Bearer ${userInfo.accessToken || ''}` },
+          }
         );
+        window.localStorage.removeItem('info');
+        dispatch(deleteUser());
+        navigate('/');
       } catch (error) {
         console.log(error);
       }
-      dispatch(deleteUser);
-      window.localStorage.removeItem('info');
-      navigate('/');
     }
   };
 

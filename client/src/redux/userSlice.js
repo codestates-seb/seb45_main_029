@@ -8,6 +8,7 @@ export const userSlice = createSlice({
     name: '',
     userId: 1,
     bookmark: [],
+    video: [],
     job: '',
     image: '',
     accessToken: '',
@@ -52,16 +53,26 @@ export const userSlice = createSlice({
     logoutUser: (state, action) => {
       state.loggedIn = false;
     },
+    plusBookmark: (state, action) => {
+      state.bookmark = [...state.bookmark, action.payload.videoId];
+      return state;
+    },
     setBookmark: (state, action) => {
-      state.bookmark = [...state.bookmark, action.payload];
+      state.bookmark = action.payload.data;
       return state;
     },
     deleteBookmark: (state, action) => {
       state.bookmark = state.bookmark.filter((el) => {
-        return action.payload !== el;
+        return action.payload.videoId !== el;
       });
       return state;
     },
+
+    setVideo: (state, action) => {
+      state.video = action.payload.data;
+      return state;
+    },
+
     setRecommendedVideosUrl: (state, action) => {
       state.recommendedVideosUrl = action.payload;
     },
@@ -77,6 +88,8 @@ export const {
   deleteUser,
   loginUser,
   refresh,
+  plusBookmark,
   logoutUser,
+  setVideo,
 } = userSlice.actions;
 export default userSlice.reducer;

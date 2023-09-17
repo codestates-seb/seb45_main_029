@@ -54,6 +54,7 @@ function SignIn() {
               })
             );
             dispatch(setUser(response.data));
+            navigate('/');
           }
         })
         .catch((error) => {
@@ -62,7 +63,6 @@ function SignIn() {
           console.error('Request error:', error);
           return error;
         });
-      navigate('/');
     }
   };
   const login = useGoogleLogin({

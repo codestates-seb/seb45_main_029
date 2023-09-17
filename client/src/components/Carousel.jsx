@@ -32,7 +32,7 @@ const typeChecker = (
 ) => {
   let type = '';
   if (bookmark) {
-    type = 'bookmark?page=1&size=30';
+    type = 'bookmark/?page=1&size=30';
     return type;
   }
   if (message === 'TOP5 재활운동') {
@@ -64,6 +64,8 @@ export default function Carousel({
   videoDetailType2,
   bookmark,
   changedDetail2,
+  videoIds,
+  setVideoIds,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
@@ -75,7 +77,6 @@ export default function Carousel({
 
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const info = JSON.parse(window.localStorage.getItem('info'));
 
   const openModal = (index) => {
     setModalOpen(true);
@@ -99,8 +100,9 @@ export default function Carousel({
   };
 
   useEffect(() => {
+    const info = JSON.parse(window.localStorage.getItem('info'));
     if (info) dispatch(setUser(info));
-  }, [info, dispatch]);
+  }, []);
 
   useEffect(() => {
     const asyncFunction = async () => {
@@ -122,7 +124,6 @@ export default function Carousel({
         console.log(error);
       }
     };
-
     asyncFunction();
   }, [
     videoType,
@@ -131,6 +132,7 @@ export default function Carousel({
     message,
     bookmark,
     changedDetail2,
+    userInfo.accessToken,
   ]);
 
   useEffect(() => {
@@ -189,6 +191,9 @@ export default function Carousel({
                         thumb={elem.thumbnail}
                         videoId={elem.videoId}
                         openModal={openModal}
+                        bookmark={bookmark}
+                        videoIds={videoIds}
+                        setideoIds={setVideoIds}
                       />
                     </div>
                   );
@@ -203,6 +208,9 @@ export default function Carousel({
                           thumb={elem.thumbnail}
                           videoId={elem.videoId}
                           openModal={openModal}
+                          bookmark={bookmark}
+                          videoIds={videoIds}
+                          setVideoIds={setVideoIds}
                         />
                       </div>
                     );
@@ -214,17 +222,35 @@ export default function Carousel({
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {videos.map((elem, index) => {
-                return (
-                  <div key={index}>
-                    <VideoDetail
-                      thumb={elem.thumbnail}
-                      videoId={elem.videoId}
-                      openModal={openModal}
-                    />
-                  </div>
-                );
-              })}
+              {bookmark
+                ? userInfo.bookmark.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem}
+                          openModal={openModal}
+                          bookmark={bookmark}
+                          setVideoIds={setVideoIds}
+                          videoIds={videoIds}
+                        />
+                      </div>
+                    );
+                  })
+                : videos.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem.videoId}
+                          openModal={openModal}
+                          bookmark={bookmark}
+                          videoIds={videoIds}
+                          setVideoIds={setVideoIds}
+                        />
+                      </div>
+                    );
+                  })}
             </VideoContainer>
           </VideoAndButtonContainer>
         )}
