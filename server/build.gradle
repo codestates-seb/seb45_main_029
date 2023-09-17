@@ -47,6 +47,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'  // JWT를 위한 jjwt 라이브러리
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'	// JWT를 위한 jjwt 라이브러리
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'	// JWT를 위한 jjwt 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // oauth2
 
 	// youtube data api
 	implementation 'com.google.http-client:google-http-client-jackson2:1.43.0'
