@@ -1,5 +1,12 @@
 spring:
-#  cors:
+  oauth2:
+    client:
+      registration:
+        google:
+          client-id: 169762653752-0dj76a7v6g8d7q5alfbn6e0irt4pd3lr.apps.googleusercontent.com
+          client-secret: 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
+
+  #  cors:
 #    allowed-origins:
 #      - http://localhost:5173  # 프론트엔드 도메인 주소
 #    allowed-methods:
@@ -13,9 +20,9 @@ spring:
 #    allow-credentials: true  # 자격증명 (쿠키, 헤더)을 허용할지 여부
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${AWS_RDS_Endpoint}/mainProject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ${RDS_ID}
-    password: ${RDS_PASSWORD}
+    url: jdbc:mysql://localhost:3306/mainProject?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username:
+    password:
   jpa:          #JPA 설정
     hibernate:
       ddl-auto: create-drop
