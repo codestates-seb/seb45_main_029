@@ -27,6 +27,7 @@ public interface BookmarkMapper {
         bookmarkResponseDto.setBookmarkId(bookmark.getBookmarkId());
         bookmarkResponseDto.setJob(bookmark.getVideo().getJob());
         bookmarkResponseDto.setPainArea(bookmark.getVideo().getPainArea());
+        bookmarkResponseDto.setThumbnail(bookmark.getVideo().getThumbnail());
 
         return bookmarkResponseDto;
 

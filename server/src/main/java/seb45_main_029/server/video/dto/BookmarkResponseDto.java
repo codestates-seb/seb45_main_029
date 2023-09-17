@@ -21,6 +21,7 @@ public class BookmarkResponseDto {
     private long videoId;
     private String title;
     private String youtubeLink;
+    private String thumbnail;
     private Job job;
     private PainArea painArea;
 

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@Entity
+@Entity(name = "Answer")
 public class Answer extends Auditable {
 
     @Id
