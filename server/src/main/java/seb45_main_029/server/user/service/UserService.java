@@ -32,11 +32,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
-
-
-    /*private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;*/
-
     // 회원 가입에 대한 메서드//
     public User createUser(User user, String confirmPassword) {
 
