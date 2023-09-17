@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteBookmark, setBookmark, setUser } from '../redux/userSlice';
+import { deleteBookmark, plusBookmark, setUser } from '../redux/userSlice';
 
 const ImageDesign = styled.img`
   width: 1rem;
@@ -23,40 +23,30 @@ const IframeContainer = styled.div`
   align-items: end;
 `;
 
-export default function VideoDetail({ thumb, videoId, openModal }) {
+export default function VideoDetail({
+  thumb,
+  videoId,
+  openModal,
+  videoIds,
+  setVideoIds,
+}) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const userInfo = useSelector((state) => state.user);
 
+  const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const imgRef = useRef(null);
 
   useEffect(() => {
-    const asyncFunction = async () => {
-      const data = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/video/bookmark?page=1&size=30`,
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            Authorization: `Bearer ${userInfo.accessToken}`,
-          },
-        }
-      );
-      dispatch(setBookmark({ data: data.data.data }));
-    };
-    if (thumb) imgRef.current.src = thumb.replace('default.jpg', '0.jpg');
-    if (userInfo.accessToken) asyncFunction();
-  }, []);
-
-  useEffect(() => {
-    const filterd = userInfo.bookmark.filter((el) => {
-      return el.videoId === videoId;
-    }).length;
-    if (filterd > 0) {
+    if (videoIds.findIndex((el) => el === videoId) !== -1) {
+      console.log('hey');
       setBookmarkClick(true);
+    } else {
+      setBookmarkClick(false);
     }
-  }, [userInfo, videoId]);
+    if (thumb) imgRef.current.src = thumb.replace('default.jpg', '0.jpg');
+  }, [videoIds, videoId, thumb]);
 
   useEffect(() => {
     const info = JSON.parse(window.localStorage.getItem('info'));
@@ -81,7 +71,8 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
           },
         }
       );
-      dispatch(setBookmark({ data: [videoId] }));
+      setVideoIds([...videoIds, videoId]);
+      dispatch(plusBookmark({ videoId }));
     } else {
       await axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
@@ -92,6 +83,7 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
           },
         }
       );
+      setVideoIds(videoIds.filter((el) => el !== videoId));
       dispatch(deleteBookmark({ videoId }));
     }
   };

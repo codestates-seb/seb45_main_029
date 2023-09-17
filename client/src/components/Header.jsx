@@ -28,7 +28,7 @@ function Header() {
     if (info) {
       dispatch(setUser(info));
     } else {
-      dispatch(setUser({ loggedIn: false }));
+      dispatch(logoutUser());
     }
   }, []);
 

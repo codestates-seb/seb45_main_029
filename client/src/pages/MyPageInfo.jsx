@@ -24,12 +24,12 @@ import {
   WarningP,
   InputDesign,
   JobChoice,
+  ArticleList,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, updateUser } from '../redux/userSlice';
-import { jobChoose } from '../assets/variousFunctions';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
@@ -109,11 +109,12 @@ export default function MyPageInfo() {
       nickname,
       password,
       motto,
-      painArea: checkedList,
-      job: checkedListJob,
+      painArea: checkedList[0],
+      job: checkedListJob.replaceAll('·', '_'),
       image: imgFile,
     };
 
+    console.log(data);
     try {
       await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
@@ -133,7 +134,7 @@ export default function MyPageInfo() {
       if (type === 'body') {
         setCheckedList((prev) => [...prev, value].sort());
       } else {
-        jobChoose(value, setCheckedListJob);
+        setCheckedListJob(value);
       }
       return;
     }
@@ -197,34 +198,37 @@ export default function MyPageInfo() {
                 valid={mottoIsValid}
                 message='최소 1글자 이상 입력해주세요!'
               />
-              <PainSpan>직업 분류 : &nbsp; {checkedListJob}</PainSpan>
-              <JobChoice>
-                <BodyAndJobList
-                  list={checkBoxListJob}
-                  name='job'
-                  type='radio'
-                  checkHandler={checkHandler}
-                />
-              </JobChoice>
-              <PainListContainer>
-                <PainSpan>통증 부위 : &nbsp; </PainSpan>
-                {checkedList.length > 0 ? (
-                  checkedList.map((elem, index) => {
-                    return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                  })
-                ) : (
-                  <></>
-                )}
-              </PainListContainer>
-              <Line />
-              <PainChoice>
-                <BodyAndJobList
-                  list={checkBoxListBody}
-                  name='body'
-                  type='checkbox'
-                  checkHandler={checkHandler}
-                />
-              </PainChoice>
+              <ArticleList>
+                <PainSpan>
+                  직업 분류 : <span className='job-list'>{checkedListJob}</span>
+                </PainSpan>
+                <JobChoice>
+                  <BodyAndJobList
+                    list={checkBoxListJob}
+                    name='job'
+                    type='radio'
+                    checkHandler={checkHandler}
+                  />
+                </JobChoice>
+                <PainListContainer>
+                  <PainSpan>통증 부위 : &nbsp; </PainSpan>
+                  {checkedList.length > 0 ? (
+                    checkedList.map((elem, index) => {
+                      return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
+                    })
+                  ) : (
+                    <></>
+                  )}
+                </PainListContainer>
+                <PainChoice>
+                  <BodyAndJobList
+                    list={checkBoxListBody}
+                    name='body'
+                    type='checkbox'
+                    checkHandler={checkHandler}
+                  />
+                </PainChoice>
+              </ArticleList>
               <Line />
               <EditButtonContainer>
                 <EditButton onClick={buttonOnclickHandler}>수정하기</EditButton>

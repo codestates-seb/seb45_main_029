@@ -33,15 +33,14 @@ export default function MyPageDelete() {
     e.preventDefault();
     if (e.target[0].value === '탈퇴하기') {
       try {
-        console.log(userInfo.accessToken);
         await axios.delete(
           `${import.meta.env.VITE_SERVER_URL}/users/${userInfo.userId}`,
           {
-            headers: { Authorization: `Bearer ${userInfo.accessToken}` },
+            headers: { Authorization: `Bearer ${userInfo.accessToken || ''}` },
           }
         );
         window.localStorage.removeItem('info');
-        dispatch(deleteUser);
+        dispatch(deleteUser());
         navigate('/');
       } catch (error) {
         console.log(error);
