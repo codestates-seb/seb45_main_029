@@ -1,11 +1,4 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 169762653752-0dj76a7v6g8d7q5alfbn6e0irt4pd3lr.apps.googleusercontent.com
-            client-secret: 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
   cors:
     allowed-origins:
       - http://localhost:5173  # 프론트엔드 도메인 주소
@@ -45,3 +38,4 @@ jwt:
   key: asdlkfjaasfljqlkj3rlkj123l41j234l1234l1j234
   access-token-expiration-minutes: 120
   refresh-token-expiration-minutes: 420
+  #
