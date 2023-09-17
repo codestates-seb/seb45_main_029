@@ -1,7 +1,6 @@
 package seb45_main_029.server.security.config;
 
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +44,7 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
-                .cors(configuration-> configuration.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+//                .cors(configuration-> configuration.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 생성하지 않도록 설정
                 .and()
                 .formLogin().disable()
@@ -87,10 +86,6 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://127.0.0.1:5173", "http://seb45main029.s3-website.ap-northeast-2.amazonaws.com"));
         // 모든 헤더 허용
-        configuration.addAllowedHeader("Authorization");
-        configuration.addAllowedHeader("Cache-Control");
-        configuration.addAllowedHeader("Content-Type");
-        configuration.addAllowedHeader("Access-Control-Allow-Origin");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용
         configuration.setAllowCredentials(true);
