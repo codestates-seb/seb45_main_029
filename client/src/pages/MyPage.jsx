@@ -83,7 +83,7 @@ export default function MyPage() {
           `${SERVER_URL}/upload/${userInfoRedux.userId}`,
           { headers: { Authorization: `Bearer ${userInfoRedux.accessToken}` } }
         );
-        setImg(imgData.imageUrl);
+        setImg(imgData && imgData.data.data?.imageUrl);
         setUserInfo(data.data);
       } catch (error) {
         console.log(error);
