@@ -30,8 +30,6 @@ export default function VideoDetail({
   videoIds,
   setVideoIds,
 }) {
-  console.log(videoId);
-
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
 
