@@ -30,6 +30,8 @@ export default function VideoDetail({
   videoIds,
   setVideoIds,
 }) {
+  console.log(videoId);
+
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
 
@@ -70,7 +72,7 @@ export default function VideoDetail({
           },
         }
       );
-      setVideoIds([...videoIds, videoId]);
+      setVideoIds && setVideoIds([...videoIds, videoId]);
       dispatch(plusBookmark({ videoId, thumb }));
     } else {
       await axios.delete(
