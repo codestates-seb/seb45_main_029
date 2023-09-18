@@ -40,7 +40,6 @@ export default function VideoDetail({
 
   useEffect(() => {
     if (videoIds.findIndex((el) => el === videoId) !== -1) {
-      console.log('hey');
       setBookmarkClick(true);
     } else {
       setBookmarkClick(false);
