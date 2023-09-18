@@ -49,16 +49,54 @@ public class ImageService {
         List<String> fileNameList = new ArrayList<>();
         String dirName = "";
         if (productId == null) {
-            dirName = "profileImage/";
+            dirName = "profileImage";
         } else {
-            dirName = "productImage/";
+            dirName = "productImage";
         }
         for (MultipartFile file : multipartFiles) {
 
-            String fileName = createFileName(dirName + file.getOriginalFilename());
+            String fileName = createFileName(dirName+ "/" + file.getOriginalFilename());
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             metadata.setContentType(file.getContentType());
+
+
+            String bucketUrl = amazonS3.getUrl(bucket, fileName).toString();
+
+            User user = userService.getLoginUser();
+            long userId = user.getUserId();
+
+            Image existImage = imageRepository.findImageByUserUserId(userId);
+
+            if (existImage != null && productId == null) {
+
+                existImage.setOriginalName(file.getOriginalFilename());
+                existImage.setImageName(fileName);
+                existImage.setImageUrl(bucketUrl);
+                imageRepository.save(existImage);
+
+            } else if (existImage == null && productId == null) {
+
+                Image newImage = new Image();
+                newImage.setOriginalName(file.getOriginalFilename());
+                newImage.setImageName(fileName);
+                newImage.setImageUrl(bucketUrl);
+                newImage.setUser(user);
+                user.setImage(newImage);
+                imageRepository.save(newImage);
+            }
+
+
+            if (productId != null) {
+                Image image = new Image();
+                Product product = productService.findProduct(productId);
+                image.setProduct(product);
+                List<Image> images = new ArrayList<>();
+                images.add(image);
+                product.setImages(images);
+                imageRepository.save(image);
+
+            }
 
             try (InputStream inputStream = file.getInputStream()) {
                 amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, metadata)
@@ -66,26 +104,8 @@ public class ImageService {
             } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            String bucketUrl = amazonS3.getUrl(bucket, fileName).toString();
-            Image image = new Image();
-            image.setOriginalName(file.getOriginalFilename());
-            image.setImageName(fileName);
-            image.setImageUrl(bucketUrl);
-            if (productId == null) {
-                User user = userService.getLoginUser();
-                image.setUser(user);
-                user.setImage(image);
-            }
-            if (productId != null) {
-                Product product = productService.findProduct(productId);
-                image.setProduct(product);
-                List<Image> images = new ArrayList<>();
-                images.add(image);
-                product.setImages(images);
-            }
-            imageRepository.save(image);
-            fileNameList.add(fileName);
 
+            fileNameList.add(fileName);
         }
 
         return fileNameList;
