@@ -15,7 +15,7 @@ import {
   GoogleLogin,
 } from '@react-oauth/google';
 // import GoogleIcon from '../assets/logos_google.svg';
-import axios from 'axios';
+
 function SignIn() {
   const [id, setId] = useState('');
   const [idIsValid, setIdIsValid] = useState(false);
@@ -42,6 +42,12 @@ function SignIn() {
       setPasswordIsValid(false);
     } else {
       setPasswordIsValid(true);
+    }
+  };
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      signIn(); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
 
@@ -94,6 +100,7 @@ function SignIn() {
               type='text'
               onChange={onChangeHandlerId}
               value={id}
+              onKeyUp={handleOnKeyPress}
               placeholder='example@email.com'
             ></input>
             {!idIsValid && (
@@ -105,6 +112,7 @@ function SignIn() {
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
+              onKeyUp={handleOnKeyPress}
               placeholder='password'
             ></input>
             {!passwordIsValid && (
@@ -118,8 +126,9 @@ function SignIn() {
             <GoogleLogin
               buttonText='google login'
               onSuccess={async (CredentialResponse) => {
-                await axios.post('/', CredentialResponse);
                 console.log(CredentialResponse);
+                //await axios.post('/', CredentialResponse);
+                // 이후의 로직
                 navigate('/');
               }}
               onError={() => {

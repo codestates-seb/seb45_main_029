@@ -41,7 +41,10 @@ export default function MyPageInfo() {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
-  const imgRef = useRef();
+  const [img, setImg] = useState('');
+
+  const imgRef = useRef(null);
+  const originImgRef = useRef(null);
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -50,18 +53,20 @@ export default function MyPageInfo() {
     if (info) dispatch(setUser(info));
   }, [dispatch]);
 
-  const saveImgFile = () => {
+  const saveImgFile = async () => {
     const file = imgRef.current.files[0];
-    const reader = new FileReader();
     try {
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImgFile(reader.result);
-      };
+      const formData = new FormData();
+      formData.append('multipartFile', file);
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/upload/profile`,
+        formData,
+        { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
+      );
+      setImgFile(URL.createObjectURL(file));
+      originImgRef.current.src = URL.createObjectURL(file);
     } catch {
       alert('에러가 발생하였습니다. 다시 시도해주세요.');
-    } finally {
-      console.log('처리완료');
     }
   };
 
@@ -150,6 +155,17 @@ export default function MyPageInfo() {
     checkedItemHandler(value, e.target.checked, type);
   };
 
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const imgData = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/upload/${userInfo.userId}`,
+        { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
+      );
+      setImg(imgData.data.data.imageUrl);
+    };
+    asyncFunction();
+  }, []);
+
   return (
     <NavAndContent>
       <NavContainer>
@@ -164,7 +180,11 @@ export default function MyPageInfo() {
                   <InfoTitle>회원정보 수정</InfoTitle>
                 </TitleContainer>
                 <ImgContainer>
-                  <UserImg src={imgFile ? imgFile : '/images/person.jpg'} />
+                  <UserImg
+                    ref={originImgRef}
+                    src={img ? img : '/images/person.jpg'}
+                  />
+
                   <LabelForInput>
                     수정
                     <InputButton
