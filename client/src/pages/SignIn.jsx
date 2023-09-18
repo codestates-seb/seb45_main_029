@@ -118,8 +118,9 @@ function SignIn() {
             <GoogleLogin
               buttonText='google login'
               onSuccess={async (CredentialResponse) => {
-                await axios.post('/', CredentialResponse);
                 console.log(CredentialResponse);
+                //await axios.post('/', CredentialResponse);
+                // 이후의 로직
                 navigate('/');
               }}
               onError={() => {

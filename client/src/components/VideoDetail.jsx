@@ -95,19 +95,21 @@ export default function VideoDetail({
         ref={imgRef}
         onClick={() => openModal(videoId)}
       ></ImageFrame>
-      {bookmarkClick ? (
-        <ImageDesign
-          onClick={imgOnclickHandler}
-          src='/images/starFill.png'
-          alt='star'
-        />
-      ) : (
-        <ImageDesign
-          onClick={imgOnclickHandler}
-          src='/images/star.png'
-          alt='star'
-        />
-      )}
+      {userInfo.accessToken &&
+        (bookmarkClick ? (
+          <ImageDesign
+            onClick={imgOnclickHandler}
+            src='/images/starFill.png'
+            alt='star'
+          />
+        ) : (
+          <ImageDesign
+            onClick={imgOnclickHandler}
+            src='/images/star.png'
+            alt='star'
+          />
+        ))}
+      {}
     </IframeContainer>
   );
 }
