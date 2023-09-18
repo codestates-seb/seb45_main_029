@@ -15,7 +15,7 @@ import {
   GoogleLogin,
 } from '@react-oauth/google';
 // import GoogleIcon from '../assets/logos_google.svg';
-import axios from 'axios';
+
 function SignIn() {
   const [id, setId] = useState('');
   const [idIsValid, setIdIsValid] = useState(false);
@@ -42,6 +42,12 @@ function SignIn() {
       setPasswordIsValid(false);
     } else {
       setPasswordIsValid(true);
+    }
+  };
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      signIn(); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
 
@@ -94,6 +100,7 @@ function SignIn() {
               type='text'
               onChange={onChangeHandlerId}
               value={id}
+              onKeyUp={handleOnKeyPress}
               placeholder='example@email.com'
             ></input>
             {!idIsValid && (
@@ -105,6 +112,7 @@ function SignIn() {
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
+              onKeyUp={handleOnKeyPress}
               placeholder='password'
             ></input>
             {!passwordIsValid && (
@@ -113,12 +121,7 @@ function SignIn() {
           </div>
         </section>
         <div className='buttons'>
-          <Button
-            onClick={signIn}
-            onKeyup={window.event.keyCode == 13 && signIn}
-          >
-            로그인
-          </Button>
+          <Button onClick={signIn}>로그인</Button>
           <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
             <GoogleLogin
               buttonText='google login'

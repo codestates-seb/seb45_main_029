@@ -31,6 +31,7 @@ export default function MyPage() {
   const [userInfo, setUserInfo] = useState({});
   const [login, setLogin] = useState(false);
   const [videoIds, setVideoIds] = useState([]);
+  const [img, setImg] = useState('');
 
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
@@ -78,6 +79,11 @@ export default function MyPage() {
             },
           }
         );
+        const imgData = await axios.get(
+          `${SERVER_URL}/upload/${userInfoRedux.userId}`,
+          { headers: { Authorization: `Bearer ${userInfoRedux.accessToken}` } }
+        );
+        setImg(imgData.imageUrl);
         setUserInfo(data.data);
       } catch (error) {
         console.log(error);
@@ -104,7 +110,7 @@ export default function MyPage() {
                     <TitleFontSpanPink>정보</TitleFontSpanPink>
                   </div>
                   <UserImg
-                    src={userInfo.image ? userInfo.image : '/images/person.jpg'}
+                    src={img ? img : '/images/person.jpg'}
                     alt='myImage'
                   />
                 </header>

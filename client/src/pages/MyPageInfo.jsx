@@ -52,44 +52,19 @@ export default function MyPageInfo() {
 
   const saveImgFile = async () => {
     const file = imgRef.current.files[0];
-
     try {
       const formData = new FormData();
       formData.append('multipartFile', file);
-
       await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/upload/profile`,
         formData,
         { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
       );
-
       setImgFile(URL.createObjectURL(file));
     } catch {
       alert('에러가 발생하였습니다. 다시 시도해주세요.');
-    } finally {
-      console.log('처리완료');
     }
   };
-
-  // const saveImgFile = async () => {
-  //   const file = imgRef.current.files[0];
-  //   const reader = new FileReader();
-  //   try {
-  //     await reader.readAsDataURL(file);
-  //     reader.onloadend = async () => {
-  //       setImgFile(reader.result);
-  //       axios.post(
-  //         `${import.meta.env.VITE_SERVER_URL}/upload/profile`,
-  //         { multipartFile: reader.result },
-  //         { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
-  //       );
-  //     };
-  //   } catch {
-  //     alert('에러가 발생하였습니다. 다시 시도해주세요.');
-  //   } finally {
-  //     console.log('처리완료');
-  //   }
-  // };
 
   const passwordChangeHandler = (e) => {
     setPassword(e.target.value);
