@@ -20,7 +20,7 @@ spring:
       exclude-until-explicit: false
   jpa:          #JPA 설정
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
