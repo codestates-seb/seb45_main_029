@@ -19,7 +19,7 @@ const MainContainer = styled.div`
   height: 100%;
 `;
 const VideoContainerFlexWrap = styled.div`
-  width: 95rem;
+  width: 96rem;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
