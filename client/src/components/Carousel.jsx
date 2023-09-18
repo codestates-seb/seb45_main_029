@@ -224,11 +224,12 @@ export default function Carousel({
             <VideoContainer ref={slideRef}>
               {bookmark
                 ? userInfo.bookmark.map((elem, index) => {
+                    console.log(userInfo.bookmark);
                     return (
                       <div key={index}>
                         <VideoDetail
-                          thumb={elem.thumbnail}
-                          videoId={elem}
+                          thumb={elem.thumb}
+                          videoId={elem.videoId}
                           openModal={openModal}
                           bookmark={bookmark}
                           setVideoIds={setVideoIds}

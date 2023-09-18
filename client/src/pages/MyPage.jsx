@@ -50,7 +50,13 @@ export default function MyPage() {
         }
       );
       setVideoIds(data.data.data.map((el) => el.videoId));
-      dispatch(setBookmark({ data: data.data.data.map((el) => el.videoId) }));
+      dispatch(
+        setBookmark({
+          data: data.data.data.map((el) => {
+            return { videoId: el.videoId, thumb: el.thumbnail };
+          }),
+        })
+      );
     };
     if (userInfoRedux.accessToken) {
       asyncFunction();
