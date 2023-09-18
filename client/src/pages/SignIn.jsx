@@ -7,11 +7,15 @@ import {
   LoginContainer,
   LoginBox,
   Button,
-  MyCustomButton,
+  // MyCustomButton,
 } from '../style/SignIn';
-import { useGoogleLogin } from '@react-oauth/google';
-import GoogleIcon from '../assets/logos_google.svg';
-
+import {
+  // useGoogleLogin,
+  GoogleOAuthProvider,
+  GoogleLogin,
+} from '@react-oauth/google';
+// import GoogleIcon from '../assets/logos_google.svg';
+import axios from 'axios';
 function SignIn() {
   const [id, setId] = useState('');
   const [idIsValid, setIdIsValid] = useState(false);
@@ -65,10 +69,10 @@ function SignIn() {
         });
     }
   };
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    flow: 'auth-code',
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: (codeResponse) => console.log(codeResponse),
+  //   flow: 'auth-code',
+  // });
 
   useEffect(() => {
     setLoggedIn(user.loggedIn);
@@ -109,14 +113,26 @@ function SignIn() {
           </div>
         </section>
         <div className='buttons'>
-          {/* <Button onClick={signUp}>Sign Up</Button> */}
           <Button onClick={signIn}>로그인</Button>
-          <MyCustomButton onClick={() => login()}>
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+            <GoogleLogin
+              buttonText='google login'
+              onSuccess={async (CredentialResponse) => {
+                await axios.post('/', CredentialResponse);
+                console.log(CredentialResponse);
+                navigate('/');
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            ></GoogleLogin>
+          </GoogleOAuthProvider>
+          {/* <MyCustomButton onClick={() => login()}>
             <span>
               <img src={GoogleIcon} alt='GoogleIcon' />
             </span>
             <span>로그인</span>
-          </MyCustomButton>
+          </MyCustomButton> */}
         </div>
       </LoginBox>
     </LoginContainer>

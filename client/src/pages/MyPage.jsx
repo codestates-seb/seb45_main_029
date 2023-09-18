@@ -158,12 +158,24 @@ export default function MyPage() {
             <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
             <BoardCotainer>
               <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
-              {userInfo.questions?.map((el) => {
-                return el.title;
+              {userInfo.questions?.map((el, idx) => {
+                return (
+                  <>
+                    <span>{idx + 1}</span>
+                    <span>{el.title}</span>
+                    <span>{el.createdAt}</span>
+                  </>
+                );
               })}
               <div>내가 한 답변</div>
-              {userInfo.answers?.map((el) => {
-                return el.title;
+              {userInfo.answers?.map((el, idx) => {
+                return (
+                  <>
+                    <span>{idx + 1}</span>
+                    <span>{el.content}</span>
+                    <span>{el.createdAt}</span>
+                  </>
+                );
               })}
             </BoardCotainer>
           </div>

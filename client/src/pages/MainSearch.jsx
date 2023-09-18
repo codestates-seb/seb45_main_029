@@ -62,7 +62,7 @@ export default function MainSearch() {
   useEffect(() => {
     // 새로고침 시 정보 받아오기
     const info = JSON.parse(window.localStorage.getItem('info'));
-    dispatch(setUser(info));
+    if (info) dispatch(setUser(info));
   }, [dispatch]);
   useEffect(() => {
     const asyncFunction = async () => {
