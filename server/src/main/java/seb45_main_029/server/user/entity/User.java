@@ -9,6 +9,7 @@ import seb45_main_029.server.answer.entity.Answer;
 import seb45_main_029.server.audit.Auditable;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
+import seb45_main_029.server.image.entity.Image;
 import seb45_main_029.server.point.entity.Point;
 import seb45_main_029.server.question.entity.Question;
 import seb45_main_029.server.video.entity.Bookmark;
@@ -63,7 +64,7 @@ public class User extends Auditable {
     private PainArea painArea;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -72,10 +73,13 @@ public class User extends Auditable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Question> question;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Answer> answers;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Image image;
 
 }
