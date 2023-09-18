@@ -95,7 +95,7 @@ export default function VideoDetail({
         ref={imgRef}
         onClick={() => openModal(videoId)}
       ></ImageFrame>
-      {userInfo.accessToken &&
+      {userInfo.loggedIn &&
         (bookmarkClick ? (
           <ImageDesign
             onClick={imgOnclickHandler}

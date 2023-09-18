@@ -113,7 +113,12 @@ function SignIn() {
           </div>
         </section>
         <div className='buttons'>
-          <Button onClick={signIn}>로그인</Button>
+          <Button
+            onClick={signIn}
+            onKeyup={window.event.keyCode == 13 && signIn}
+          >
+            로그인
+          </Button>
           <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
             <GoogleLogin
               buttonText='google login'
