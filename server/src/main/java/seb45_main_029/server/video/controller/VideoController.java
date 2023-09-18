@@ -78,7 +78,7 @@ public class VideoController {
                                        @RequestParam int size,
                                        @RequestParam Job job) {
 
-        Page<Video> videoPage = videoService.getJobVideos(page - 1, size,job);
+        Page<Video> videoPage = videoService.getJobVideos(page - 1, size, job);
         List<Video> videos = videoPage.getContent();
 
         return new ResponseEntity<>(new MultiResponseDto<>(videoMapper.videosToVideoResponseDtos(videos), videoPage), HttpStatus.OK);
@@ -103,14 +103,37 @@ public class VideoController {
         return new ResponseEntity<>(new SingleResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDto(bookmark)), HttpStatus.OK);
     }
 
+    //    북마크 조회
     @GetMapping("/bookmark")
     public ResponseEntity getBookmark(@RequestParam int page,
                                       @RequestParam int size) {
         Page<Bookmark> bookmarkPage = videoService.getBookmark(page - 1, size);
         List<Bookmark> bookmarks = bookmarkPage.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDtos(bookmarks),bookmarkPage),HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDtos(bookmarks), bookmarkPage), HttpStatus.OK);
 
+    }
+
+    //  마이페이지 북마크 조회
+    @GetMapping("/jobBookmark")
+    public ResponseEntity getJobBookmark(@RequestParam int page,
+                                         @RequestParam int size,
+                                         @RequestParam Job job) {
+
+        Page<Bookmark> bookmarkPage = videoService.getJobBookmark(page - 1, size, job);
+        List<Bookmark> bookmarks = bookmarkPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDtos(bookmarks), bookmarkPage), HttpStatus.OK);
+    }
+    @GetMapping("/painAreaBookmark")
+    public ResponseEntity getJobBookmark(@RequestParam int page,
+                                         @RequestParam int size,
+                                         @RequestParam PainArea painArea) {
+
+        Page<Bookmark> bookmarkPage = videoService.getPainAreaBookmark(page - 1, size, painArea);
+        List<Bookmark> bookmarks = bookmarkPage.getContent();
+
+        return new ResponseEntity<>(new MultiResponseDto<>(bookmarkMapper.bookmarkToBookmarkResponseDtos(bookmarks), bookmarkPage), HttpStatus.OK);
     }
 
     //        북마크 제거

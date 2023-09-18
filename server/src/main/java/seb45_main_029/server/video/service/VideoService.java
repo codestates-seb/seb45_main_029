@@ -18,7 +18,6 @@ import seb45_main_029.server.video.repository.BookmarkRepository;
 import seb45_main_029.server.video.repository.VideoRepository;
 
 
-
 @RequiredArgsConstructor
 @Service
 public class VideoService {
@@ -124,6 +123,23 @@ public class VideoService {
         long loginUserId = userService.getLoginUser().getUserId();
 
         return bookmarkRepository.findByUserUserId(PageRequest.of(page, size), loginUserId);
+    }
+
+    public Page<Bookmark> getJobBookmark(int page, int size, Job job) {
+        long loginUserId = userService.getLoginUser().getUserId();
+        Job jobType = null;
+        if (job.getJobType().equals("사무직")) {
+            jobType = Job.사무직;
+            return bookmarkRepository.jobTypeBookmark(PageRequest.of(page, size), jobType, loginUserId);
+        } else if (job.getJobType().equals("현장직")) {
+            jobType = Job.현장직;
+            return bookmarkRepository.jobTypeBookmark(PageRequest.of(page, size), jobType, loginUserId);
+        } else return bookmarkRepository.bookmarkAll(PageRequest.of(page, size), loginUserId);
+    }
+
+    public Page<Bookmark> getPainAreaBookmark(int page, int size, PainArea painArea) {
+        long loginUserId = userService.getLoginUser().getUserId();
+        return bookmarkRepository.painAreaTypeBookmark(PageRequest.of(page, size), painArea, loginUserId);
     }
 
     // 북마크 삭제
