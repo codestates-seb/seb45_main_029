@@ -11,5 +11,6 @@ public class ImageDto {
 
     private String imageName;
     private String originalName;
-    private String imagePath;
+    private String imageUrl;
+
 }
