@@ -31,5 +31,5 @@ public class UserPatchDto {
     //    @NotBlank(message = "직업은 필수입니다.")
     private PainArea painArea;
 
-    private String image;// 이미지??
+    private String imageUrl;// 이미지??
 }
