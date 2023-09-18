@@ -61,15 +61,15 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/users/mypage/**").hasAnyRole("USER", "ADMIN")  // mypage 역할 가진 사용자
                         .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")  // user 삭제 page -> 해당 user 만
 
-                        .antMatchers(HttpMethod.POST, "/questions/ask").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
+                        .antMatchers(HttpMethod.POST, "/questions/**").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
                         .antMatchers(HttpMethod.PATCH, "/questions/**").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.GET, "/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/guestions/**").permitAll()   // 질문 조회 -> 전체 접근 가능
                         .antMatchers(HttpMethod.DELETE, "/questions/delete/**").hasAnyRole("USER", "ADMIN")
 
-                        .antMatchers(HttpMethod.POST, "/questions/**/answers").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.PATCH, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
+                        .antMatchers(HttpMethod.POST, "/answer/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/answer/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/answer/**").hasAnyRole("USER", "ADMIN")
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint()
@@ -79,6 +79,7 @@ public class SecurityConfiguration {
                 );
 
         return http.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -88,7 +89,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080","http://localhost:5173","http://127.0.0.1:5173", "http://seb45main029.s3-website.ap-northeast-2.amazonaws.com"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:5173", "http://127.0.0.1:5173", "http://seb45main029.s3-website.ap-northeast-2.amazonaws.com"));
         // 모든 헤더 허용
         configuration.setAllowedHeaders(Arrays.asList("*"));
         // 자격증명 (예: 쿠키, 인증 헤더 등)을 허용

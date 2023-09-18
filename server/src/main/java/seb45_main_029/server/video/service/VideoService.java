@@ -4,25 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb45_main_029.server.common.Job;
 import seb45_main_029.server.common.PainArea;
 import seb45_main_029.server.exception.BusinessLogicException;
 import seb45_main_029.server.exception.ExceptionCode;
-import seb45_main_029.server.security.auth.utils.AuthUserUtils;
 import seb45_main_029.server.user.entity.User;
-import seb45_main_029.server.user.repository.UserRepository;
 import seb45_main_029.server.user.service.UserService;
 import seb45_main_029.server.video.entity.Bookmark;
 import seb45_main_029.server.video.entity.Video;
 import seb45_main_029.server.video.repository.BookmarkRepository;
 import seb45_main_029.server.video.repository.VideoRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -30,7 +24,6 @@ import java.util.Optional;
 public class VideoService {
 
     private final VideoRepository videoRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final BookmarkRepository bookmarkRepository;
 
@@ -153,11 +146,4 @@ public class VideoService {
         return findBookmark;
 
     }
-
-//    public String getLoginUserPrincipal() {
-//        Authentication authentication = AuthUserUtils.getAuthUser();
-//        Object principal = authentication.getPrincipal();
-//        String email = (String) principal;
-//        return email;
-//    }
 }
