@@ -17,11 +17,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import seb45_main_029.server.security.auth.filter.JwtAuthenticationFilter;
 import seb45_main_029.server.security.auth.filter.JwtVerificationFilter;
-import seb45_main_029.server.security.auth.handler.UserAccessDeniedHandlerIpl;
-import seb45_main_029.server.security.auth.handler.UserAuthenticationEntryPointImp;
-import seb45_main_029.server.security.auth.handler.UserAuthenticationFailureHandler;
-import seb45_main_029.server.security.auth.handler.UserAuthenticationSuccessHandler;
+import seb45_main_029.server.security.auth.handler.*;
 import seb45_main_029.server.security.auth.jwt.JwtTokenizer;
+import seb45_main_029.server.security.auth.service.OAuth2UserService;
 import seb45_main_029.server.security.auth.utils.CustomAuthorityUtils;
 
 import java.util.Arrays;
@@ -32,6 +30,7 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final OAuth2UserService oAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -68,6 +67,12 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/questions/**/answers").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.PATCH, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint()
+                        .userService(oAuth2UserService)
+                        .and()
+                        .successHandler(new OAuth2AuthenticationSuccessHandler(jwtTokenizer, authorityUtils))
                 );
 
         return http.build();
