@@ -60,7 +60,7 @@ export const LoginBox = styled.section`
 
 export const Button = styled.button`
   width: 100%;
-  height: 3.125rem;
+  height: 2.5rem;
   border-radius: 5px;
   margin-bottom: .625rem;
   background: var(--navy);
