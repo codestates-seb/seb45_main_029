@@ -40,12 +40,16 @@ public class OrderService {
         if (point.getPoint() < 0)
             throw new BusinessLogicException(ExceptionCode.NOT_ENOUGH_POINTS);
         else {
-            findProduct.setQuantity(findProduct.getQuantity() - 1);
 
-            productRepository.save(findProduct);
-            pointRepository.save(point);
+            if (findProduct.getQuantity() > 0) {
 
+                findProduct.setQuantity(findProduct.getQuantity() - 1);
+
+                productRepository.save(findProduct);
+                pointRepository.save(point);
+//            }else throw new BusinessLogicException(ExceptionCode.)
+            }
+            return orderRepository.save(order);
         }
-        return orderRepository.save(order);
     }
 }

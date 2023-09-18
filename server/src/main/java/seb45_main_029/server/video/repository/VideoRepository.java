@@ -17,5 +17,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
     Page<Video> findByTitleContaining(PageRequest pageRequest, String keyword);
 
+    Video findByTitle(String title);
+
 
 }

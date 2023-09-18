@@ -10,19 +10,24 @@ import seb45_main_029.server.image.service.ImageService;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-@RequestMapping("/upload")
+@RequestMapping("/image")
 @RestController
 public class ImageController {
 
     private final ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<String> upload(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception{
+    public ResponseEntity<String> upload(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
         try {
             String imageUrl = imageService.upload(multipartFile);
             return ResponseEntity.ok(imageUrl);
-        }catch (IOException e){
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed");
         }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload2(@RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        return null;
     }
 }

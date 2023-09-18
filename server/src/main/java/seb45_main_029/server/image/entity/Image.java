@@ -27,9 +27,6 @@ public class Image extends Auditable {
     @Column
     private String imagePath;
 
-    @Column
-    private long fileSize;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
