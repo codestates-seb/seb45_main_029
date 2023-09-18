@@ -56,25 +56,30 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())    // CustomFilterConfigurer 인스턴스 생성
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.POST, "/users/signup").permitAll()         // 회원가입 전체 접근 가능
-                                .antMatchers(HttpMethod.PATCH, "/users/mypage/edit/**").hasRole("USER")  // 마이페이지 수정 -> 해당 user만
-                                .antMatchers(HttpMethod.GET, "/users").permitAll()     // userinfo (전체 회원 조회) -> 전체 접근 가능
-                                .antMatchers(HttpMethod.GET, "/users/mypage/**").hasAnyRole("USER", "ADMIN")  // mypage 역할 가진 사용자
-                                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")  // user 삭제 page -> 해당 user 만
+                        .antMatchers(HttpMethod.POST, "/users/signup").permitAll()         // 회원가입 전체 접근 가능
+                        .antMatchers(HttpMethod.PATCH, "/users/mypage/edit/**").hasRole("USER")  // 마이페이지 수정 -> 해당 user만
+                        .antMatchers(HttpMethod.GET, "/users").permitAll()     // userinfo (전체 회원 조회) -> 전체 접근 가능
+                        .antMatchers(HttpMethod.GET, "/users/mypage/**").hasAnyRole("USER", "ADMIN")  // mypage 역할 가진 사용자
+                        .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")  // user 삭제 page -> 해당 user 만
 
-                                .antMatchers(HttpMethod.POST, "/question/").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
-                                .antMatchers(HttpMethod.PATCH, "/question/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.DELETE, "/question/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.GET, "/question").permitAll()
-                                .antMatchers(HttpMethod.GET, "/guestions/**").permitAll()   // 질문 조회 -> 전체 접근 가능
+                        .antMatchers(HttpMethod.POST, "/questions/ask").hasAnyRole("USER", "ADMIN") // user/ask 역할 가진 사용자
+                        .antMatchers(HttpMethod.PATCH, "/questions/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.GET, "/questions").permitAll()
+                        .antMatchers(HttpMethod.GET, "/guestions/**").permitAll()   // 질문 조회 -> 전체 접근 가능
+                        .antMatchers(HttpMethod.DELETE, "/questions/delete/**").hasAnyRole("USER", "ADMIN")
 
-                                .antMatchers(HttpMethod.POST, "/question/**/answers").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.PATCH, "/question/**/answers/**").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.DELETE, "/question/**/answers/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.POST, "/questions/**/answers").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/questions/**/answers/**").hasAnyRole("USER","ADMIN")
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint()
+                        .userService(oAuth2UserService)
+                        .and()
+                        .successHandler(new OAuth2AuthenticationSuccessHandler(jwtTokenizer, authorityUtils))
                 );
 
         return http.build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
