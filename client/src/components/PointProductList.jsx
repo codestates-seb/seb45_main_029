@@ -69,6 +69,9 @@ const ProductList = styled.ul`
 `
 
 export default function PointProductList ({currentPosts, products }){
+  function AlertClick() {
+    alert('준비중입니다.')    
+}
   return(
     <ProductList>
       {currentPosts && products.length > 0 ? (
@@ -82,7 +85,7 @@ export default function PointProductList ({currentPosts, products }){
               <p className="title">{list.title}</p>
               <p className="point">{list.price}<span><img src={Point} alt="Point" /></span></p>
             </div>
-            <button className="detail_view">자세히 보기</button>
+            <button className="detail_view" onClick={AlertClick}>자세히 보기</button>
           </li>
           )
       })
