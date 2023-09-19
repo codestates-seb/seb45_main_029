@@ -64,7 +64,7 @@ function PointPage () {
                 </ul>
               </div>
               <div className="point_box">
-                <p>현재 잔여 포인트 : <span>준비중</span></p>
+                <p>포인트 : <span>준비중</span></p>
               </div>
             </div>
           </ContainerSection>

@@ -95,7 +95,7 @@ export default function MyPage() {
   return (
     <>
       {!login ? (
-        <div>로그인해주세요</div>
+        <h2>로그인해주세요</h2>
       ) : (
         <NavAndContent>
           <NavContainer>
