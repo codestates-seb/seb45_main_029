@@ -3,8 +3,6 @@ import MyPageNav from '../components/MyPageNav';
 import WarningMessage from '../components/WarningMessage';
 import BodyAndJobList from '../components/BodyAndJobList';
 import {
-  SignBox,
-  Container,
   PainSpan,
   JobChoice,
   PainListContainer,
