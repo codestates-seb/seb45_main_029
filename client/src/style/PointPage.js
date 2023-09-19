@@ -1,9 +1,21 @@
 import styled from "styled-components"
 
+export const PointSection = styled.main`
+    min-height: calc(100vh - 23.5625rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    > section{
+      height: 100%;
+    }
+`
+
 export const Container = styled.section`
     display: flex;
     gap: 3.125rem;
     align-items: flex-start;
+
 `
 
 export const ContainerSection = styled.section`

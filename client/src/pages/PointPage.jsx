@@ -2,7 +2,7 @@ import { useState , useEffect } from "react";
 import MotivationNav from "../components/MotivationNav";
 import PointProductList from "../components/PointProductList";
 import PointPagination from "../components/PointPagination"
-import { Container, ContainerSection, ProductList } from "../style/PointPage";
+import {PointSection, Container, ContainerSection, ProductList } from "../style/PointPage";
 import axios from "axios";
 
 // const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -42,7 +42,7 @@ function PointPage () {
   };
 
   return (
-    <main className="point_section">
+    <PointSection>
       <section className="content_pd container_wt">
         <Container>
           <MotivationNav/>
@@ -64,7 +64,7 @@ function PointPage () {
                 </ul>
               </div>
               <div className="point_box">
-                <p>현재 잔여 포인트 : <span>2000</span></p>
+                <p>현재 잔여 포인트 : <span>준비중</span></p>
               </div>
             </div>
           </ContainerSection>
@@ -74,7 +74,7 @@ function PointPage () {
         </ProductList>
         <PointPagination page={currentPage} count={count} setPage={setPage}   />
       </section>
-    </main>
+    </PointSection>
   )
 }
 
