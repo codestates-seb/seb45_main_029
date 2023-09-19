@@ -5,6 +5,8 @@ import PointPagination from "../components/PointPagination"
 import { Container, ContainerSection, ProductList } from "../style/PointPage";
 import axios from "axios";
 
+// const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 const infotext = [
   {id : 1, text : "포인트로 구매하신 상품은 환불하실 수 없습니다.", num: 1},
   {id : 2, text : "부가가치세는 별도로 내셔야 합니다.", num: 2},
@@ -21,6 +23,7 @@ function PointPage () {
   const [currentPosts, setCurrentPosts] = useState(0); // 현재 페이지에서 보여지는 아이템들
 
   useEffect(() => {
+    // axios.get(`${SERVER_URL/product?page=1&size=10}`)
     axios.get('https://fakestoreapi.com/products')
     .then(response => {
       setProducts(response.data);
