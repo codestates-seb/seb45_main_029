@@ -2,8 +2,10 @@ import { useState , useEffect } from "react";
 import MotivationNav from "../components/MotivationNav";
 import PointProductList from "../components/PointProductList";
 import PointPagination from "../components/PointPagination"
-import { Container, ContainerSection, ProductList } from "../style/PointPage";
+import {PointSection, Container, ContainerSection, ProductList } from "../style/PointPage";
 import axios from "axios";
+
+// const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const infotext = [
   {id : 1, text : "포인트로 구매하신 상품은 환불하실 수 없습니다.", num: 1},
@@ -21,6 +23,7 @@ function PointPage () {
   const [currentPosts, setCurrentPosts] = useState(0); // 현재 페이지에서 보여지는 아이템들
 
   useEffect(() => {
+    // axios.get(`${SERVER_URL/product?page=1&size=10}`)
     axios.get('https://fakestoreapi.com/products')
     .then(response => {
       setProducts(response.data);
@@ -39,7 +42,7 @@ function PointPage () {
   };
 
   return (
-    <main className="point_section">
+    <PointSection>
       <section className="content_pd container_wt">
         <Container>
           <MotivationNav/>
@@ -61,7 +64,7 @@ function PointPage () {
                 </ul>
               </div>
               <div className="point_box">
-                <p>현재 잔여 포인트 : <span>2000</span></p>
+                <p>포인트 : <span>준비중</span></p>
               </div>
             </div>
           </ContainerSection>
@@ -71,7 +74,7 @@ function PointPage () {
         </ProductList>
         <PointPagination page={currentPage} count={count} setPage={setPage}   />
       </section>
-    </main>
+    </PointSection>
   )
 }
 

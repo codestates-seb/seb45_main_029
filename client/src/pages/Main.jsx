@@ -23,7 +23,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 function Main() {
   const [videoType, setVideoType] = useState('전체');
   const [videoDetailType, setVideoDetailType] = useState('가슴');
-  const [videoDetailType2, setVideoDetailType2] = useState('경영·사무');
+  const [videoDetailType2, setVideoDetailType2] = useState('경영_사무');
   const [changedDetail2, setChangedDetail2] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
@@ -53,14 +53,14 @@ function Main() {
   const onClickHandlerDetail2 = (e) => {
     const data = e.target.innerText;
     if (
-      data === '경영·사무' ||
-      data === '연구·기술' ||
-      data === '예술·디자인·방송' ||
-      data === '미용·여행·음식' ||
-      data === '영업·판매·운송'
+      data === '경영_사무' ||
+      data === '연구_기술' ||
+      data === '예술_디자인·방송' ||
+      data === '미용_여행·음식' ||
+      data === '영업_판매·운송'
     )
       setChangedDetail2('사무직');
-    else if (data === '보건·의료직') {
+    else if (data === '보건_의료직') {
       setChangedDetail2('사무직 및 현장직');
     } else {
       setChangedDetail2('현장직');

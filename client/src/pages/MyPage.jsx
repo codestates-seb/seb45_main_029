@@ -50,7 +50,13 @@ export default function MyPage() {
         }
       );
       setVideoIds(data.data.data.map((el) => el.videoId));
-      dispatch(setBookmark({ data: data.data.data.map((el) => el.videoId) }));
+      dispatch(
+        setBookmark({
+          data: data.data.data.map((el) => {
+            return { videoId: el.videoId, thumb: el.thumbnail };
+          }),
+        })
+      );
     };
     if (userInfoRedux.accessToken) {
       asyncFunction();
@@ -95,7 +101,7 @@ export default function MyPage() {
   return (
     <>
       {!login ? (
-        <div>로그인해주세요</div>
+        <h2>로그인해주세요</h2>
       ) : (
         <NavAndContent>
           <NavContainer>

@@ -3,6 +3,13 @@ import MyPageNav from '../components/MyPageNav';
 import WarningMessage from '../components/WarningMessage';
 import BodyAndJobList from '../components/BodyAndJobList';
 import {
+  PainSpan,
+  JobChoice,
+  PainListContainer,
+  PainChoice,
+  ArticleList,
+} from '../style/SignUp';
+import {
   NavAndContent,
   NavContainer,
   OuterContainer,
@@ -14,17 +21,12 @@ import {
   ImgContainer,
   UserImg,
   Line,
-  PainChoice,
   EditButtonContainer,
   EditButton,
   InputButton,
   LabelForInput,
-  PainListContainer,
-  PainSpan,
   WarningP,
   InputDesign,
-  JobChoice,
-  ArticleList,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
@@ -119,7 +121,6 @@ export default function MyPageInfo() {
       image: imgFile,
     };
 
-    console.log(data);
     try {
       await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${
