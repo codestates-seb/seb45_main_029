@@ -3,6 +3,15 @@ import MyPageNav from '../components/MyPageNav';
 import WarningMessage from '../components/WarningMessage';
 import BodyAndJobList from '../components/BodyAndJobList';
 import {
+  SignBox,
+  Container,
+  PainSpan,
+  JobChoice,
+  PainListContainer,
+  PainChoice,
+  ArticleList,
+} from '../style/SignUp';
+import {
   NavAndContent,
   NavContainer,
   OuterContainer,
@@ -14,17 +23,12 @@ import {
   ImgContainer,
   UserImg,
   Line,
-  PainChoice,
   EditButtonContainer,
   EditButton,
   InputButton,
   LabelForInput,
-  PainListContainer,
-  PainSpan,
   WarningP,
   InputDesign,
-  JobChoice,
-  ArticleList,
 } from '../style/MyPageInfo';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import axios from 'axios';
