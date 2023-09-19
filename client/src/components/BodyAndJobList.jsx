@@ -1,4 +1,4 @@
-export default function BodyAndJobList({ list, name, checkHandler, type }) {
+export default function BodyAndJobList({ list, name, checkHandler }) {
   return (
     <ul>
       {list.map((elem, index) => {
@@ -8,7 +8,7 @@ export default function BodyAndJobList({ list, name, checkHandler, type }) {
               <>
                 <input
                   name={name}
-                  type={type}
+                  type='radio'
                   id={elem}
                   onChange={(e) => checkHandler(e, elem, name)}
                 />
@@ -19,7 +19,7 @@ export default function BodyAndJobList({ list, name, checkHandler, type }) {
                 <label htmlFor={elem}>{elem}</label>
                 <input
                   name={name}
-                  type={type}
+                  type='radio'
                   id={elem}
                   onChange={(e) => checkHandler(e, elem, name)}
                 />

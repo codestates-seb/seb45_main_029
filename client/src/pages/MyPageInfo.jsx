@@ -119,7 +119,6 @@ export default function MyPageInfo() {
       image: imgFile,
     };
 
-    console.log(data);
     try {
       await axios.patch(
         `${import.meta.env.VITE_SERVER_URL}/users/mypage/edit/${

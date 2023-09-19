@@ -16,42 +16,13 @@ import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { setUser } from '../redux/userSlice';
+import { typeChecker } from '../assets/variousFunctions';
 
 const DivFlexMovie1 = styled.div`
   display: flex;
 `;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
-const typeChecker = (
-  bookmark,
-  message,
-  videoType,
-  videoDetailType,
-  changedDetail2
-) => {
-  let type = '';
-  if (bookmark) {
-    type = 'bookmark/?page=1&size=30';
-    return type;
-  }
-  if (message === 'TOP5 재활운동') {
-    type = 'popular?page=1&size=10';
-  } else if (message === '직업별') {
-    type = 'job?page=1&size=10';
-  } else if (message === 'My 맞춤운동') {
-    type = 'recommended?page=1&size=10';
-  }
-  if (videoType === '전체') {
-    type = `keyword?page=1&size=30&keyword=`;
-  } else if (videoType === '부위별') {
-    type = `keyword?page=1&size=30&keyword=${videoDetailType}`;
-  } else if (videoType === '직업별') {
-    type = `keyword?page=1&size=30&keyword=${changedDetail2}`;
-  }
-
-  return type;
-};
 
 export default function Carousel({
   message,
@@ -106,12 +77,13 @@ export default function Carousel({
 
   useEffect(() => {
     const asyncFunction = async () => {
-      const type = typeChecker(
+      const type = await typeChecker(
         bookmark,
         message,
         videoType,
         videoDetailType,
-        changedDetail2
+        changedDetail2,
+        userInfo
       );
       try {
         const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
@@ -119,6 +91,7 @@ export default function Carousel({
             Authorization: `Bearer ${userInfo.accessToken}` || '',
           },
         });
+
         setVideos(data.data);
       } catch (error) {
         console.log(error);
@@ -147,6 +120,18 @@ export default function Carousel({
       })
     );
   }, [videos]);
+
+  useEffect(() => {
+    const filterArr = userInfo.bookmark.map((el) => el.videoId);
+    if (bookmark && message !== '나의 운동') {
+      // 주의! 객체의 배열이므로, 뽑아써야함
+      setVideos((prev) =>
+        prev.filter((el) => {
+          return filterArr.includes(el.videoId);
+        })
+      );
+    }
+  }, [userInfo.bookmark, bookmark]);
 
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
@@ -222,13 +207,13 @@ export default function Carousel({
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {bookmark
-                ? userInfo.bookmark.map((elem, index) => {
+              {bookmark && message === '나의 운동'
+                ? userInfo.bookmark.map((elem) => {
                     return (
-                      <div key={index}>
+                      <div key={elem.videoId}>
                         <VideoDetail
-                          thumb={elem.thumbnail}
-                          videoId={elem}
+                          thumb={elem.thumb}
+                          videoId={elem.videoId}
                           openModal={openModal}
                           bookmark={bookmark}
                           setVideoIds={setVideoIds}
@@ -236,10 +221,10 @@ export default function Carousel({
                         />
                       </div>
                     );
-                  })
-                : videos.map((elem, index) => {
+                  }) // 인덱스로 하지말자! @todo : index key로 해놓은 코드들 다 고치기!!!
+                : videos.map((elem) => {
                     return (
-                      <div key={index}>
+                      <div key={elem.videoId}>
                         <VideoDetail
                           thumb={elem.thumbnail}
                           videoId={elem.videoId}
