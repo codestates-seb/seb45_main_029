@@ -29,7 +29,7 @@ function SignUp() {
   const [motto, setMotto] = useState('');
   const [mottoIsValid, setMottoIsValid] = useState(false);
 
-  const [checkedList, setCheckedList] = useState([]);
+  const [checkedList, setCheckedList] = useState('');
   const [checkedListJob, setCheckedListJob] = useState('');
 
   const navigate = useNavigate();
@@ -106,8 +106,8 @@ function SignUp() {
         confirmPassword: password2,
         motto,
         nickname: nickName,
-        painArea: '가슴',
-        job: '사무직',
+        painArea: checkedList,
+        job: checkedListJob,
       });
       console.log(res);
       navigate('/signin');
@@ -117,7 +117,7 @@ function SignUp() {
   const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
       if (type === 'body') {
-        setCheckedList((prev) => [...prev, value].sort());
+        setCheckedList(value);
       } else {
         setCheckedListJob(value);
       }
@@ -126,7 +126,7 @@ function SignUp() {
 
     if (!isChecked && checkedList.includes(value)) {
       if (type === 'body') {
-        setCheckedList(checkedList.filter((item) => item !== value));
+        setCheckedList(value);
       } else {
         setCheckedListJob(checkBoxListJob);
       }
@@ -241,19 +241,12 @@ function SignUp() {
             </JobChoice>
             <PainListContainer>
               <PainSpan>통증 부위 : &nbsp; </PainSpan>
-              {checkedList.length > 0 ? (
-                checkedList.map((elem, index) => {
-                  return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                })
-              ) : (
-                <></>
-              )}
+              {checkedList ? checkedList : <></>}
             </PainListContainer>
             <PainChoice>
               <BodyAndJobList
                 list={checkBoxListBody}
                 name='body'
-                type='checkbox'
                 checkHandler={checkHandler}
               />
             </PainChoice>
