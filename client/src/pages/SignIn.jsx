@@ -7,10 +7,14 @@ import {
   LoginContainer,
   LoginBox,
   Button,
-  MyCustomButton,
+  // MyCustomButton,
 } from '../style/SignIn';
-import { useGoogleLogin } from '@react-oauth/google';
-import GoogleIcon from '../assets/logos_google.svg';
+import {
+  // useGoogleLogin,
+  GoogleOAuthProvider,
+  GoogleLogin,
+} from '@react-oauth/google';
+// import GoogleIcon from '../assets/logos_google.svg';
 
 function SignIn() {
   const [id, setId] = useState('');
@@ -41,6 +45,12 @@ function SignIn() {
     }
   };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      signIn(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
   const signIn = async () => {
     if (idIsValid && passwordIsValid) {
       api('/users/login', 'post', { password, email: id })
@@ -54,6 +64,7 @@ function SignIn() {
               })
             );
             dispatch(setUser(response.data));
+            navigate('/');
           }
         })
         .catch((error) => {
@@ -62,13 +73,12 @@ function SignIn() {
           console.error('Request error:', error);
           return error;
         });
-      navigate('/');
     }
   };
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    flow: 'auth-code',
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: (codeResponse) => console.log(codeResponse),
+  //   flow: 'auth-code',
+  // });
 
   useEffect(() => {
     setLoggedIn(user.loggedIn);
@@ -90,6 +100,7 @@ function SignIn() {
               type='text'
               onChange={onChangeHandlerId}
               value={id}
+              onKeyUp={handleOnKeyPress}
               placeholder='example@email.com'
             ></input>
             {!idIsValid && (
@@ -101,6 +112,7 @@ function SignIn() {
               type='password'
               onChange={onChangeHandlerPassword}
               value={password}
+              onKeyUp={handleOnKeyPress}
               placeholder='password'
             ></input>
             {!passwordIsValid && (
@@ -109,14 +121,27 @@ function SignIn() {
           </div>
         </section>
         <div className='buttons'>
-          {/* <Button onClick={signUp}>Sign Up</Button> */}
           <Button onClick={signIn}>로그인</Button>
-          <MyCustomButton onClick={() => login()}>
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+            <GoogleLogin
+              buttonText='google login'
+              onSuccess={async (CredentialResponse) => {
+                console.log(CredentialResponse);
+                //await axios.post('/', CredentialResponse);
+                // 이후의 로직
+                navigate('/');
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            ></GoogleLogin>
+          </GoogleOAuthProvider>
+          {/* <MyCustomButton onClick={() => login()}>
             <span>
               <img src={GoogleIcon} alt='GoogleIcon' />
             </span>
             <span>로그인</span>
-          </MyCustomButton>
+          </MyCustomButton> */}
         </div>
       </LoginBox>
     </LoginContainer>

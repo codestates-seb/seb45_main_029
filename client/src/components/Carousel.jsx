@@ -13,8 +13,9 @@ import {
 } from '../style/MyPage';
 import axios from 'axios';
 import Modal from './Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { setUser } from '../redux/userSlice';
 
 const DivFlexMovie1 = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ const typeChecker = (
   let type = '';
   if (bookmark) {
     type = 'bookmark/?page=1&size=30';
+    return type;
   }
   if (message === 'TOP5 재활운동') {
     type = 'popular?page=1&size=10';
@@ -62,6 +64,8 @@ export default function Carousel({
   videoDetailType2,
   bookmark,
   changedDetail2,
+  videoIds,
+  setVideoIds,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
@@ -70,7 +74,9 @@ export default function Carousel({
   const [isModalOpen, setModalOpen] = useState(false);
   const [listIndex, setListIndex] = useState(0);
   const [total, setTotal] = useState(0);
+
   const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const openModal = (index) => {
     setModalOpen(true);
@@ -94,6 +100,11 @@ export default function Carousel({
   };
 
   useEffect(() => {
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    if (info) dispatch(setUser(info));
+  }, []);
+
+  useEffect(() => {
     const asyncFunction = async () => {
       const type = typeChecker(
         bookmark,
@@ -105,9 +116,6 @@ export default function Carousel({
       try {
         const { data } = await axios.get(`${SERVER_URL}/video/${type}`, {
           headers: {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
             Authorization: `Bearer ${userInfo.accessToken}` || '',
           },
         });
@@ -116,7 +124,6 @@ export default function Carousel({
         console.log(error);
       }
     };
-
     asyncFunction();
   }, [
     videoType,
@@ -124,8 +131,8 @@ export default function Carousel({
     videoDetailType2,
     message,
     bookmark,
-    userInfo,
     changedDetail2,
+    userInfo.accessToken,
   ]);
 
   useEffect(() => {
@@ -184,6 +191,9 @@ export default function Carousel({
                         thumb={elem.thumbnail}
                         videoId={elem.videoId}
                         openModal={openModal}
+                        bookmark={bookmark}
+                        videoIds={videoIds}
+                        setideoIds={setVideoIds}
                       />
                     </div>
                   );
@@ -198,6 +208,9 @@ export default function Carousel({
                           thumb={elem.thumbnail}
                           videoId={elem.videoId}
                           openModal={openModal}
+                          bookmark={bookmark}
+                          videoIds={videoIds}
+                          setVideoIds={setVideoIds}
                         />
                       </div>
                     );
@@ -209,17 +222,35 @@ export default function Carousel({
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {videos.map((elem, index) => {
-                return (
-                  <div key={index}>
-                    <VideoDetail
-                      thumb={elem.thumbnail}
-                      videoId={elem.videoId}
-                      openModal={openModal}
-                    />
-                  </div>
-                );
-              })}
+              {bookmark
+                ? userInfo.bookmark.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem}
+                          openModal={openModal}
+                          bookmark={bookmark}
+                          setVideoIds={setVideoIds}
+                          videoIds={videoIds}
+                        />
+                      </div>
+                    );
+                  })
+                : videos.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem.videoId}
+                          openModal={openModal}
+                          bookmark={bookmark}
+                          videoIds={videoIds}
+                          setVideoIds={setVideoIds}
+                        />
+                      </div>
+                    );
+                  })}
             </VideoContainer>
           </VideoAndButtonContainer>
         )}

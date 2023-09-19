@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteBookmark, setBookmark } from '../redux/userSlice';
+import { deleteBookmark, plusBookmark, setUser } from '../redux/userSlice';
 
 const ImageDesign = styled.img`
   width: 1rem;
@@ -23,7 +23,13 @@ const IframeContainer = styled.div`
   align-items: end;
 `;
 
-export default function VideoDetail({ thumb, videoId, openModal }) {
+export default function VideoDetail({
+  thumb,
+  videoId,
+  openModal,
+  videoIds,
+  setVideoIds,
+}) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
 
@@ -31,20 +37,30 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
   const dispatch = useDispatch();
 
   const imgRef = useRef(null);
-  // @todo : 원하는 이미지가 없을 경우, 이전 해상도를 제공한다. hqdefault를 시도해볼 수도 있음 ( 고품질이기는 한데, 과연 유저경험이 어떨지는 지켜봐야 )
+
   useEffect(() => {
-    imgRef.current.src = thumb?.replace('default.jpg', '0.jpg');
-    if (userInfo.bookmark.includes(videoId)) {
+    if (videoIds.findIndex((el) => el === videoId) !== -1) {
       setBookmarkClick(true);
+    } else {
+      setBookmarkClick(false);
     }
-  }, []);
+    if (thumb) imgRef.current.src = thumb.replace('default.jpg', '0.jpg');
+  }, [videoIds, videoId, thumb]);
+
+  useEffect(() => {
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    if (info) dispatch(setUser(info));
+  }, [dispatch]);
 
   const imgOnclickHandler = async () => {
     const newBookmarkState = !bookmarkClick;
     setBookmarkClick(newBookmarkState);
 
+    if (!userInfo.accessToken) {
+      return;
+    }
     if (newBookmarkState) {
-      const data = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
         {},
         {
@@ -54,9 +70,10 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
           },
         }
       );
-      dispatch(setBookmark(videoId));
+      setVideoIds([...videoIds, videoId]);
+      dispatch(plusBookmark({ videoId }));
     } else {
-      const data = await axios.delete(
+      await axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
         {
           headers: {
@@ -65,7 +82,8 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
           },
         }
       );
-      dispatch(deleteBookmark(videoId));
+      setVideoIds(videoIds.filter((el) => el !== videoId));
+      dispatch(deleteBookmark({ videoId }));
     }
   };
 
@@ -77,19 +95,21 @@ export default function VideoDetail({ thumb, videoId, openModal }) {
         ref={imgRef}
         onClick={() => openModal(videoId)}
       ></ImageFrame>
-      {bookmarkClick ? (
-        <ImageDesign
-          onClick={imgOnclickHandler}
-          src='/images/starFill.png'
-          alt='star'
-        />
-      ) : (
-        <ImageDesign
-          onClick={imgOnclickHandler}
-          src='/images/star.png'
-          alt='star'
-        />
-      )}
+      {userInfo.loggedIn &&
+        (bookmarkClick ? (
+          <ImageDesign
+            onClick={imgOnclickHandler}
+            src='/images/starFill.png'
+            alt='star'
+          />
+        ) : (
+          <ImageDesign
+            onClick={imgOnclickHandler}
+            src='/images/star.png'
+            alt='star'
+          />
+        ))}
+      {}
     </IframeContainer>
   );
 }

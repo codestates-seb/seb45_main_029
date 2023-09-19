@@ -18,7 +18,8 @@ import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBookmark, setUser } from '../redux/userSlice';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -29,38 +30,67 @@ export default function MyPage() {
   const [currentSlideBody, setCurrentSlideBody] = useState(0);
   const [userInfo, setUserInfo] = useState({});
   const [login, setLogin] = useState(false);
+  const [videoIds, setVideoIds] = useState([]);
+  const [img, setImg] = useState('');
 
   const slideRef = useRef(null);
   const slideRefBody = useRef(null);
   const slideRefJob = useRef(null);
   const userInfoRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const info = JSON.parse(window.localStorage.getItem('info'));
+    const asyncFunction = async () => {
+      const data = await axios.get(
+        `${SERVER_URL}/video/bookmark/?page=1&size=30`,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoRedux.accessToken}` || '',
+          },
+        }
+      );
+      setVideoIds(data.data.data.map((el) => el.videoId));
+      dispatch(setBookmark({ data: data.data.data.map((el) => el.videoId) }));
+    };
+    if (userInfoRedux.accessToken) {
+      asyncFunction();
+    }
+  }, [userInfoRedux.accessToken]);
 
-    if (info || userInfoRedux.loggedIn) {
+  useEffect(() => {
+    // 새로고침 시 정보 받아오기
+    const info = JSON.parse(window.localStorage.getItem('info'));
+    dispatch(setUser(info));
+  }, [dispatch]);
+
+  useEffect(() => {
+    // 유저 정보 가져오기
+    if (userInfoRedux.loggedIn) {
       setLogin(true);
     }
 
     const getData = async () => {
       try {
         const data = await axios.get(
-          `${SERVER_URL}/users/mypage/${userInfoRedux.userId || info.userId}`,
+          `${SERVER_URL}/users/mypage/${userInfoRedux.userId}`,
           {
             headers: {
-              Authorization: `Bearer ${info.accessToken}`,
+              Authorization: `Bearer ${userInfoRedux.accessToken}`,
             },
           }
         );
+        const imgData = await axios.get(
+          `${SERVER_URL}/upload/${userInfoRedux.userId}`,
+          { headers: { Authorization: `Bearer ${userInfoRedux.accessToken}` } }
+        );
+        setImg(imgData && imgData.data.data?.imageUrl);
         setUserInfo(data.data);
       } catch (error) {
         console.log(error);
       }
     };
-    getData();
-  }, []);
-
-  console.log(userInfo);
+    if (userInfoRedux.accessToken) getData();
+  }, [userInfoRedux]);
 
   return (
     <>
@@ -80,7 +110,7 @@ export default function MyPage() {
                     <TitleFontSpanPink>정보</TitleFontSpanPink>
                   </div>
                   <UserImg
-                    src={userInfo.image ? userInfo.image : '/images/person.jpg'}
+                    src={img ? img : '/images/person.jpg'}
                     alt='myImage'
                   />
                 </header>
@@ -96,37 +126,62 @@ export default function MyPage() {
                 <Line></Line>
               </UserHealthContainer>
             </UserInfoOuterContainer>
-            <Carousel
-              message='나의 운동'
-              slideRef={slideRef}
-              setCurrentSlide={setCurrentSlide}
-              currentSlide={currentSlide}
-              bookmark={true}
-            />
-            <Carousel
-              message='부위별'
-              slideRef={slideRefBody}
-              setCurrentSlide={setCurrentSlideBody}
-              currentSlide={currentSlideBody}
-              bookmark={true}
-            />
-            <Carousel
-              message='직업별'
-              slideRef={slideRefJob}
-              setCurrentSlide={setCurrentSlideJob}
-              currentSlide={currentSlideJob}
-              bookmark={true}
-            />
+            {userInfoRedux.bookmark.length ? (
+              <>
+                <Carousel
+                  message='나의 운동'
+                  slideRef={slideRef}
+                  setCurrentSlide={setCurrentSlide}
+                  currentSlide={currentSlide}
+                  bookmark={true}
+                  videoIds={videoIds}
+                  setVideoIds={setVideoIds}
+                />
+                <Carousel
+                  message='부위별'
+                  slideRef={slideRefBody}
+                  setCurrentSlide={setCurrentSlideBody}
+                  currentSlide={currentSlideBody}
+                  bookmark={true}
+                  videoIds={videoIds}
+                  setVideoIds={setVideoIds}
+                />
+                <Carousel
+                  message='직업별'
+                  slideRef={slideRefJob}
+                  setCurrentSlide={setCurrentSlideJob}
+                  currentSlide={currentSlideJob}
+                  bookmark={true}
+                  videoIds={videoIds}
+                  setVideoIds={setVideoIds}
+                />
+              </>
+            ) : (
+              <>북마크를 추가해주세요</>
+            )}
+
             <hr></hr>
             <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
             <BoardCotainer>
               <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
-              {userInfo.questions?.map((el) => {
-                return el.title;
+              {userInfo.questions?.map((el, idx) => {
+                return (
+                  <>
+                    <span>{idx + 1}</span>
+                    <span>{el.title}</span>
+                    <span>{el.createdAt}</span>
+                  </>
+                );
               })}
               <div>내가 한 답변</div>
-              {userInfo.answers?.map((el) => {
-                return el.title;
+              {userInfo.answers?.map((el, idx) => {
+                return (
+                  <>
+                    <span>{idx + 1}</span>
+                    <span>{el.content}</span>
+                    <span>{el.createdAt}</span>
+                  </>
+                );
               })}
             </BoardCotainer>
           </div>
