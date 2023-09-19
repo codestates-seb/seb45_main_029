@@ -20,7 +20,7 @@ import QNAbtn from '../components/QNAbtn';
 // import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
-import { api } from '../api/api';
+import { getPosts } from '../api/api';
 
 const BoardPage = () => {
   const [statusDatas, setStatusDatas] = useState('전체'); //첫번째줄은  useEffect
@@ -46,17 +46,18 @@ const BoardPage = () => {
     setCurrentPage(pageNumber);
   };
 
+  const fetchQuestion = async (page) => {
+    try {
+      const response = await getPosts(page);
+      setQuestion(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await api(`/question?page=1&size=20&type=1`);
-        setQuestion(response.data.data);
-        console.log(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchQuestion();
+    fetchQuestion(1);
   }, []);
 
   useEffect(() => {
@@ -113,9 +114,12 @@ const BoardPage = () => {
         <Line />
         <QuestionListContainer>
           {currentQuestions.map((question) => (
-            <QuestionList key={question.questionId} question={question}>
-              <Link to={`/boardpage/${question.questionId}`}></Link>
-            </QuestionList>
+            <Link
+              to={`/boardpage/${question.questionId}`}
+              key={question.questionId}
+            >
+              <QuestionList question={question} />
+            </Link>
           ))}
 
           <p>No questions available.</p>
