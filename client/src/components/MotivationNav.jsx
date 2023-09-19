@@ -39,6 +39,13 @@ const Aside = styled.aside`
 `
 
 export default function MotivationNav(){
+
+  const Preparing = (id) => {
+    if(id === 2){
+      alert("페이지 준비중입니다.")
+    }
+  }
+
   return(
     <Aside>
       <ul className="nav">
@@ -46,7 +53,7 @@ export default function MotivationNav(){
           const {id, text, path} = link;
           return(
             <li key={id}>
-              <NavLink to={path} className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>
+              <NavLink to={path} className={({isActive}) => isActive ? "nav-link active" : "nav-link"} onClick={() => Preparing(id)}>
                 {text}
               </NavLink>
             </li>
