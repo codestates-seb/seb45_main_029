@@ -8,17 +8,7 @@ import {
 import Comments from './Comments';
 import parse from 'html-react-parser';
 
-<<<<<<<<< Temporary merge branch 1
-function QuestionList(props) {
-  console.log(props);
-=========
 function QuestionList({ question }) {
->>>>>>>>> Temporary merge branch 2
-  const navigate = useNavigate();
-
-  const questiondetail = () => {
-    navigate('/questionDetail');
-  };
   const parsedDate = new Date(question.createdAt).toLocaleDateString('ko-kr', {
     year: 'numeric',
     month: '2-digit',
