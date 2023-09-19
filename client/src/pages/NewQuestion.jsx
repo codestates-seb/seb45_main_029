@@ -1,14 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import WebEditor from '../webEditor/WebEditor';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import axios from 'axios';
-
-
-import { api } from '../api/api';
-
 import { useSelector } from 'react-redux';
 
 const NewquestionContainer = styled.div`
@@ -52,53 +46,52 @@ const Button = styled.button`
   border-radius: 0.625rem;
   border: 1px solid #0c2139;
 
-  background-color: ${(props) => (props.primary ? ' #859DE8' : '#FFF')};
+  background-color: ${(props) => (props.button ? ' #859DE8' : '#FFF')};
 `;
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 const Newquestion = () => {
   const [title, setTitle] = useState('');
-  // eslint-disable-next-line no-unused-vars
   const [content, setContent] = useState('');
   const userInfo = useSelector((state) => state.user);
   const navigate = useNavigate();
   const titleRef = useRef();
 
-  const handleSubmit = () => {
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
+  };
+
+  const handleSubmit = async () => {
     if (title.length < 1) {
       titleRef.current.focus();
       return;
     }
+    try {
+      const data = {
+        title,
+        content,
+      };
 
-    const data = {
-      title,
-      content,
-    };
-
-
-    //api('/question', 'post', data).then((res) => console.log(res));
-    console.log('hasdfgasdfasdf' + userInfo.accessToken);
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/question`, data, {
-      headers: { Authorization: `Bearer ${userInfo.accessToken}` },
-    });
-
-    // axios
-    //   .post('https://22e3-125-191-229-170.ngrok-free.app/question', data)
-    //   .then((res) => {
-    //     if (res.status === 200) {
-    //       navigate('/boardpage', { replace: true });
-    //       return;
-    //     } else {
-    //       alert('업로드 실패.');
-    //       return;
-    //     }
-    //   });
-
+      await axios.post(`${SERVER_URL}/question`, data, {
+        headers: {
+          Authorization: `Bearer ${
+            userInfo.accessToken ||
+            JSON.parse(window.localStorage.getItem('info')).accessToken
+          }`,
+        },
+      });
+      navigate('/boardpage');
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
-    // eslint-disable-next-line react/jsx-no-undef
     <NewquestionContainer>
       <section>
         <div className='title-wrapper'>
-          <textarea
+          <input
             className='input-title'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -108,12 +101,12 @@ const Newquestion = () => {
         </div>
 
         <div className='editor-content'>
-          <WebEditor />
+          <WebEditor data={content} onChange={handleEditorChange} />
         </div>
       </section>
       <div className='btn-wrapper'>
         <Button onClick={() => navigate(-1, { replace: true })}>취소</Button>
-        <Button primary onClick={handleSubmit}>
+        <Button onClick={handleSubmit} disabled={title.length < 1}>
           등록
         </Button>
       </div>

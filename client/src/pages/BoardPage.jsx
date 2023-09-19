@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BoardNav from '../components/BoardNav';
 import QuestionList from '../components/QuestionList';
-import PointPagination from '../components/PointPagination';
+import Pagination from 'react-js-pagination';
 import {
   BoardMainContent,
   NavContainer,
@@ -11,34 +11,28 @@ import {
   Line,
   Topcontent,
   SecondContent,
+  PaginationDiv,
 } from '../style/BoardPage';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { api } from '../api/api';
 
 import SearchBoard from '../components/SearchBoard';
 import LatestInfo from '../components/LatestInfo';
 import QNAbtn from '../components/QNAbtn';
-import axios from 'axios';
+// import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+import { api } from '../api/api';
 
-export default function BoardPage(props) {
-  const [statusDatas, setStatusDatas] = useState('전체');
-  const [questions, setQuestions] = useState(
-    props.questions ? props.questions : []
-  );
-
+const BoardPage = () => {
+  const [statusDatas, setStatusDatas] = useState('전체'); //첫번째줄은  useEffect
+  const [question, setQuestion] = useState([]);
+  const [currentQuestions, setCurrentQuestions] = useState([]); // 페이네이션에서 보여지는 내용들
   const [currentPage, setCurrentPage] = useState(1); // 현재페이지
-  const [questionsPerPage] = useState(3);
-  const [indexOfLastQuestions, setIndexOfLastQuestions] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
-  const [indexOfFirstQuestions, setIndexOfFirstQuestions] = useState(0);
-  const [currentQuestions, setCurrentQuestions] = useState([]);
-  const [count, setCount] = useState(0);
-
+  const questionsPerPage = 6;
+  const indexOfLastQuestions = currentPage * questionsPerPage;
+  const indexOfFirstQuestions = indexOfLastQuestions - questionsPerPage;
+  // const user = useSelector((state) => state.user);
+  // const SERVER_URL = import.meta.env.VITE_SERVER_URL;
   const navigate = useNavigate();
-
-  const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
-  const user = useSelector((state) => state.user);
 
   const goToQuestionPage = () => {
     navigate('/newquestion');
@@ -48,61 +42,36 @@ export default function BoardPage(props) {
     if (e.key === 'Enter') goToQuestionPage();
   };
 
-  const setPage = (event) => {
-    setCurrentPage(event.target + 1);
-  };
-
-  const handlePageChange = (e) => {
-    setCurrentPage(e.selected + 1);
-  };
-
-  const fetchQuestions = async () => {
-    try {
-      const response = await api(`/question?page=1&size=10&type=1`);
-      setQuestions(response.data.data);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchQuestion = async () => {
       try {
-        const data = await axios.get(`${SERVER_URL}/question/${user.userId}`);
-        setCurrentQuestions(data.data);
+        const response = await api(`/question?page=1&size=20&type=1`);
+        setQuestion(response.data.data);
+        console.log(response.data.data);
       } catch (error) {
-        console.log('데이터가져오기 실패:', error);
+        console.log(error);
       }
     };
-    getData();
+    fetchQuestion();
   }, []);
-
-  console.log(questions);
 
   useEffect(() => {
     statusDatas === '전체'
-      ? setQuestions(questions)
-      : setQuestions(
-          questions.filter((question) => question.questionId === statusDatas)
+      ? setQuestion(question)
+      : setQuestion(
+          question.filter((question) => question.questionId === statusDatas)
         );
-  }, [questions, statusDatas]);
-
-  useEffect(() => {
-    setCount(questions.length);
-    setIndexOfLastQuestions(currentPage * questionsPerPage);
-    setIndexOfFirstQuestions(indexOfLastQuestions - questionsPerPage);
-  }, [currentPage, questions, indexOfLastQuestions, questionsPerPage]);
-
-  const newStartIndex = (currentPage - 1) * questionsPerPage;
-  const newEndIndex = newStartIndex + questionsPerPage;
-  //console.log(newStartIndex, newEndIndex);
+  }, [question, statusDatas]);
 
   useEffect(() => {
     setCurrentQuestions(
-      questions.slice(indexOfFirstQuestions, indexOfLastQuestions)
+      question.slice(indexOfFirstQuestions, indexOfLastQuestions)
     );
-  }, [indexOfFirstQuestions, indexOfLastQuestions, questions]);
+  }, [question, currentPage, indexOfFirstQuestions, indexOfLastQuestions]);
 
   return (
     <BoardMainContent>
@@ -143,17 +112,27 @@ export default function BoardPage(props) {
         </SecondContent>
         <Line />
         <QuestionListContainer>
-          {currentQuestions.length > 0 ? (
-            currentQuestions.map((question) => (
-              <QuestionList key={question.questionId} question={question} />
-            ))
-          ) : (
-            <p>No questions available.</p>
-          )}
-        </QuestionListContainer>
+          {currentQuestions.map((question) => (
+            <QuestionList key={question.questionId} question={question}>
+              <Link to={`/boardpage/${question.questionId}`}></Link>
+            </QuestionList>
+          ))}
 
-        <PointPagination page={currentPage} count={count} setPage={setPage} />
+          <p>No questions available.</p>
+        </QuestionListContainer>
+        <PaginationDiv>
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={questionsPerPage}
+            totalItemsCount={question.length}
+            pageRangeDisplayed={5}
+            prevPageText={'‹'}
+            nextPageText={'›'}
+            onChange={handlePageChange}
+          />
+        </PaginationDiv>
       </BoardPageContainer>
     </BoardMainContent>
   );
-}
+};
+export default BoardPage;

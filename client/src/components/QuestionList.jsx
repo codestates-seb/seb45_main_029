@@ -5,17 +5,10 @@ import {
   ContainerTitle,
   Line,
 } from '../style/QuestionList';
-import { useNavigate } from 'react-router-dom';
-import Like from './Like';
 import Comments from './Comments';
+import parse from 'html-react-parser';
 
 function QuestionList({ question }) {
-
-  const navigate = useNavigate();
-
-  const questiondetail = () => {
-    navigate('/questionDetail');
-  };
   const parsedDate = new Date(question.createdAt).toLocaleDateString('ko-kr', {
     year: 'numeric',
     month: '2-digit',
@@ -23,15 +16,15 @@ function QuestionList({ question }) {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    timeZone: 'UTC',
+    timeZone: 'Asia/Seoul',
   });
 
   return (
     <>
       <QuestionContainer>
         <ContainerTitle>{question.title}</ContainerTitle>
-        <ContentCard onClick={questiondetail}>
-          <div className='question-message'>{question.content}</div>
+        <ContentCard>
+          <div className='question-message'>{parse(question.content)}</div>
         </ContentCard>
         <BottomContainer>
           <div className='wrapper'>
@@ -42,18 +35,13 @@ function QuestionList({ question }) {
 
           <div className='icon-count'>
             <div>
-              <Like
-                likes_count={question.likes_count}
-                questionId={question.questionId}
-                user_has_liked={question.user_has_liked}
-              ></Like>
+              <img src='images/likes.png' alt='likes' />
             </div>
 
-            <div>
+            <div className='answer-count'>
               <Comments
                 comments_count={question.comments_count}
-                answerId={question.answerId}
-                user_has_commented={question.user_has_commented}
+                questionId={question.questionId}
               ></Comments>
             </div>
           </div>

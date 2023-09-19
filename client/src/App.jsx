@@ -5,6 +5,7 @@ import MyPage from './pages/MyPage';
 import BoardPage from './pages/BoardPage';
 import NewQuestion from './pages/NewQuestion';
 import QuestionDetail from './pages/QuestionDetail';
+import BoardUpdate from './pages/BoardUpdate';
 import SignUp from './pages/SignUp';
 import PointPage from './pages/PointPage';
 
@@ -29,10 +30,11 @@ function App() {
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/mypageinfo' element={<MyPageInfo />} />
           <Route path='/boardpage' element={<BoardPage />} />
+          <Route path='/boardpage/:questionId' element={<QuestionDetail />} />
+          <Route path='/update/:questionId' element={<BoardUpdate />} />
           <Route path='/mypageDelete' element={<MyPageDelete />}></Route>
           <Route path='/mypageInfo' element={<MyPageInfo />}></Route>
           <Route path='/newquestion' element={<NewQuestion />} />
-          <Route path='/questionDetail' element={<QuestionDetail />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/point' element={<PointPage />} />

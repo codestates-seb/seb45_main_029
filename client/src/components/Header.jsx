@@ -2,7 +2,6 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import { HeaderContainer, HeaderSection, HdNav } from '../style/Header.Styled';
 import { useEffect, useState } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser, setUser } from '../redux/userSlice';
 
@@ -22,6 +21,7 @@ function Header() {
   const userInfo = useSelector((state) => state.user);
   const [btn, setBtn] = useState(headerBtn);
   const dispatch = useDispatch();
+  const info = window.localStorage.getItem('info');
 
   useEffect(() => {
     const info = window.localStorage.getItem('info');
@@ -46,7 +46,7 @@ function Header() {
     } else {
       setBtn(headerBtn);
     }
-  }, [userInfo]);
+  }, [userInfo, info]);
 
   return (
     <HeaderContainer>
