@@ -2,13 +2,6 @@ import styled from "styled-components"
 
 export const PointSection = styled.main`
     min-height: calc(100vh - 23.5625rem);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    > section{
-      height: 100%;
-    }
 `
 
 export const Container = styled.section`
