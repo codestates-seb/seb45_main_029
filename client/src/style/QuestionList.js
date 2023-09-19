@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
 export const QuestionContainer = styled.div`
-  box-sizing: border-box;
   width: 73.5rem;
   height: 13rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 1rem;
 `;
 
 export const ContainerTitle = styled.title`
   width: 12.313rem;
-  height: 1.1875rem;
+  height: 2rem;
   color: #000;
   text-align: center;
   font-size: 1rem;
@@ -22,27 +22,25 @@ export const ContainerTitle = styled.title`
 `;
 
 export const Line = styled.hr`
-  width: 40rem;
+  width: 73.5rem;
 `;
 
 export const ContentCard = styled.div`
-  .question-message {
-    display: flex;
+  display: flex;
+  height: 8rem;
+  align-items: flex-start;
+  color: #000;
+  text-align: center;
 
-    align-items: flex-start;
-    color: #000;
-    text-align: center;
+  font-size: 0.875rem;
 
-    font-size: 0.875rem;
-
-    font-weight: 500;
-  }
+  font-weight: 500;
 `;
 
 export const BottomContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  float: right;
   .wrapper {
     display: flex;
     align-items: center;
@@ -61,8 +59,15 @@ export const BottomContainer = styled.div`
 
   .icon-count {
     display: flex;
+    flex-direction: row;
+
+    width: 10rem;
     gap: 0.63rem;
-    & > div {
+    .answer-count {
+      display: flex;
+      flex-direction: row;
+      width: 1rem;
+      gap: 0.63rem;
     }
   }
 `;

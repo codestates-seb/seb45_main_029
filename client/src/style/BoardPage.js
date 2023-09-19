@@ -3,6 +3,8 @@ import { styled } from 'styled-components';
 export const BoardMainContent = styled.div`
   display: flex;
   margin-left: 10.75rem;
+  box-sizing: border-box;
+  height: 56.25rem;
 `;
 
 export const NavContainer = styled.div`
@@ -16,7 +18,7 @@ export const NavContainer = styled.div`
 `;
 export const BoardPageContainer = styled.div`
   width: 73.5rem;
-  height: 56.25rem;
+
   display: flex;
   flex-direction: column;
   margin-top: 5.3rem;
@@ -67,4 +69,36 @@ export const BottomContent = styled.div`
   padding-left: 6.5rem;
 
   margin-top: 3rem;
+`;
+
+export const PaginationDiv = styled.div`
+  margin: 6.25rem 0 0;
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.9375rem;
+  }
+  .pagination li {
+    display: inline-block;
+    width: 1.875rem;
+    height: 1.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    border-radius: 50%;
+
+    &.active,
+    &:hover {
+      background-color: var(--blue);
+    }
+    &.active a,
+    &:hover a {
+      color: var(--white);
+    }
+  }
+  .pagination li a {
+    color: #3f2305;
+  }
 `;
