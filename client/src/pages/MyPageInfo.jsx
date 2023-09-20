@@ -32,7 +32,7 @@ import { setUser, updateUser } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
-  const [checkedList, setCheckedList] = useState([]);
+  const [checkedList, setCheckedList] = useState('');
   const [checkedListJob, setCheckedListJob] = useState('');
   const [nickname, setNickname] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
@@ -64,6 +64,7 @@ export default function MyPageInfo() {
       );
       setImgFile(URL.createObjectURL(file));
       originImgRef.current.src = URL.createObjectURL(file);
+      alert('수정완료되었습니다!');
     } catch {
       alert('에러가 발생하였습니다. 다시 시도해주세요.');
     }
@@ -103,7 +104,7 @@ export default function MyPageInfo() {
       !nickNameIsValid ||
       !passwordIsValid ||
       !mottoIsValid ||
-      checkedList.length === 0 ||
+      checkedList === '' ||
       checkedListJob === ''
     ) {
       return;
@@ -113,8 +114,8 @@ export default function MyPageInfo() {
       nickname,
       password,
       motto,
-      painArea: checkedList[0],
-      job: checkedListJob.replaceAll('·', '_'),
+      painArea: checkedList,
+      job: checkedListJob,
       image: imgFile,
     };
 
@@ -127,6 +128,7 @@ export default function MyPageInfo() {
         { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
       );
       dispatch(updateUser(data));
+      alert('수정완료되었습니다!');
     } catch (err) {
       console.log(err);
     }
@@ -135,7 +137,7 @@ export default function MyPageInfo() {
   const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
       if (type === 'body') {
-        setCheckedList((prev) => [...prev, value].sort());
+        setCheckedList(value);
       } else {
         setCheckedListJob(value);
       }
@@ -144,7 +146,7 @@ export default function MyPageInfo() {
 
     if (!isChecked && checkedList.includes(value)) {
       if (type === 'body') {
-        setCheckedList(checkedList.filter((item) => item !== value));
+        setCheckedList(value);
       }
     }
   };
