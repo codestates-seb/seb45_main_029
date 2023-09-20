@@ -22,6 +22,15 @@ export const MotivationSection = styled.section`
       color: var(--blue);
     }
   }
+  .loading-box{
+    text-align: center;
+    padding: 1.25rem;
+  }
+  h3{
+    font-size: 2.625rem;
+    font-family: var(--nanum);
+    color: var(--blue);
+  }
 `
 
 export const MotivationPages = styled.div`
