@@ -35,7 +35,7 @@ import { setUser, updateUser } from '../redux/userSlice';
 
 export default function MyPageInfo() {
   const [imgFile, setImgFile] = useState('');
-  const [checkedList, setCheckedList] = useState([]);
+  const [checkedList, setCheckedList] = useState('');
   const [checkedListJob, setCheckedListJob] = useState('');
   const [nickname, setNickname] = useState('');
   const [nickNameIsValid, setNickNameIsValid] = useState(false);
@@ -106,7 +106,7 @@ export default function MyPageInfo() {
       !nickNameIsValid ||
       !passwordIsValid ||
       !mottoIsValid ||
-      checkedList.length === 0 ||
+      checkedList === '' ||
       checkedListJob === ''
     ) {
       return;
@@ -116,8 +116,8 @@ export default function MyPageInfo() {
       nickname,
       password,
       motto,
-      painArea: checkedList[0],
-      job: checkedListJob.replaceAll('·', '_'),
+      painArea: checkedList,
+      job: checkedListJob,
       image: imgFile,
     };
 
@@ -138,7 +138,7 @@ export default function MyPageInfo() {
   const checkedItemHandler = (value, isChecked, type) => {
     if (isChecked) {
       if (type === 'body') {
-        setCheckedList((prev) => [...prev, value].sort());
+        setCheckedList(value);
       } else {
         setCheckedListJob(value);
       }
@@ -147,7 +147,7 @@ export default function MyPageInfo() {
 
     if (!isChecked && checkedList.includes(value)) {
       if (type === 'body') {
-        setCheckedList(checkedList.filter((item) => item !== value));
+        setCheckedList(value);
       }
     }
   };
@@ -233,13 +233,7 @@ export default function MyPageInfo() {
                 </JobChoice>
                 <PainListContainer>
                   <PainSpan>통증 부위 : &nbsp; </PainSpan>
-                  {checkedList.length > 0 ? (
-                    checkedList.map((elem, index) => {
-                      return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                    })
-                  ) : (
-                    <></>
-                  )}
+                  {checkedList ? checkedList : <></>}
                 </PainListContainer>
                 <PainChoice>
                   <BodyAndJobList
