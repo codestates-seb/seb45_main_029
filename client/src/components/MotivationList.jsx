@@ -16,7 +16,7 @@ const MemoList = ( {isPost, formattedTime} ) => {
     try {
       const info = await JSON.parse(window.localStorage.getItem('info'));
       const response = await axios.get(
-        `${SERVER_URL}/myResolution?page=1&size=10`,
+        `${SERVER_URL}/myResolution?page=1&size=55`,
         {
           headers: {
             Authorization: `Bearer ${userInfo.accessToken || info.accessToken}`,
