@@ -137,15 +137,26 @@ export const Button = styled.button`
 export const VideoAndButtonContainer = styled.div`
   display: flex;
   width: 95rem;
+  gap: 3.125rem;
   overflow: hidden;
 `;
 
 export const VideoContainerFlexWrap = styled.div`
-  /* margin-left: 22rem; */
   width: 95rem;
-  height: 34.2rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 3.125rem;
+  
+  > div{
+    gap: 3.125rem;
+    margin: 0 0 3.125rem;
+  }
+  > div > div{
+    gap: 3.125rem;
+  }
+  > div > div >{
+    gap: 3.125rem;
+  }
 `;
 
 export const VideoAndButtonContainerFlexWrap = styled.div`

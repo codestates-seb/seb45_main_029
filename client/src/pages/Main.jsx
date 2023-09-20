@@ -118,77 +118,79 @@ function Main() {
 
   return (
     <MainContainer>
-      <InputContainer>
-        <InputDesign onKeyUp={onKeyUpHandler} placeholder='검색하기' />
-        <ImageDesign
-          onClick={onClickSearchHandler}
-          src='/images/magnify.png'
-          alt='magnifier'
-        />
-      </InputContainer>
-      {login === false ? (
-        <>
-          <p>로그인하여 여러분들만의 </p>
-          <p>맞춤 운동 동영상을 확인해보세요</p>
-        </>
-      ) : (
+        <section className='content_pd container_wt'>
+        <InputContainer>
+          <InputDesign onKeyUp={onKeyUpHandler} placeholder='검색하기' />
+          <ImageDesign
+            onClick={onClickSearchHandler}
+            src='/images/magnify.png'
+            alt='magnifier'
+          />
+        </InputContainer>
+        {login === false ? (
+          <>
+            <p>로그인하여 여러분들만의 </p>
+            <p>맞춤 운동 동영상을 확인해보세요</p>
+          </>
+        ) : (
+          <Carousel
+            message='My 맞춤운동'
+            slideRef={slideRefRecommend}
+            setCurrentSlide={setCurrentSlideRecommend}
+            currentSlide={currentSlideRecommend}
+            bookmark={false}
+            videoIds={videoIds}
+            setVideoIds={setVideoIds}
+          />
+        )}
         <Carousel
-          message='My 맞춤운동'
-          slideRef={slideRefRecommend}
-          setCurrentSlide={setCurrentSlideRecommend}
-          currentSlide={currentSlideRecommend}
+          message='TOP5 재활운동'
+          slideRef={slideRefTop5}
+          setCurrentSlide={setCurrentSlideTop5}
+          currentSlide={currentSlideTop5}
           bookmark={false}
           videoIds={videoIds}
           setVideoIds={setVideoIds}
         />
-      )}
-      <Carousel
-        message='TOP5 재활운동'
-        slideRef={slideRefTop5}
-        setCurrentSlide={setCurrentSlideTop5}
-        currentSlide={currentSlideTop5}
-        bookmark={false}
-        videoIds={videoIds}
-        setVideoIds={setVideoIds}
-      />
-      <p>{videoType} 운동 확인하기</p>
-      <ToggleContainer
-        typeOfVideo={typeOfVideo}
-        videoType={videoType}
-        onClickHandler={onClickHandler}
-      />
-      {videoType === '부위별' ? (
+        <h2 className='title'><span>{videoType}</span> 운동 확인하기</h2>
         <ToggleContainer
-          typeOfVideo={checkBoxListBody}
-          videoType={videoDetailType}
-          onClickHandler={onClickHandlerDetail}
+          typeOfVideo={typeOfVideo}
+          videoType={videoType}
+          onClickHandler={onClickHandler}
         />
-      ) : (
-        <></>
-      )}
-      {videoType === '직업별' ? (
-        <ToggleContainer
-          typeOfVideo={checkBoxListJob}
-          videoType={videoDetailType2}
-          onClickHandler={onClickHandlerDetail2}
+        {videoType === '부위별' ? (
+          <ToggleContainer
+            typeOfVideo={checkBoxListBody}
+            videoType={videoDetailType}
+            onClickHandler={onClickHandlerDetail}
+          />
+        ) : (
+          <></>
+        )}
+        {videoType === '직업별' ? (
+          <ToggleContainer
+            typeOfVideo={checkBoxListJob}
+            videoType={videoDetailType2}
+            onClickHandler={onClickHandlerDetail2}
+          />
+        ) : (
+          <></>
+        )}
+        <Carousel
+          flexWrap={true}
+          message=''
+          slideRef={slideRef}
+          setCurrentSlide={setCurrentSlide}
+          currentSlide={currentSlide}
+          videoType={videoType}
+          videoDetailType={videoDetailType}
+          videoDetailType2={videoDetailType2}
+          bookmark={false}
+          changedDetail2={changedDetail2}
+          videoIds={videoIds}
+          setVideoIds={setVideoIds}
         />
-      ) : (
-        <></>
-      )}
-      <Carousel
-        flexWrap={true}
-        message=''
-        slideRef={slideRef}
-        setCurrentSlide={setCurrentSlide}
-        currentSlide={currentSlide}
-        videoType={videoType}
-        videoDetailType={videoDetailType}
-        videoDetailType2={videoDetailType2}
-        bookmark={false}
-        changedDetail2={changedDetail2}
-        videoIds={videoIds}
-        setVideoIds={setVideoIds}
-      />
+        </section>
     </MainContainer>
   );
 }
