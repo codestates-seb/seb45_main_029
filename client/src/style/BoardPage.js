@@ -1,41 +1,30 @@
 import { styled } from 'styled-components';
 
-export const BoardMainContent = styled.div`
-  display: flex;
-  margin-left: 10.75rem;
-  box-sizing: border-box;
-  height: 56.25rem;
+export const BoardMainContent = styled.main`
+    min-height: calc(100vh - 23.5625rem);
+
+    > section{
+      display: flex;
+      gap: 3.125rem;
+    }
 `;
 
-export const NavContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
-  border: 1px solid gray;
-  border-radius: 1rem;
-  margin-left: 5rem;
-  margin-top: 5rem;
-  margin-right: 5rem;
-`;
-export const BoardPageContainer = styled.div`
-  width: 73.5rem;
-
+export const BoardPageContainer = styled.section`
+  width: calc(100% - 15.625rem);
   display: flex;
   flex-direction: column;
-  margin-top: 5.3rem;
 `;
 
 export const Topcontent = styled.div`
   display: flex;
-  gap: 1.37rem;
-`;
-
-export const Line = styled.hr`
-  width: 73.5rem;
-  height: 0.0625rem;
-  background: #848282;
+  gap: 1.375rem;
+  padding: 0 0 .9375rem;
+  border-bottom: 1px solid #848282;
 `;
 
 export const SecondContent = styled.div`
+  padding: 0 0 .625rem;
+  border-bottom: 1px solid #848282;
   display: flex;
   justify-content: space-between;
   .btn_secon {
