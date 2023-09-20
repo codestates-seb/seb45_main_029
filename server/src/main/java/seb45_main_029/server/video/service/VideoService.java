@@ -139,6 +139,9 @@ public class VideoService {
 
     public Page<Bookmark> getPainAreaBookmark(int page, int size, PainArea painArea) {
         long loginUserId = userService.getLoginUser().getUserId();
+        if (painArea == null) {
+            return bookmarkRepository.bookmarkPainAreaNull(PageRequest.of(page, size), loginUserId);
+        }
         return bookmarkRepository.painAreaTypeBookmark(PageRequest.of(page, size), painArea, loginUserId);
     }
 

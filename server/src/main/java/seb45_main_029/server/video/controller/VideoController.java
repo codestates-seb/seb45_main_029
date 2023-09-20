@@ -118,7 +118,7 @@ public class VideoController {
     @GetMapping("/jobBookmark")
     public ResponseEntity getJobBookmark(@RequestParam int page,
                                          @RequestParam int size,
-                                         @RequestParam Job job) {
+                                         @RequestParam(required = false) Job job) {
 
         Page<Bookmark> bookmarkPage = videoService.getJobBookmark(page - 1, size, job);
         List<Bookmark> bookmarks = bookmarkPage.getContent();
@@ -128,7 +128,7 @@ public class VideoController {
     @GetMapping("/painAreaBookmark")
     public ResponseEntity getJobBookmark(@RequestParam int page,
                                          @RequestParam int size,
-                                         @RequestParam PainArea painArea) {
+                                         @RequestParam(required = false) PainArea painArea) {
 
         Page<Bookmark> bookmarkPage = videoService.getPainAreaBookmark(page - 1, size, painArea);
         List<Bookmark> bookmarks = bookmarkPage.getContent();
