@@ -9,7 +9,6 @@ import {
   BoardCotainer,
   QuestionBoardContainer,
   TitleFontSpanPink,
-  TitleFontSpanBlack,
   TitleFontSpanBlue,
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
@@ -167,7 +166,7 @@ export default function MyPage() {
                 )}
               </section>
               <section className='qna_section'>
-                <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
+                <h2>질문 답변</h2>
                 <BoardCotainer>
                   <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
                   {userInfo.questions?.map((el, idx) => {
