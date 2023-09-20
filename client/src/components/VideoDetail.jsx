@@ -63,7 +63,6 @@ export default function VideoDetail({
 }) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const [clickBool, setClickBool] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
   const userInfo = useSelector((state) => state.user);
