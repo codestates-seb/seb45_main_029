@@ -11,23 +11,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 // @todo : 혹시나 자동완성 기능? ㅋㅋㅋ
 
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+const MainContainer = styled.main`
+  min-height: calc(100vh - 23.5625rem);
 `;
 const VideoContainerFlexWrap = styled.div`
-  width: 96rem;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  column-gap: 1.5625rem;
+  row-gap: 3.125rem;
+
+  > div{
+    width: calc(25% - 1.1719rem);
+  }
 `;
 
-const NotFoundDiv = styled.div`
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+const NotFoundDiv = styled.h2`
+  width: 100%;
+  text-align: center;
+  padding: 3.125rem 0;
+  font-size: 2.625rem;
+  font-family: var(--nanum);
 `;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -111,6 +116,7 @@ export default function MainSearch() {
   return (
     <>
       <MainContainer>
+        <section className='content_pd container_wt'>
         <Modal
           isModalOpen={isModalOpen}
           setModalOpen={setModalOpen}
@@ -142,6 +148,7 @@ export default function MainSearch() {
                     videoId={elem.videoId}
                     openModal={openModal}
                     videoIds={videoIds}
+                    videoTitle={elem.title}
                   />
                 </div>
               );
@@ -150,6 +157,7 @@ export default function MainSearch() {
         )}
 
         {isLoading && <Loading />}
+        </section>
       </MainContainer>
       <div ref={observer} />
     </>
