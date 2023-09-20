@@ -67,6 +67,7 @@ export default function MyPageInfo() {
       );
       setImgFile(URL.createObjectURL(file));
       originImgRef.current.src = URL.createObjectURL(file);
+      alert('수정완료되었습니다!');
     } catch {
       alert('에러가 발생하였습니다. 다시 시도해주세요.');
     }
@@ -130,6 +131,7 @@ export default function MyPageInfo() {
         { headers: { Authorization: `Bearer ${userInfo.accessToken}` } }
       );
       dispatch(updateUser(data));
+      alert('수정완료되었습니다!');
     } catch (err) {
       console.log(err);
     }
