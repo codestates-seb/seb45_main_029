@@ -14,6 +14,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyles from 'styled-components';
 import MyPageDelete from './pages/MyPageDelete';
 import MyPageInfo from './pages/MyPageInfo';
+import Motivation from './pages/Motivation';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import MainSearch from './pages/MainSearch';
@@ -38,6 +39,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/point' element={<PointPage />} />
+          <Route path='/motivation' element={<Motivation />} />
         </Routes>
         <Footer />
       </BrowserRouter>
