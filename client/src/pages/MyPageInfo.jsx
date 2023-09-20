@@ -232,13 +232,7 @@ export default function MyPageInfo() {
                   </JobChoice>
                   <PainListContainer>
                     <PainSpan>통증 부위 : &nbsp; </PainSpan>
-                    {checkedList.length > 0 ? (
-                      checkedList.map((elem, index) => {
-                        return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
-                      })
-                    ) : (
-                      <></>
-                    )}
+                    {checkedList ? checkedList : <></>}
                   </PainListContainer>
                   <PainChoice>
                     <BodyAndJobList
