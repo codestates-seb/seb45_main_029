@@ -61,6 +61,10 @@ export const InputButton = styled.button`
   border: 0;
   border-radius: 15px;
   font-size: 32px;
+  transition: .3s all;
+  &:hover{
+    background-color: #ED2727;
+  }
 `;
 
 export const Input = styled.input`

@@ -8,6 +8,7 @@ const IframeContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
+  cursor: pointer;
 
   .video-box {
     width: 350px;
@@ -40,17 +41,22 @@ const ImageFrame = styled.img`
 `;
 
 const ModalContainer = styled.div`
-  width: 200px;
-  z-index: 50;
-  position: relative;
+  width: 21.875rem;
+  height: 50%;
+  z-index: 5;
+  position: absolute;
 `;
 
-const ModalDiv = styled.div`
-  width: 200px;
+const ModalDiv = styled.p`
+  width: 100%;
   z-index: 50;
   position: absolute;
-  background-color: blue;
-  color: red;
+  text-align: center;
+  bottom: 0;
+  background-color: var(--pink);
+  font-size: 32px;
+  font-family: var(--nanum);
+  color: var(--white);
 `;
 
 export default function VideoDetail({
@@ -63,7 +69,6 @@ export default function VideoDetail({
 }) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
-  const [clickBool, setClickBool] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
   const userInfo = useSelector((state) => state.user);
