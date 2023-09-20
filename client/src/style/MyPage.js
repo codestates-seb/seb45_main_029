@@ -1,57 +1,81 @@
 import styled from 'styled-components';
 
-export const NavAndContent = styled.div`
-  display: flex;
+export const NavAndContent = styled.main`
+    min-height: calc(100vh - 23.5625rem);
+    > section{
+      display: flex;
+      gap: 5.9375rem;
+    }
+    .content_section{
+      width: calc(100% - 12.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+    }
+    h2{
+      font-size: 3rem;
+      font-weight: 300;
+      font-family: var(--nanum);
+      margin: 0 0 1.5625rem;
+    }
 `;
-
-export const NavContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
-  border: 1px solid gray;
-  border-radius: 1rem;
-  margin-left: 5rem;
-  margin-top: 5rem;
-  margin-right: 5rem;
+export const UserInfoOuterContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 6.25rem;
 `;
 
 export const InfoContainer = styled.div`
-  margin-top: 5rem;
+  width: 50%;
   display: flex;
+  gap: .625rem;
+  align-items: center;
 `;
 
 export const UserImg = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 6.25rem;
+  height: 6.25rem;
   border-radius: 100%;
 `;
 
 export const UserInfoPContainer = styled.div`
-  margin-left: 1rem;
-  margin-top: 2rem;
-`;
-
-export const UserInfoP = styled.p`
-  margin-top: 1em;
-`;
-
-export const UserSpan = styled.span`
-  margin-right: 1em;
-`;
-
-export const UserInfoOuterContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 3rem;
+  flex-direction: column;
+  gap: .625rem;
+
+  >div{
+    display: flex;
+    gap: 1.25rem;
+  }
+  p{
+    font-size: 1.125rem;
+    font-weight: 400;
+  }
+`;
+
+export const UserBold = styled.span`
+  font-weight: 600;
 `;
 
 export const UserHealthContainer = styled.div`
-  margin-top: 7rem;
-  margin-left: 16rem;
+  width: 50%;
+
+  h3{
+    font-size: 1.375rem;
+    font-weight: 500;
+    padding: 0 0 1.25rem;
+    border-bottom: 1px solid #000;
+  }
+  p{
+    padding: 1.25rem 0 0;
+    font-size: 1rem;
+  }
 `;
 
-export const Line = styled.hr`
-  width: 25rem;
-`;
+
+
+
 
 export const VideoTitle = styled.div`
   /* margin-left: 22rem; */
@@ -126,15 +150,11 @@ export const ButtonContainerOuter = styled.div`
 `;
 
 export const TitleFontSpanBlue = styled.span`
-  font-family: var(--nanum);
   color: var(--blue);
-  font-size: 2rem;
 `;
 
 export const TitleFontSpanPink = styled.span`
-  font-family: var(--nanum);
   color: var(--pink);
-  font-size: 2rem;
 `;
 
 export const TitleFontSpanBlack = styled.span`

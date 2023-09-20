@@ -1,19 +1,33 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-const LineHR = styled.hr`
-  width: 6rem;
-`;
+
+const Aside = styled.aside`
+  width: 12.5rem;
+  max-height: 12.5rem;
+  border: 1px solid #000;
+  border-radius: 25px;
+  padding: 1.25rem;
+  font-family: var(--nanum);
+  ul{
+    display: flex;
+    flex-direction: column;
+  }
+  ul > li:first-child{
+    padding: 0 0 .625rem;
+  }
+  ul > li{
+    padding: 1.25rem 0 .625rem;
+    border-bottom: 1px solid #000;
+  }
+`
 
 const DefaultP = styled(Link)`
-  width: 7rem;
-  display: inline-block;
-  text-align: center;
-  font-size: 0.8rem;
-  margin-top: 0.4rem;
-  cursor: pointer;
-  text-decoration: none;
-  color: black;
+    font-size: 1.5625rem;
+    transition: .3s all;
+    &:hover{
+      color: var(--blue);
+    }
 `;
 
 const ColorLink = styled(DefaultP)`
@@ -29,20 +43,25 @@ const ColorLink3 = styled(DefaultP)`
 
 export default function MyPageNav({ color }) {
   return (
-    <nav>
-      <ColorLink color={color} to="/mypage">
-        내 정보
-      </ColorLink>
-      <LineHR></LineHR>
-      <ColorLink2 color={color} to="/mypageInfo">
-        정보 수정
-      </ColorLink2>
-      <LineHR></LineHR>
-      <ColorLink3 color={color} to="/mypageDelete">
-        회원 탈퇴
-      </ColorLink3>
-      <LineHR></LineHR>
-    </nav>
+    <Aside>
+      <ul className="nav">
+        <li>
+          <ColorLink color={color} to="/mypage">
+            내 정보
+          </ColorLink>
+        </li>
+        <li>
+          <ColorLink2 color={color} to="/mypageInfo">
+            정보 수정
+          </ColorLink2>
+        </li>
+        <li>
+          <ColorLink3 color={color} to="/mypageDelete">
+            회원 탈퇴
+          </ColorLink3>
+        </li>
+      </ul>
+    </Aside>
   );
 }
 
