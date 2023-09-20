@@ -11,16 +11,13 @@ import {
 } from '../style/SignUp';
 import {
   NavAndContent,
-  NavContainer,
   OuterContainer,
   UserInfoContainer,
   UserInfoInnerContainer,
   TitleAndPic,
   TitleContainer,
-  InfoTitle,
   ImgContainer,
   UserImg,
-  Line,
   EditButtonContainer,
   EditButton,
   InputButton,
@@ -171,89 +168,95 @@ export default function MyPageInfo() {
 
   return (
     <NavAndContent>
-      <NavContainer>
+      <section className="content_pd container_wt">
         <MyPageNav color='second' />
-      </NavContainer>
-      <OuterContainer>
-        <article>
-          <UserInfoContainer>
-            <UserInfoInnerContainer>
-              <TitleAndPic>
+        <OuterContainer>
+          <article>
+            <UserInfoContainer>
+              <UserInfoInnerContainer>
                 <TitleContainer>
-                  <InfoTitle>회원정보 수정</InfoTitle>
+                  회원정보 수정
                 </TitleContainer>
-                <ImgContainer>
-                  <UserImg
-                    ref={originImgRef}
-                    src={img ? img : '/images/person.jpg'}
-                  />
-
-                  <LabelForInput>
-                    수정
-                    <InputButton
-                      type='file'
-                      accept='image/*'
-                      onChange={saveImgFile}
-                      ref={imgRef}
+                <TitleAndPic>
+                  <div className='input_box'>
+                    <p>이메일:</p>
+                    <InputDesign disabled />
+                    <WarningP>이메일은 변경하실 수 없습니다.</WarningP>
+                    <WarningMessage
+                      inputName='닉네임:'
+                      changeHandler={nickNameChangeHandler}
+                      valid={nickNameIsValid}
+                      message='최소 1글자 이상 입력해주세요!'
                     />
-                  </LabelForInput>
-                </ImgContainer>
-              </TitleAndPic>
-              <p>이메일:</p>
-              <InputDesign disabled />
-              <WarningP>이메일은 변경하실 수 없습니다.</WarningP>
-              <WarningMessage
-                inputName='닉네임:'
-                changeHandler={nickNameChangeHandler}
-                valid={nickNameIsValid}
-                message='최소 1글자 이상 입력해주세요!'
-              />
-              <WarningMessage
-                inputName='비밀번호:'
-                password='password'
-                changeHandler={passwordChangeHandler}
-                valid={passwordIsValid}
-                message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'
-              />
-              <WarningMessage
-                inputName='좌우명:'
-                changeHandler={mottoChangeHandler}
-                valid={mottoIsValid}
-                message='최소 1글자 이상 입력해주세요!'
-              />
-              <ArticleList>
-                <PainSpan>
-                  직업 분류 : <span className='job-list'>{checkedListJob}</span>
-                </PainSpan>
-                <JobChoice>
-                  <BodyAndJobList
-                    list={checkBoxListJob}
-                    name='job'
-                    type='radio'
-                    checkHandler={checkHandler}
-                  />
-                </JobChoice>
-                <PainListContainer>
-                  <PainSpan>통증 부위 : &nbsp; </PainSpan>
-                  {checkedList ? checkedList : <></>}
-                </PainListContainer>
-                <PainChoice>
-                  <BodyAndJobList
-                    list={checkBoxListBody}
-                    name='body'
-                    type='checkbox'
-                    checkHandler={checkHandler}
-                  />
-                </PainChoice>
-              </ArticleList>
-              <Line />
-              <EditButtonContainer>
-                <EditButton onClick={buttonOnclickHandler}>수정하기</EditButton>
-              </EditButtonContainer>
-            </UserInfoInnerContainer>
-          </UserInfoContainer>
-        </article>
-      </OuterContainer>
+                    <WarningMessage
+                      inputName='비밀번호:'
+                      password='password'
+                      changeHandler={passwordChangeHandler}
+                      valid={passwordIsValid}
+                      message='최소 10자 이상, 영문, 숫자, 특수문자 포함되어야합니다!'
+                    />
+                    <WarningMessage
+                      inputName='좌우명:'
+                      changeHandler={mottoChangeHandler}
+                      valid={mottoIsValid}
+                      message='최소 1글자 이상 입력해주세요!'
+                    />
+                  </div>
+                  <ImgContainer>
+                    <UserImg
+                      ref={originImgRef}
+                      src={img ? img : '/images/person.jpg'}
+                    />
+                    <LabelForInput>
+                      수정
+                      <InputButton
+                        type='file'
+                        accept='image/*'
+                        onChange={saveImgFile}
+                        ref={imgRef}
+                      />
+                    </LabelForInput>
+                  </ImgContainer>
+                </TitleAndPic>
+                <ArticleList>
+                  <PainSpan>
+                    직업 분류 : <span className='job-list'>{checkedListJob}</span>
+                  </PainSpan>
+                  <JobChoice>
+                    <BodyAndJobList
+                      list={checkBoxListJob}
+                      name='job'
+                      type='radio'
+                      checkHandler={checkHandler}
+                    />
+                  </JobChoice>
+                  <PainListContainer>
+                    <PainSpan>통증 부위 : &nbsp; </PainSpan>
+                    {checkedList.length > 0 ? (
+                      checkedList.map((elem, index) => {
+                        return <PainSpan key={index}>{elem}&nbsp;</PainSpan>;
+                      })
+                    ) : (
+                      <></>
+                    )}
+                  </PainListContainer>
+                  <PainChoice>
+                    <BodyAndJobList
+                      list={checkBoxListBody}
+                      name='body'
+                      type='checkbox'
+                      checkHandler={checkHandler}
+                    />
+                  </PainChoice>
+                </ArticleList>
+                <EditButtonContainer>
+                  <EditButton onClick={buttonOnclickHandler}>수정하기</EditButton>
+                </EditButtonContainer>
+              </UserInfoInnerContainer>
+            </UserInfoContainer>
+          </article>
+        </OuterContainer>
+      </section>
     </NavAndContent>
   );
 }
