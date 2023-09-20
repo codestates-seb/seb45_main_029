@@ -22,8 +22,8 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
-  const [videoDetailType, setVideoDetailType] = useState('전체');
-  const [videoDetailType2, setVideoDetailType2] = useState('전체');
+  const [videoDetailType, setVideoDetailType] = useState('가슴');
+  const [videoDetailType2, setVideoDetailType2] = useState('경영_사무');
   const [changedDetail2, setChangedDetail2] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
@@ -129,8 +129,12 @@ function Main() {
         </InputContainer>
         {login === false ? (
           <>
-            <h2 className='main-title'><span>로그인</span>하여 여러분들만의 </h2>
-            <h3 className='main-sub-title'><span>맞춤 운동 동영상</span>을 확인해보세요</h3>
+            <h2 className='main-title'>
+              <span>로그인</span>하여 여러분들만의{' '}
+            </h2>
+            <h3 className='main-sub-title'>
+              <span>맞춤 운동 동영상</span>을 확인해보세요
+            </h3>
           </>
         ) : (
           <Carousel

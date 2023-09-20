@@ -22,13 +22,8 @@ export const typeChecker = async (
     );
     if (message === '나의 운동') type = 'bookmark/?page=1&size=50';
     else if (message === '부위별')
-      type = `painAreaBookmark/?page=1&size=50&painArea=${
-        videoDetailType === '전체' ? '' : videoDetailType
-      }`;
-    else
-      type = `jobBookmark/?page=1&size=50&job=${
-        videoDetailType2 === '전체' ? '' : videoDetailType2
-      }`;
+      type = `painAreaBookmark/?page=1&size=50&painArea=${videoDetailType}`;
+    else type = `jobBookmark/?page=1&size=50&job=${videoDetailType2}`;
     return type;
   }
   if (message === 'TOP5 재활운동') {
@@ -40,15 +35,9 @@ export const typeChecker = async (
   } else if (videoType === '전체') {
     type = `keyword?page=1&size=50&keyword=`;
   } else if (videoType === '부위별') {
-    type = `keyword?page=1&size=50&keyword=${
-      videoDetailType === '전체' ? '' : videoDetailType
-    }`;
+    type = `keyword?page=1&size=50&keyword=${videoDetailType}`;
   } else if (videoType === '직업별') {
-    if (videoDetailType2 === '전체') {
-      type = `keyword?page=1&size=50&keyword=사무직`;
-    } else {
-      type = `keyword?page=1&size=50&keyword=${changedDetail2}`;
-    }
+    type = `keyword?page=1&size=50&keyword=${changedDetail2}`;
   }
 
   return type;

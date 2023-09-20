@@ -36,8 +36,8 @@ export default function MyPage() {
   const [videoIds, setVideoIds] = useState([]);
   const [img, setImg] = useState('');
   const [videoType, setVideoType] = useState('전체');
-  const [videoDetailType, setVideoDetailType] = useState('전체');
-  const [videoDetailType2, setVideoDetailType2] = useState('전체');
+  const [videoDetailType, setVideoDetailType] = useState('가슴');
+  const [videoDetailType2, setVideoDetailType2] = useState('경영_사무');
   const [changedDetail2, setChangedDetail2] = useState('');
 
   const slideRef = useRef(null);

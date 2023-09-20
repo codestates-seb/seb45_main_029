@@ -19,14 +19,14 @@ import { setUser } from '../redux/userSlice';
 import { typeChecker } from '../assets/variousFunctions';
 
 const DivFlexMovie1 = styled.div`
-  .no-video{
+  .no-video {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2rem;
     font-family: var(--nanum);
-  } 
+  }
 `;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -225,9 +225,9 @@ export default function Carousel({
               {bookmark &&
               message === '나의 운동' &&
               userInfo.bookmark.length > 0 ? (
-                userInfo.bookmark.map((elem) => {
+                userInfo.bookmark.map((elem, index) => {
                   return (
-                    <div key={elem.videoId}>
+                    <div key={index}>
                       <VideoDetail
                         thumb={elem.thumb}
                         videoId={elem.videoId}
@@ -241,9 +241,9 @@ export default function Carousel({
                   );
                 }) // 인덱스로 하지말자! @todo : index key로 해놓은 코드들 다 고치기!!!
               ) : videos.length > 0 ? (
-                videos.map((elem) => {
+                videos.map((elem, index) => {
                   return (
-                    <div key={elem.videoId}>
+                    <div key={index}>
                       <VideoDetail
                         thumb={elem.thumbnail}
                         videoId={elem.videoId}
