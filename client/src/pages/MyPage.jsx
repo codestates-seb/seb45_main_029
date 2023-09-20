@@ -1,18 +1,16 @@
 import {
   NavAndContent,
-  NavContainer,
   UserInfoOuterContainer,
   InfoContainer,
   UserImg,
   UserInfoPContainer,
-  UserInfoP,
+  UserBold,
   UserHealthContainer,
-  Line,
   BoardCotainer,
   QuestionBoardContainer,
   TitleFontSpanPink,
   TitleFontSpanBlack,
-  UserSpan,
+  TitleFontSpanBlue,
 } from '../style/MyPage';
 import MyPageNav from '../components/MyPageNav';
 import Carousel from '../components/Carousel';
@@ -98,93 +96,97 @@ export default function MyPage() {
         <h2>로그인해주세요</h2>
       ) : (
         <NavAndContent>
-          <NavContainer>
+          <section className="content_pd container_wt">
             <MyPageNav color='first' />
-          </NavContainer>
-          <div>
-            <UserInfoOuterContainer>
-              <InfoContainer>
-                <header>
-                  <div>
-                    <span>나의</span>
-                    <TitleFontSpanPink>정보</TitleFontSpanPink>
-                  </div>
-                  <UserImg
-                    src={img ? img : '/images/person.jpg'}
-                    alt='myImage'
-                  />
-                </header>
-                <UserInfoPContainer>
-                  <UserSpan>Email : {userInfo.email}</UserSpan>
-                  <UserSpan>nickname : {userInfo.nickname}</UserSpan>
-                  <UserInfoP>직업군 : {userInfo.job}</UserInfoP>
-                  <UserInfoP>motto : {userInfo.motto}</UserInfoP>
-                </UserInfoPContainer>
-              </InfoContainer>
-              <UserHealthContainer>
-                <p>나의 통증 부위 : {userInfo.painArea}</p>
-                <Line></Line>
-              </UserHealthContainer>
-            </UserInfoOuterContainer>
-            {userInfoRedux.bookmark.length ? (
-              <>
-                <Carousel
-                  message='나의 운동'
-                  slideRef={slideRef}
-                  setCurrentSlide={setCurrentSlide}
-                  currentSlide={currentSlide}
-                  bookmark={true}
-                  videoIds={videoIds}
-                  setVideoIds={setVideoIds}
-                />
-                <Carousel
-                  message='부위별'
-                  slideRef={slideRefBody}
-                  setCurrentSlide={setCurrentSlideBody}
-                  currentSlide={currentSlideBody}
-                  bookmark={true}
-                  videoIds={videoIds}
-                  setVideoIds={setVideoIds}
-                />
-                <Carousel
-                  message='직업별'
-                  slideRef={slideRefJob}
-                  setCurrentSlide={setCurrentSlideJob}
-                  currentSlide={currentSlideJob}
-                  bookmark={true}
-                  videoIds={videoIds}
-                  setVideoIds={setVideoIds}
-                />
-              </>
-            ) : (
-              <>북마크를 추가해주세요</>
-            )}
-
-            <hr></hr>
-            <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
-            <BoardCotainer>
-              <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
-              {userInfo.questions?.map((el, idx) => {
-                return (
+            <div className='content_section'>
+              <section className='info_section'>
+                <h2>나의 <TitleFontSpanPink>정보</TitleFontSpanPink></h2>
+                <UserInfoOuterContainer>
+                  <InfoContainer>
+                    <figure>
+                      <UserImg
+                        src={img ? img : '/images/person.jpg'}
+                        alt='myImage'
+                      />
+                    </figure>
+                    <UserInfoPContainer>
+                      <div>
+                        <p><UserBold>Email :</UserBold> {userInfo.email}</p>
+                        <p><UserBold>Nickname :</UserBold> {userInfo.nickname}</p>
+                      </div>
+                      <p><UserBold>직업군 :</UserBold> {userInfo.job}</p>
+                      <p><UserBold>Motto :</UserBold> {userInfo.motto}</p>
+                    </UserInfoPContainer>
+                  </InfoContainer>
+                  <UserHealthContainer>
+                    <h3>나의 통증 부위</h3>
+                    <p>{userInfo.painArea}</p>
+                  </UserHealthContainer>
+                </UserInfoOuterContainer>
+              </section>
+              <section className='bookmark_section'>
+                <h2>나의 <TitleFontSpanBlue>영상</TitleFontSpanBlue></h2>
+                {userInfoRedux.bookmark.length ? (
                   <>
-                    <span>{idx + 1}</span>
-                    <span>{el.title}</span>
-                    <span>{el.createdAt}</span>
+                    <Carousel
+                      message='나의 운동'
+                      slideRef={slideRef}
+                      setCurrentSlide={setCurrentSlide}
+                      currentSlide={currentSlide}
+                      bookmark={true}
+                      videoIds={videoIds}
+                      setVideoIds={setVideoIds}
+                    />
+                    <Carousel
+                      message='부위별'
+                      slideRef={slideRefBody}
+                      setCurrentSlide={setCurrentSlideBody}
+                      currentSlide={currentSlideBody}
+                      bookmark={true}
+                      videoIds={videoIds}
+                      setVideoIds={setVideoIds}
+                    />
+                    <Carousel
+                      message='직업별'
+                      slideRef={slideRefJob}
+                      setCurrentSlide={setCurrentSlideJob}
+                      currentSlide={currentSlideJob}
+                      bookmark={true}
+                      videoIds={videoIds}
+                      setVideoIds={setVideoIds}
+                    />
                   </>
-                );
-              })}
-              <div>내가 한 답변</div>
-              {userInfo.answers?.map((el, idx) => {
-                return (
-                  <>
-                    <span>{idx + 1}</span>
-                    <span>{el.content}</span>
-                    <span>{el.createdAt}</span>
-                  </>
-                );
-              })}
-            </BoardCotainer>
-          </div>
+                ) : (
+                  <p className='no_bookmark'>북마크를 추가해주세요</p>
+                )}
+              </section>
+              <section className='qna_section'>
+                <TitleFontSpanBlack>질문 답변</TitleFontSpanBlack>
+                <BoardCotainer>
+                  <QuestionBoardContainer>내가 한 질문</QuestionBoardContainer>
+                  {userInfo.questions?.map((el, idx) => {
+                    return (
+                      <>
+                        <span>{idx + 1}</span>
+                        <span>{el.title}</span>
+                        <span>{el.createdAt}</span>
+                      </>
+                    );
+                  })}
+                  <div>내가 한 답변</div>
+                  {userInfo.answers?.map((el, idx) => {
+                    return (
+                      <>
+                        <span>{idx + 1}</span>
+                        <span>{el.content}</span>
+                        <span>{el.createdAt}</span>
+                      </>
+                    );
+                  })}
+                </BoardCotainer>
+              </section>
+            </div>
+          </section>
         </NavAndContent>
       )}
     </>
