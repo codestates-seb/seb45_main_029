@@ -109,16 +109,18 @@ const SearchBoard = () => {
   return (
     <SearchBox>
       <div className='search'>
-        <img src='/images/magnify.png' alt='search' onClick={goToSearchPage} />
-        <input
-          type='text'
-          placeholder='검색해보세요'
-          title='검색'
-          name='검색'
-          value={isAutoSearch ? autoSearchKeyword : searchKeyword}
-          onChange={handleInputChange}
-          onKeyUp={handleKeyUp}
-        ></input>
+        <div className="input-box">
+          <input
+            type='text'
+            placeholder='검색해보세요!'
+            title='검색'
+            name='검색'
+            value={isAutoSearch ? autoSearchKeyword : searchKeyword}
+            onChange={handleInputChange}
+            onKeyUp={handleKeyUp}
+          ></input>
+          <img src='/images/magnify.png' alt='search' onClick={goToSearchPage} />
+        </div>
         <button onClick={goToSearchPage}>검색</button>
       </div>
     </SearchBox>

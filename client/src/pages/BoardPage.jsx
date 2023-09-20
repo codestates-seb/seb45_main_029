@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import BoardNav from '../components/BoardNav';
+import MotivationNav from "../components/MotivationNav";
 import QuestionList from '../components/QuestionList';
 import Pagination from 'react-js-pagination';
 import {
   BoardMainContent,
-  NavContainer,
   BoardPageContainer,
   QuestionListContainer,
   QuestionButton,
-  Line,
   Topcontent,
   SecondContent,
   PaginationDiv,
@@ -75,9 +73,8 @@ const BoardPage = () => {
 
   return (
     <BoardMainContent>
-      <NavContainer>
-        <BoardNav color='third' />
-      </NavContainer>
+      <section className="content_pd container_wt">
+      <MotivationNav />
       <BoardPageContainer>
         <Topcontent>
           <QNAbtn
@@ -96,7 +93,6 @@ const BoardPage = () => {
             handleSetShow={setStatusDatas}
           />
         </Topcontent>
-        <Line />
         <SearchBoard />
         <SecondContent>
           <LatestInfo />
@@ -110,7 +106,6 @@ const BoardPage = () => {
             </QuestionButton>
           </div>
         </SecondContent>
-        <Line />
         <QuestionListContainer>
           {currentQuestions.map((question) => (
             <QuestionList key={question.questionId} question={question}>
@@ -132,6 +127,7 @@ const BoardPage = () => {
           />
         </PaginationDiv>
       </BoardPageContainer>
+      </section>
     </BoardMainContent>
   );
 };

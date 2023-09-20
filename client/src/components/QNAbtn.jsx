@@ -3,35 +3,41 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  width: 4rem;
-  height: 1.5625rem;
-  flex-shrink: 0;
-  border-radius: 0.625rem;
-
-  color: #000;
-  text-align: center;
-  font-size: 1rem;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  font-size:1.375rem;
   font-weight: 500;
   cursor: pointer;
+  color: #848282;
 
-  .btn {
+  position: relative;
+  
+  
+  &:hover {
     color: var(--black);
-    background-color: var(--white);
-    &:hover {
-      color: var(--white);
-      background-color: #eaeaea;
-    }
+    font-weight: 600;
   }
-  .btn--active {
-    color: var(--white);
-    background-color: var(--blue);
+  
+  .active {
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  .active::after{
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    border-bottom: 2px solid #000;
   }
 `;
 
 export default function QNAbtn({ name, showActive, handleSetShow }) {
   return (
     <StyledButton
-      className={`btn ${showActive ? 'btn--active' : ''}`}
+      className={showActive ? 'active' : ''}
       onClick={() => handleSetShow(name)}
     >
       {' '}
