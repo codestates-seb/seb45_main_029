@@ -129,8 +129,8 @@ function Main() {
         </InputContainer>
         {login === false ? (
           <>
-            <p>로그인하여 여러분들만의 </p>
-            <p>맞춤 운동 동영상을 확인해보세요</p>
+            <h2 className='main-title'><span>로그인</span>하여 여러분들만의 </h2>
+            <h3 className='main-sub-title'><span>맞춤 운동 동영상</span>을 확인해보세요</h3>
           </>
         ) : (
           <Carousel

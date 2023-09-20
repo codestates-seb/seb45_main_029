@@ -19,6 +19,27 @@ export const MainContainer = styled.main`
       color: var(--blue);
     }
   }
+  .main-title{
+    font-size: 3.4375rem;
+    font-weight: 400;
+    margin: 0 0 1.875rem;
+    >span{
+      font-size: 6.5625rem;
+      color: var(--blue);
+      font-family: var(--nanum);
+      margin: 0 .625rem 0 0;
+    }
+  }
+  .main-sub-title{
+    font-size: 3.4375rem;
+    font-weight: 400;
+    margin: 0 0 6.25rem;
+    >span{
+      color: var(--blue);
+      font-family: var(--nanum);
+      margin: 0 .625rem 0 0;
+    }
+  }
 `;
 
 export const InputContainer = styled.div`
