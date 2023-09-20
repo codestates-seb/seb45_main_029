@@ -127,55 +127,62 @@ export const Button = styled.button`
   }
 
   z-index: 10;
-  width: 28px;
-  height: 28px;
+  width: 1.875rem;
+  height: 1.875rem;
   text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const VideoAndButtonContainer = styled.div`
-  display: flex;
-  width: 95rem;
-  gap: 3.125rem;
-  overflow: hidden;
-`;
-
-export const VideoContainerFlexWrap = styled.div`
-  width: 95rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3.125rem;
-  
-  > div{
-    gap: 3.125rem;
-    margin: 0 0 3.125rem;
-  }
-  > div > div{
-    gap: 3.125rem;
-  }
-  > div > div >{
-    gap: 3.125rem;
-  }
-`;
-
-export const VideoAndButtonContainerFlexWrap = styled.div`
-  display: flex;
-  width: 95rem;
-  overflow: hidden;
-`;
-
-export const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 export const ButtonContainerOuter = styled.div`
+  width: 100%;
   display: flex;
   padding: 1.875rem 0;
   gap: .625rem;
 `;
+
+export const VideoAndButtonContainerFlexWrap = styled.div`
+  display: flex;
+  width: calc(100% - 4.375rem);
+  overflow: hidden;
+`;
+
+export const VideoContainerFlexWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3.125rem;
+  
+  > div{
+    display: flex;
+    flex-direction: row;
+    gap: 3.125rem;
+    margin: 0 0 3.125rem;
+  }
+  > div > div{
+    display: flex;
+    gap: 3.125rem;
+    position: relative;
+  }
+
+`;
+
+export const VideoAndButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 3.125rem;
+  overflow: hidden;
+`;
+
+
+export const ButtonContainer = styled.div`
+  width: 1.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 
 export const TitleFontSpanBlue = styled.span`
   color: var(--blue);

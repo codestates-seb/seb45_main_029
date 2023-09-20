@@ -19,7 +19,14 @@ import { setUser } from '../redux/userSlice';
 import { typeChecker } from '../assets/variousFunctions';
 
 const DivFlexMovie1 = styled.div`
-  display: flex;
+  .no-video{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-family: var(--nanum);
+  } 
 `;
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -186,7 +193,7 @@ export default function Carousel({
                     );
                   })
                 ) : (
-                  <> 영상이 없습니다. 죄송해요 ㅠㅠ</>
+                  <p className='no-video'> 등록된 영상이 없습니다</p>
                 )}
               </DivFlexMovie1>
               <DivFlexMovie1>
@@ -250,7 +257,7 @@ export default function Carousel({
                   );
                 })
               ) : (
-                <>영상이 없습니다. 죄송해요 ㅠㅠ</>
+                <p className='no-video'>영상이 없습니다. 죄송해요 ㅠㅠ</p>
               )}
             </VideoContainer>
           </VideoAndButtonContainer>
