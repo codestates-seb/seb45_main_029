@@ -114,27 +114,16 @@ function SignUp() {
     }
   };
 
-  const checkedItemHandler = (value, isChecked, type) => {
-    if (isChecked) {
-      if (type === 'body') {
-        setCheckedList(value);
-      } else {
-        setCheckedListJob(value);
-      }
-      return;
-    }
-
-    if (!isChecked && checkedList.includes(value)) {
-      if (type === 'body') {
-        setCheckedList(value);
-      } else {
-        setCheckedListJob(checkBoxListJob);
-      }
+  const checkedItemHandler = (value, type) => {
+    if (type === 'body') {
+      setCheckedList(value);
+    } else {
+      setCheckedListJob(value);
     }
   };
 
   const checkHandler = (e, value, type) => {
-    checkedItemHandler(value, e.target.checked, type);
+    checkedItemHandler(value, type);
   };
 
   return (
@@ -241,7 +230,7 @@ function SignUp() {
             </JobChoice>
             <PainListContainer>
               <PainSpan>통증 부위 : &nbsp; </PainSpan>
-              {checkedList ? checkedList : <></>}
+              {checkedList}
             </PainListContainer>
             <PainChoice>
               <BodyAndJobList
