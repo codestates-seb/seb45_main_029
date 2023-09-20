@@ -4,10 +4,10 @@ export const NavAndContent = styled.main`
     min-height: calc(100vh - 23.5625rem);
     > section{
       display: flex;
-      gap: 5.9375rem;
+      gap: 6.25rem;
     }
     .content_section{
-      width: calc(100% - 12.5rem);
+      width: calc(100% - 18.75rem);
       display: flex;
       flex-direction: column;
       gap: 5rem;
@@ -17,6 +17,13 @@ export const NavAndContent = styled.main`
       font-weight: 300;
       font-family: var(--nanum);
       margin: 0 0 1.5625rem;
+    }
+    .bookmark_section .no_bookmark{
+      text-align: center;
+      padding: 3.75rem 0;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+      font-size: 1.5rem;
     }
 `;
 export const UserInfoOuterContainer = styled.div`
@@ -51,11 +58,13 @@ export const UserInfoPContainer = styled.div`
   p{
     font-size: 1.125rem;
     font-weight: 400;
+    font-size: 1rem;
   }
 `;
 
 export const UserBold = styled.span`
   font-weight: 600;
+  font-size: 1.125rem;
 `;
 
 export const UserHealthContainer = styled.div`
@@ -78,21 +87,26 @@ export const UserHealthContainer = styled.div`
 
 
 export const VideoTitle = styled.div`
-  /* margin-left: 22rem; */
+
+  padding: 0 0 .9375rem;
+  border-bottom: 1px solid #000;
 `;
 
 export const VideoContainer = styled.div`
-  /* margin-left: 22rem; */
-  width: 95rem;
+  width: 92.5rem;
   display: flex;
+  gap: 3.125rem;
 `;
 
 export const BoardCotainer = styled.div`
   display: flex;
+  >div{
+    width: 50%;
+  }
 `;
 
 export const QuestionBoardContainer = styled.div`
-  margin-right: 30rem;
+
 `;
 
 export const BoardTitle = styled.p`
@@ -100,24 +114,25 @@ export const BoardTitle = styled.p`
   font-weight: bold;
 `;
 
-export const Button = styled.div`
+export const Button = styled.button`
   all: unset;
-  color: burlywood;
+  color: var(--blue);
   border-radius: 10px;
-  border: 1px solid burlywood;
+  border: 1px solid var(--blue);
   cursor: pointer;
+  transition: .3s all;
   &:hover {
-    background-color: burlywood;
+    background-color: var(--blue);
     color: #fff;
   }
+
   z-index: 10;
-  width: 2rem;
-  height: 2rem;
+  width: 28px;
+  height: 28px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 1em;
 `;
 export const VideoAndButtonContainer = styled.div`
   display: flex;
@@ -147,6 +162,8 @@ export const ButtonContainer = styled.div`
 
 export const ButtonContainerOuter = styled.div`
   display: flex;
+  padding: 1.875rem 0;
+  gap: .625rem;
 `;
 
 export const TitleFontSpanBlue = styled.span`
@@ -160,5 +177,4 @@ export const TitleFontSpanPink = styled.span`
 export const TitleFontSpanBlack = styled.span`
   font-family: var(--nanum);
   font-size: 2rem;
-  color: var(--black);
 `;

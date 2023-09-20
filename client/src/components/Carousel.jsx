@@ -159,7 +159,6 @@ export default function Carousel({
       />
       <VideoTitle>
         <TitleFontSpanBlack>{message}</TitleFontSpanBlack>
-        <hr></hr>
       </VideoTitle>
       <ButtonContainerOuter>
         <ButtonContainer>
@@ -179,6 +178,7 @@ export default function Carousel({
                         bookmark={bookmark}
                         videoIds={videoIds}
                         setideoIds={setVideoIds}
+                        videoTitle={elem.title}
                       />
                     </div>
                   );
@@ -196,6 +196,7 @@ export default function Carousel({
                           bookmark={bookmark}
                           videoIds={videoIds}
                           setVideoIds={setVideoIds}
+                          videoTitle={elem.title}
                         />
                       </div>
                     );
@@ -218,6 +219,7 @@ export default function Carousel({
                           bookmark={bookmark}
                           setVideoIds={setVideoIds}
                           videoIds={videoIds}
+                          videoTitle={elem.title}
                         />
                       </div>
                     );
@@ -232,6 +234,7 @@ export default function Carousel({
                           bookmark={bookmark}
                           videoIds={videoIds}
                           setVideoIds={setVideoIds}
+                          videoTitle={elem.title}
                         />
                       </div>
                     );

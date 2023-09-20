@@ -4,24 +4,42 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteBookmark, plusBookmark, setUser } from '../redux/userSlice';
 
+const IframeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: .625rem;
+  
+  .video-box{
+    width: 350px;
+    height: 100%;
+    aspect-ratio: 16 / 9
+  }
+
+  .text-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p{
+      width: 12.5rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+`;
 const ImageDesign = styled.img`
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   cursor: pointer;
 `;
 
 const ImageFrame = styled.img`
-  width: 30.7rem;
-  height: 15rem;
-  margin: 0.5rem;
+  width: 100%;
+  border-radius: 20px;
 `;
 
-const IframeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: end;
-`;
+
 
 export default function VideoDetail({
   thumb,
@@ -29,6 +47,7 @@ export default function VideoDetail({
   openModal,
   videoIds,
   setVideoIds,
+  videoTitle,
 }) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
@@ -89,12 +108,16 @@ export default function VideoDetail({
 
   return (
     <IframeContainer>
-      <ImageFrame
-        src={link}
-        alt='video'
-        ref={imgRef}
-        onClick={() => openModal(videoId)}
-      ></ImageFrame>
+      <article className='video-box'>
+        <ImageFrame
+          src={link}
+          alt='video'
+          ref={imgRef}
+          onClick={() => openModal(videoId)}
+        ></ImageFrame>
+      </article>
+      <div className='text-box'>
+      <p>{videoTitle}</p>
       {userInfo.loggedIn &&
         (bookmarkClick ? (
           <ImageDesign
@@ -109,6 +132,7 @@ export default function VideoDetail({
             alt='star'
           />
         ))}
+      </div>
       {}
     </IframeContainer>
   );
