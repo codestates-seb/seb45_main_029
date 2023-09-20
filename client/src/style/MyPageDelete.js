@@ -1,69 +1,74 @@
 import styled from 'styled-components';
 
 export const NavAndContent = styled.div`
-  display: flex;
+    min-height: calc(100vh - 23.5625rem);
+    > section{
+      display: flex;
+      gap: 6.25rem;
+    }
 `;
 
-export const NavContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
-  border: 1px solid gray;
-  border-radius: 1rem;
-  margin-left: 5rem;
-  margin-top: 5rem;
-  margin-right: 15rem;
+
+export const DeleteContainer = styled.section`
+  width: calc(100% - 18.75rem );
+
+  >p{
+    font-size: 18px;
+  }
 `;
 
-export const DeleteContainer = styled.div`
-  margin-top: 5rem;
+export const Title = styled.h2`
+  font-size: 2.375rem;
+  margin: 0 0 1.5625rem;
+`;
+export const WarningOuterContainer = styled.table`
+  width: 80%;
+  border-collapse: collapse;
+  margin: .9375rem 0 1.875rem;
 `;
 
-export const Title = styled.div`
-  font-size: 3rem;
-`;
-
-export const WarningContainer = styled.div`
-  display: flex;
-  width: 35rem;
-  height: 3rem;
-`;
-
-export const WarningPLeft = styled.div`
-  width: 20rem;
-  border: 1px solid gray;
-  border-left: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const WarningPRight = styled.div`
-  width: 30rem;
-  border: 1px solid gray;
-  border-right: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const WarningOuterContainer = styled.div`
-  margin-top: 1rem;
+export const WarningContainer = styled.tbody`
+  tr{
+    border-top: 1px solid #848282;
+    border-bottom: 1px solid #848282;
+  }
+  th{
+    width: 30%;
+    padding: .9375rem 0;
+    font-size: 18px;
+    border-right: 1px solid #848282;
+  }
+  td{
+    padding: 0 2.5rem;
+  }
 `;
 
 export const InputAndButtonContainer = styled.form`
   display: flex;
   justify-content: space-between;
-  width: 25rem;
+  align-items: flex-end;
+  width: 80%;
+  margin: .9375rem 0 0;
 `;
 
 export const InputButton = styled.button`
   cursor: pointer;
   width: 12.5rem;
-  height: 3rem;
+  height: 5rem;
+  background-color: #F56565;
+  color: var(--white);
+  font-family: var(--nanum);
+  border: 0;
+  border-radius: 15px;
+  font-size: 32px;
 `;
 
 export const Input = styled.input`
   cursor: pointer;
-  width: 20rem;
-  height: 3rem;
+  width: 60%;
+  height: 3.125rem;
+  padding: .9375rem;
+  color: #9d9d9d;
+  font-size: 1rem;
+  border-radius: 10px;
 `;

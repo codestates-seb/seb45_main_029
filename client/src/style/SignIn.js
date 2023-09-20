@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const LoginContainer = styled.main`
   width: 100%;
-  min-height: 70vh;
+  min-height: calc(100vh - 23.5625rem);
   padding: 6.25rem 0;
   display: flex;
   justify-content: center;
