@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Aside = styled.aside`
   width: 12.5rem;
   max-height: 12.5rem;
-  border: 1px solid #000;
+  border: 1px solid #9A9A9A;
   border-radius: 25px;
   padding: 1.25rem;
   font-family: var(--nanum);
@@ -18,7 +18,7 @@ const Aside = styled.aside`
   }
   ul > li{
     padding: 1.25rem 0 .625rem;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #9A9A9A;
   }
 `
 
