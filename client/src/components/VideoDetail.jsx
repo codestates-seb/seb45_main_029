@@ -7,20 +7,20 @@ import { deleteBookmark, plusBookmark, setUser } from '../redux/userSlice';
 const IframeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: .625rem;
-  
-  .video-box{
+  gap: 0.625rem;
+
+  .video-box {
     width: 350px;
     height: 100%;
-    aspect-ratio: 16 / 9
+    aspect-ratio: 16 / 9;
   }
 
-  .text-box{
+  .text-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    p{
+    p {
       width: 12.5rem;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -39,7 +39,19 @@ const ImageFrame = styled.img`
   border-radius: 20px;
 `;
 
+const ModalContainer = styled.div`
+  width: 200px;
+  z-index: 50;
+  position: relative;
+`;
 
+const ModalDiv = styled.div`
+  width: 200px;
+  z-index: 50;
+  position: absolute;
+  background-color: blue;
+  color: red;
+`;
 
 export default function VideoDetail({
   thumb,
@@ -51,6 +63,8 @@ export default function VideoDetail({
 }) {
   const link = thumb;
   const [bookmarkClick, setBookmarkClick] = useState(false);
+  const [clickBool, setClickBool] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const userInfo = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -78,6 +92,8 @@ export default function VideoDetail({
     if (!userInfo.accessToken) {
       return;
     }
+    setIsModal(true);
+    setTimeout(() => setIsModal((prev) => false), 2000);
     if (newBookmarkState) {
       await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
@@ -107,33 +123,48 @@ export default function VideoDetail({
   };
 
   return (
-    <IframeContainer>
-      <article className='video-box'>
-        <ImageFrame
-          src={link}
-          alt='video'
-          ref={imgRef}
-          onClick={() => openModal(videoId)}
-        ></ImageFrame>
-      </article>
-      <div className='text-box'>
-      <p>{videoTitle}</p>
-      {userInfo.loggedIn &&
-        (bookmarkClick ? (
-          <ImageDesign
-            onClick={imgOnclickHandler}
-            src='/images/starFill.png'
-            alt='star'
-          />
-        ) : (
-          <ImageDesign
-            onClick={imgOnclickHandler}
-            src='/images/star.png'
-            alt='star'
-          />
-        ))}
-      </div>
-      {}
-    </IframeContainer>
+    <>
+      <ModalContainer>
+        <ModalDiv>
+          {isModal ? (
+            bookmarkClick ? (
+              '북마크에 추가되었습니다'
+            ) : (
+              '북마크에서 삭제되었습니다.'
+            )
+          ) : (
+            <></>
+          )}
+        </ModalDiv>
+      </ModalContainer>
+      <IframeContainer>
+        <article className='video-box'>
+          <ImageFrame
+            src={link}
+            alt='video'
+            ref={imgRef}
+            onClick={() => openModal(videoId)}
+          ></ImageFrame>
+        </article>
+        <div className='text-box'>
+          <p>{videoTitle}</p>
+          {userInfo.loggedIn &&
+            (bookmarkClick ? (
+              <ImageDesign
+                onClick={imgOnclickHandler}
+                src='/images/starFill.png'
+                alt='star'
+              />
+            ) : (
+              <ImageDesign
+                onClick={imgOnclickHandler}
+                src='/images/star.png'
+                alt='star'
+              />
+            ))}
+        </div>
+        {}
+      </IframeContainer>
+    </>
   );
 }

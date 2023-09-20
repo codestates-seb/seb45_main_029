@@ -168,25 +168,8 @@ export default function Carousel({
           <VideoAndButtonContainerFlexWrap>
             <VideoContainerFlexWrap ref={slideRef}>
               <DivFlexMovie1>
-                {upperVideos.map((elem, index) => {
-                  return (
-                    <div key={index}>
-                      <VideoDetail
-                        thumb={elem.thumbnail}
-                        videoId={elem.videoId}
-                        openModal={openModal}
-                        bookmark={bookmark}
-                        videoIds={videoIds}
-                        setideoIds={setVideoIds}
-                        videoTitle={elem.title}
-                      />
-                    </div>
-                  );
-                })}
-              </DivFlexMovie1>
-              <DivFlexMovie1>
-                <DivFlexMovie1>
-                  {lowerVideos.map((elem, index) => {
+                {upperVideos.length > 0 ? (
+                  upperVideos.map((elem, index) => {
                     return (
                       <div key={index}>
                         <VideoDetail
@@ -195,12 +178,37 @@ export default function Carousel({
                           openModal={openModal}
                           bookmark={bookmark}
                           videoIds={videoIds}
-                          setVideoIds={setVideoIds}
+                          setideoIds={setVideoIds}
                           videoTitle={elem.title}
                         />
                       </div>
                     );
-                  })}
+                  })
+                ) : (
+                  <> 영상이 없습니다. 죄송해요 ㅠㅠ</>
+                )}
+              </DivFlexMovie1>
+              <DivFlexMovie1>
+                <DivFlexMovie1>
+                  {lowerVideos.length > 0 ? (
+                    lowerVideos.map((elem, index) => {
+                      return (
+                        <div key={index}>
+                          <VideoDetail
+                            thumb={elem.thumbnail}
+                            videoId={elem.videoId}
+                            openModal={openModal}
+                            bookmark={bookmark}
+                            videoIds={videoIds}
+                            setVideoIds={setVideoIds}
+                            videoTitle={elem.title}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <></>
+                  )}
                 </DivFlexMovie1>
               </DivFlexMovie1>
             </VideoContainerFlexWrap>
@@ -208,37 +216,43 @@ export default function Carousel({
         ) : (
           <VideoAndButtonContainer>
             <VideoContainer ref={slideRef}>
-              {bookmark && message === '나의 운동'
-                ? userInfo.bookmark.map((elem) => {
-                    return (
-                      <div key={elem.videoId}>
-                        <VideoDetail
-                          thumb={elem.thumb}
-                          videoId={elem.videoId}
-                          openModal={openModal}
-                          bookmark={bookmark}
-                          setVideoIds={setVideoIds}
-                          videoIds={videoIds}
-                          videoTitle={elem.title}
-                        />
-                      </div>
-                    );
-                  }) // 인덱스로 하지말자! @todo : index key로 해놓은 코드들 다 고치기!!!
-                : videos.map((elem) => {
-                    return (
-                      <div key={elem.videoId}>
-                        <VideoDetail
-                          thumb={elem.thumbnail}
-                          videoId={elem.videoId}
-                          openModal={openModal}
-                          bookmark={bookmark}
-                          videoIds={videoIds}
-                          setVideoIds={setVideoIds}
-                          videoTitle={elem.title}
-                        />
-                      </div>
-                    );
-                  })}
+              {bookmark &&
+              message === '나의 운동' &&
+              userInfo.bookmark.length > 0 ? (
+                userInfo.bookmark.map((elem) => {
+                  return (
+                    <div key={elem.videoId}>
+                      <VideoDetail
+                        thumb={elem.thumb}
+                        videoId={elem.videoId}
+                        openModal={openModal}
+                        bookmark={bookmark}
+                        setVideoIds={setVideoIds}
+                        videoIds={videoIds}
+                        videoTitle={elem.title}
+                      />
+                    </div>
+                  );
+                }) // 인덱스로 하지말자! @todo : index key로 해놓은 코드들 다 고치기!!!
+              ) : videos.length > 0 ? (
+                videos.map((elem) => {
+                  return (
+                    <div key={elem.videoId}>
+                      <VideoDetail
+                        thumb={elem.thumbnail}
+                        videoId={elem.videoId}
+                        openModal={openModal}
+                        bookmark={bookmark}
+                        videoIds={videoIds}
+                        setVideoIds={setVideoIds}
+                        videoTitle={elem.title}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <>영상이 없습니다. 죄송해요 ㅠㅠ</>
+              )}
             </VideoContainer>
           </VideoAndButtonContainer>
         )}
