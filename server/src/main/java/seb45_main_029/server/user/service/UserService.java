@@ -76,7 +76,8 @@ public class UserService {
 
         // 변경된 필드 업데이트
         if (user.getPassword() != null) {
-            getUser.setPassword(user.getPassword());
+            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+            getUser.setPassword(encryptedPassword);
         }
         if (user.getNickname() != null) {
             getUser.setNickname(user.getNickname());
