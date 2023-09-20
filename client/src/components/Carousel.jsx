@@ -190,27 +190,25 @@ export default function Carousel({
                 )}
               </DivFlexMovie1>
               <DivFlexMovie1>
-                <DivFlexMovie1>
-                  {lowerVideos.length > 0 ? (
-                    lowerVideos.map((elem, index) => {
-                      return (
-                        <div key={index}>
-                          <VideoDetail
-                            thumb={elem.thumbnail}
-                            videoId={elem.videoId}
-                            openModal={openModal}
-                            bookmark={bookmark}
-                            videoIds={videoIds}
-                            setVideoIds={setVideoIds}
-                            videoTitle={elem.title}
-                          />
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <></>
-                  )}
-                </DivFlexMovie1>
+                {lowerVideos.length > 0 ? (
+                  lowerVideos.map((elem, index) => {
+                    return (
+                      <div key={index}>
+                        <VideoDetail
+                          thumb={elem.thumbnail}
+                          videoId={elem.videoId}
+                          openModal={openModal}
+                          bookmark={bookmark}
+                          videoIds={videoIds}
+                          setVideoIds={setVideoIds}
+                          videoTitle={elem.title}
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
               </DivFlexMovie1>
             </VideoContainerFlexWrap>
           </VideoAndButtonContainerFlexWrap>

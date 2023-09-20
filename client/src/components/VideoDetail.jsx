@@ -105,7 +105,6 @@ export default function VideoDetail({
       );
       setVideoIds && setVideoIds([...videoIds, videoId]);
       dispatch(plusBookmark({ videoId, thumb, videoTitle }));
-      console.log(userInfo.bookmark);
     } else {
       await axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
