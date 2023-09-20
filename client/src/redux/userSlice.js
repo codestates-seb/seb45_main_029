@@ -55,9 +55,14 @@ export const userSlice = createSlice({
       state.loggedIn = false;
     },
     plusBookmark: (state, action) => {
+      console.log(action.payload.videoTitle);
       state.bookmark = [
         ...state.bookmark,
-        { videoId: action.payload.videoId, thumb: action.payload.thumb },
+        {
+          videoId: action.payload.videoId,
+          thumb: action.payload.thumb,
+          videoTitle: action.payload.videoTitle,
+        },
       ];
       return state;
     },

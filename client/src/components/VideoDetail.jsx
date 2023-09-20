@@ -69,7 +69,6 @@ export default function VideoDetail({
   const dispatch = useDispatch();
 
   const imgRef = useRef(null);
-
   useEffect(() => {
     if (videoIds.findIndex((el) => el === videoId) !== -1) {
       setBookmarkClick(true);
@@ -105,7 +104,8 @@ export default function VideoDetail({
         }
       );
       setVideoIds && setVideoIds([...videoIds, videoId]);
-      dispatch(plusBookmark({ videoId, thumb }));
+      dispatch(plusBookmark({ videoId, thumb, videoTitle }));
+      console.log(userInfo.bookmark);
     } else {
       await axios.delete(
         `${import.meta.env.VITE_SERVER_URL}/video/bookmark/${videoId}`,
@@ -117,7 +117,7 @@ export default function VideoDetail({
         }
       );
       setVideoIds(videoIds.filter((el) => el !== videoId));
-      dispatch(deleteBookmark({ videoId, thumb }));
+      dispatch(deleteBookmark({ videoId, thumb, videoTitle }));
     }
   };
 

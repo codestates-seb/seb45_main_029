@@ -22,8 +22,8 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 function Main() {
   const [videoType, setVideoType] = useState('전체');
-  const [videoDetailType, setVideoDetailType] = useState('가슴');
-  const [videoDetailType2, setVideoDetailType2] = useState('경영_사무');
+  const [videoDetailType, setVideoDetailType] = useState('전체');
+  const [videoDetailType2, setVideoDetailType2] = useState('전체');
   const [changedDetail2, setChangedDetail2] = useState('');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlideTop5, setCurrentSlideTop5] = useState(0);
@@ -118,7 +118,7 @@ function Main() {
 
   return (
     <MainContainer>
-        <section className='content_pd container_wt'>
+      <section className='content_pd container_wt'>
         <InputContainer>
           <InputDesign onKeyUp={onKeyUpHandler} placeholder='검색하기' />
           <ImageDesign
@@ -152,7 +152,9 @@ function Main() {
           videoIds={videoIds}
           setVideoIds={setVideoIds}
         />
-        <h2 className='title'><span>{videoType}</span> 운동 확인하기</h2>
+        <h2 className='title'>
+          <span>{videoType}</span> 운동 확인하기
+        </h2>
         <ToggleContainer
           typeOfVideo={typeOfVideo}
           videoType={videoType}
@@ -190,7 +192,7 @@ function Main() {
           videoIds={videoIds}
           setVideoIds={setVideoIds}
         />
-        </section>
+      </section>
     </MainContainer>
   );
 }

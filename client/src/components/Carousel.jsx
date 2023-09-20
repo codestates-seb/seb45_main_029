@@ -34,9 +34,9 @@ export default function Carousel({
   videoDetailType,
   videoDetailType2,
   bookmark,
-  changedDetail2,
   videoIds,
   setVideoIds,
+  changedDetail2,
 }) {
   // flexWrap은 Main페이지 아래부분의 비디오 flex-wrap CSS를 구현하기 위한 props
   const [videos, setVideos] = useState([]);
@@ -82,6 +82,7 @@ export default function Carousel({
         message,
         videoType,
         videoDetailType,
+        videoDetailType2,
         changedDetail2,
         userInfo
       );
@@ -229,7 +230,7 @@ export default function Carousel({
                         bookmark={bookmark}
                         setVideoIds={setVideoIds}
                         videoIds={videoIds}
-                        videoTitle={elem.title}
+                        videoTitle={elem.videoTitle}
                       />
                     </div>
                   );

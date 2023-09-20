@@ -1,5 +1,6 @@
 export const typeOfVideo = ['전체', '부위별', '직업별'];
 export const checkBoxListBody = [
+  '전체',
   '가슴',
   '다리',
   '등',
@@ -12,6 +13,7 @@ export const checkBoxListBody = [
   '허리',
 ];
 export const checkBoxListJob = [
+  '전체',
   '경영_사무',
   '연구_기술',
   '경찰_군인_소방',
