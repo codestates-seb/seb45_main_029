@@ -1,53 +1,86 @@
 import styled from 'styled-components';
 
-export const MainContainer = styled.div`
+export const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+
+  .title{
+    font-size: 2.8125rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 3.125rem 0;
+
+    >span{
+      font-size: 3.625rem;
+      font-family: var(--nanum);
+      color: var(--blue);
+    }
+  }
 `;
 
 export const InputContainer = styled.div`
-  display: flex;
-  width: 45rem;
+  width: 50rem;
+  margin: 0 auto 3.125rem;
   position: relative;
 `;
 
 export const InputDesign = styled.input`
-  width: 40rem;
-  height: 4rem;
-  border-radius: 10px;
+  width: 100%;
+  height: 5rem;
+  padding: 1.375rem;
+  font-size: 2rem;
+  font-family: var(--nanum);
+  color: #333;
+  border-radius: 20px;
+  border: 1px solid #0C2139;
 `;
 
 export const ImageDesign = styled.img`
-  right: 12%;
-  top: 22%;
+  right: 1.375rem;
+  top: 50%;
+  transform: translateY(-50%);
   position: absolute;
-
   cursor: pointer;
 `;
 
 export const VideoTypeContainer = styled.div`
   display: flex;
-  justify-content: center;
+  gap: 2.1875rem;
   align-items: center;
+  overflow: auto;
+  white-space: nowrap;
+  padding: 0 0 1.25rem;
+
+  &::-webkit-scrollbar{
+    width: 5px;
+    height: 15px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: var(--pink);
+    border: 2px solid var(--white);
+    border-radius: 12px 12px 12px 12px;
+  }
+
 `;
 
-export const VideoType = styled.div`
+export const VideoType = styled.button`
   cursor: pointer;
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin-right: 1rem;
-  width: 5rem;
-  height: 3rem;
+  border: 1px solid var(--pink);
+  border-radius: 15px;
+
+  padding: 1.375rem 2rem;
+  font-family: var(--nanum);
+  font-size: 1.75rem;
   text-align: center;
-  justify-content: center;
-  align-items: center;
-  display: flex;
+  background-color: transparent;
+  
 `;
 export const VideoTypeClicked = styled(VideoType)`
-  background-color: red;
+  background-color: var(--pink);
+  color: var(--white);
 `;
 
 export const VideoTypeDetailContainer = styled.div`
