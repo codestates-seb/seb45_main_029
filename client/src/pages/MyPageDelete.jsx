@@ -2,13 +2,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import MyPageNav from '../components/MyPageNav';
 import {
   NavAndContent,
-  NavContainer,
   DeleteContainer,
   Title,
   WarningOuterContainer,
   WarningContainer,
-  WarningPLeft,
-  WarningPRight,
   InputAndButtonContainer,
   InputButton,
   Input,
@@ -23,7 +20,7 @@ export default function MyPageDelete() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
-
+  console.log(userInfo.email)
   useEffect(() => {
     const info = JSON.parse(window.localStorage.getItem('info'));
     if (info) dispatch(setUser(info));
@@ -50,60 +47,48 @@ export default function MyPageDelete() {
 
   return (
     <NavAndContent>
-      <NavContainer>
+      <section className='content_pd container_wt'>
         <MyPageNav color='third' />
-      </NavContainer>
-      <DeleteContainer>
-        <Title>탈퇴안내</Title>
-        <div>회원탈퇴를 신청하기 전에 안내사항을 꼭 확인해주세요.</div>
-        <div>
-          사용하고 계신 이메일(sadwml@naver.com)을 탈퇴할 경우 재사용 및 복구가
-          불가능합니다.
-        </div>
-        <div>탈퇴 후 회원정보 및 개인 서비스 이용기록이 모두 삭제됩니다.</div>
-        <WarningOuterContainer>
-          <WarningContainer>
-            <WarningPLeft>
-              <p>포인트</p>
-            </WarningPLeft>
-            <WarningPRight>
-              <p>포인트 사용 및 사용기록 내용</p>
-            </WarningPRight>
-          </WarningContainer>
-          <WarningContainer>
-            <WarningPLeft>
-              <p>콘텐츠</p>
-            </WarningPLeft>
-            <WarningPRight>
-              <p>콘텐츠 저장 및 재활 치료 콘텐츠 시청금지</p>
-            </WarningPRight>
-          </WarningContainer>
-          <WarningContainer>
-            <WarningPLeft>
-              <p>커뮤니티</p>
-            </WarningPLeft>
-            <WarningPRight>
-              <p>커뮤니티 활동 및 게시글 삭제</p>
-            </WarningPRight>
-          </WarningContainer>
-          <WarningContainer>
-            <WarningPLeft>
-              <p>동기부여</p>
-            </WarningPLeft>
-            <WarningPRight>
-              <p>동기부여 활동 및 동기부여 기록 삭제</p>
-            </WarningPRight>
-          </WarningContainer>
-        </WarningOuterContainer>
-        <p>
-          정말로 탈퇴하시겠습니까? 탈퇴를 희망하시면 공란에 탈퇴하기를
-          적어주세요
-        </p>
-        <InputAndButtonContainer onSubmit={onSubmitDelete}>
-          <Input type='text' placeholder='탈퇴하기' />
-          <InputButton type='submit'>탈퇴하기</InputButton>
-        </InputAndButtonContainer>
-      </DeleteContainer>
+        <DeleteContainer>
+          <Title>탈퇴안내</Title>
+          <p>회원탈퇴를 신청하기 전에 안내사항을 꼭 확인해주세요.</p>
+          <br />
+          <p>
+            사용하고 계신 이메일을 탈퇴할 경우 재사용 및 복구가
+            불가능합니다.
+          </p>
+          <br /><br />
+          <p>탈퇴 후 회원정보 및 개인 서비스 이용기록이 모두 삭제됩니다.</p>
+          <WarningOuterContainer>
+            <WarningContainer>
+              <tr>
+                <th>포인트</th>
+                <td>포인트 및 사용기록 내역</td>
+              </tr>
+              <tr>
+                <th>콘텐츠</th>
+                <td>콘텐츠 저장 및 재활 치료 콘텐츠 시청금지</td>
+              </tr>
+              <tr>
+                <th>커뮤니티</th>
+                <td>커뮤니티 활동 및 게시글 삭제</td>
+              </tr>
+              <tr>
+                <th>동기부여</th>
+                <td>동기부여 활동 및 동기부여 기록 삭제</td>
+              </tr>
+            </WarningContainer>
+          </WarningOuterContainer>
+          <p>
+            정말로 탈퇴하시겠습니까? 탈퇴를 희망하시면 공란에 탈퇴하기를
+            적어주세요
+          </p>
+          <InputAndButtonContainer onSubmit={onSubmitDelete}>
+            <Input type='text' placeholder='탈퇴하기' />
+            <InputButton type='submit'>탈퇴하기</InputButton>
+          </InputAndButtonContainer>
+        </DeleteContainer>
+      </section>
     </NavAndContent>
   );
 }
