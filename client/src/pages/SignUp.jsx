@@ -14,6 +14,7 @@ import {
 import { Button } from '../style/Button';
 import { checkBoxListBody, checkBoxListJob } from '../assets/constantValues';
 import { api } from '../api/api';
+import axios from 'axios';
 
 function SignUp() {
   const [id, setId] = useState('');
@@ -99,16 +100,24 @@ function SignUp() {
       nickNameIsValid &&
       mottoIsValid
     ) {
-      const res = await api('/users/signup', 'post', {
-        email: id,
-        password,
-        username,
-        confirmPassword: password2,
-        motto,
-        nickname: nickName,
-        painArea: checkedList,
-        job: checkedListJob,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/users/signup`,
+        {
+          email: id,
+          password,
+          username,
+          confirmPassword: password2,
+          motto,
+          nickname: nickName,
+          painArea: checkedList,
+          job: checkedListJob,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       console.log(res);
       navigate('/signin');
     }
