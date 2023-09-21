@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import BodyAndJobList from '../components/BodyAndJobList';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import {
   SignBox,
   Container,
@@ -137,7 +137,9 @@ function SignUp() {
 
   return (
     <>
-      <div>닉네임과 이메일은 중복시 회원가입이 원활하게 이뤄지지 않습니다!</div>
+      <div style={{ font: '10rem' }}>
+        닉네임과 이메일은 중복시 회원가입이 원활하게 이뤄지지 않습니다!
+      </div>
       <Container className='content_pd'>
         <SignBox>
           <section className='info-container'>
