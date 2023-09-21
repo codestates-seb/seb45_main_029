@@ -137,6 +137,7 @@ function SignUp() {
 
   return (
     <>
+      <div>닉네임과 이메일은 중복시 회원가입이 원활하게 이뤄지지 않습니다!</div>
       <Container className='content_pd'>
         <SignBox>
           <section className='info-container'>
