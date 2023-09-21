@@ -24,6 +24,7 @@ const VideoContainerFlexWrap = styled.div`
 
   > div{
     width: calc(25% - 1.1719rem);
+    position: relative;
   }
 `;
 
