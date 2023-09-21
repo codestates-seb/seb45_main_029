@@ -184,9 +184,6 @@ export default function MyPage() {
                 </h2>
                 {userInfoRedux.bookmark.length ? (
                   <>
-                    <h2 className='title'>
-                      <span>{videoType}</span> 운동 확인하기
-                    </h2>
                     <ToggleContainer
                       typeOfVideo={typeOfVideo}
                       videoType={videoType}
