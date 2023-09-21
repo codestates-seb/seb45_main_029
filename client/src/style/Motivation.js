@@ -75,3 +75,35 @@ export const MotivationPages = styled.div`
       }
     }
   `
+
+  export const MotivationListSection = styled.div`
+    height: calc(100% - 10rem);
+    overflow: auto;
+
+    ul{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1.875rem;
+      padding: 0 1.25rem;
+    }
+    li{
+      display: flex;
+      flex-direction: column;
+      gap: 1.875rem;
+      width: 50%;
+      border: 1px solid var(--navy);
+      padding: 2.5rem 1.25rem;
+      border-radius: 30px;
+    }
+    li > p{
+      font-size: 2rem;
+      font-family: var(--nanum);
+    }
+    li > span{
+      align-self: flex-end;
+      font-size: .875rem;
+      color: #414141;
+      
+    }
+  `

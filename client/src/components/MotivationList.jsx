@@ -1,6 +1,7 @@
 import {  useEffect , useState} from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import {MotivationListSection} from '../style/Motivation'
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -32,7 +33,7 @@ const MemoList = ( {isPost, formattedTime} ) => {
   };
 
   return (
-    <div>
+    <MotivationListSection>
       <h2>Motivation List</h2>
       <ul>
         {memos.map((memo) => (
@@ -42,7 +43,7 @@ const MemoList = ( {isPost, formattedTime} ) => {
           </li>
         ))}
       </ul>
-    </div>
+    </MotivationListSection>
   );
 };
 

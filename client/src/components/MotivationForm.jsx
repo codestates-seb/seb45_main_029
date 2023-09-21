@@ -5,7 +5,7 @@ import {  MotivaionFormBox } from '../style/Motivation'
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-const MotivationForm = ({isPost, setIsPost}, setFormattedTime) => {
+const MotivationForm = ({isPost, setIsPost , setFormattedTime}) => {
   const [memo, setMemo] = useState('');
 
   const userInfo = useSelector((state) => state.user);
@@ -40,8 +40,8 @@ const MotivationForm = ({isPost, setIsPost}, setFormattedTime) => {
         }
       );
 
-      // const savedMemo = response.data;
-      // setMemo([...memo, savedMemo]);
+      const savedMemo = response.data;
+      setMemo([...memo, savedMemo]);
 
       setMemo('');
       setIsPost(!isPost);
